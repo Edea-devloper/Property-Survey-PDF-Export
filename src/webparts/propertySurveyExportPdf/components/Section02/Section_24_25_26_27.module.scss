@@ -1,0 +1,564 @@
+// ---------------------------------------- Title and Sub title style --------------------------------------
+.container-section {
+  margin: 20px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+.header-section {
+  background: #083c5f;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  font-size: medium;
+}
+.sub-header-section {
+  background: #e8f2ff;
+  padding: 5px;
+  border-bottom: 1px solid #d2d2d2;
+  display: flex;
+  justify-content: center;
+  font-size: medium;
+  font-weight: bold;
+}
+// ---------------------------------------- Title and Sub title style --------------------------------------
+
+// --------------------------------- Section 2.1, 2.2, and 2.3 Section Style -------------------------------
+.section-21-22-23-Row-Container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 17px !important;
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+
+  .form-group-section {
+    flex: 1 1 18%;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 16px;
+      margin-bottom: 4px;
+      padding-right: 5px;
+      color: black;
+    }
+
+    input {
+      border-width: thin !important;
+      border-color: rgb(121 122 126 / 50%) !important;
+      border-style: ridge !important;
+      border-radius: 5px;
+      padding: 8px;
+      font-size: 15px !important;
+    }
+
+    textarea {
+      border-width: thin !important;
+      border-color: rgb(121 122 126 / 50%) !important;
+      border-style: ridge !important;
+      font-size: 15px !important;
+      border-radius: 5px;
+    }
+  }
+}
+.fourthRowFirst_Last_Col {
+  position: relative !important;
+  bottom: 32px !important;
+}
+// --------------------------------- Section 2.1, 2.2, and 2.3 Section Style -------------------------------
+
+// --------------------------------------------Section After 2.3 Style --------------------------------------
+.form-row-section-after-21-22-23 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 17px !important;
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+
+  .form-group-section {
+    flex: 1 1 18%;
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 16px;
+      margin-bottom: 4px;
+      padding-right: 5px;
+      color: black;
+    }
+
+    input {
+      background-color: #f6f6f6 !important;
+      border: none !important;
+      border-radius: 5px !important;
+      font-size: 15px !important;
+      padding: 8px !important;
+    }
+  }
+}
+// --------------------------------------------Section After 2.3 Style --------------------------------------
+
+.form-row-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 17px !important;
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+}
+
+.section-container {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 10px auto;
+}
+.header {
+  background-color: #e7f2fa;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin: auto 20px;
+  text-align: justify;
+  font-weight: 700;
+  font-size: medium;
+  direction: ltr;
+}
+.sub-header {
+  padding: 25px 20px;
+  font-size: 17px;
+  font-weight: bold;
+  flex-shrink: 0;
+  background-color: white;
+  margin: auto 20px;
+  text-align: justify;
+}
+.table-wrapper {
+  margin: auto 34px;
+}
+.lable_direction_for_table{
+  display: flex !important;
+  justify-content: end !important;
+  direction: ltr !important;
+}
+
+// --------------------------------------------Section 2.4 --------------------------------------
+
+.allInputFieldWidth{
+  width: 250px !important;
+}
+.lastFieldWidth{
+  width: 716px !important;
+  font-size: 15px !important;
+}
+
+// ============================ Table 2.4.1
+tr.table_241 > td input {
+  font-size: 15px;
+}
+.table_241_td {
+  vertical-align: top;
+}
+.table_241 > :nth-child(2) {
+  input {
+    width: 260px !important;
+  }
+}
+.table_241 > :nth-child(3) {
+  input {
+    width: 260px !important;
+  }
+}
+.table_241 > :nth-child(4) {
+  input {
+    width: 260px !important;
+  }
+}
+
+// ============================ Table 2.4.2
+
+.table_242 > td input {
+  font-size: 15px;
+}
+.table_242_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.3
+
+.table_243 > td input {
+  font-size: 15px;
+}
+.table_243_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.4
+
+.table_244 > td input {
+  font-size: 15px;
+}
+.table_244_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.5
+
+.table_245 > td input {
+  font-size: 15px;
+}
+.table_245_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.6
+
+.table_246 > td input {
+  font-size: 15px;
+}
+.table_246_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.7
+
+.table_247 > td input {
+  font-size: 15px;
+}
+.table_247_td {
+  vertical-align: top;
+}
+
+// ============================ Table 2.4.8
+
+.table_248 > td input {
+  font-size: 15px;
+}
+.table_248_td {
+  vertical-align: top;
+}
+
+// --------------------------------------------Section 2.4 --------------------------------------
+
+// --------------------------------------------Section 2.5 --------------------------------------
+
+.section25th {
+  padding: 12px 8.5px !important;
+}
+.section25td {
+  padding: 12px 8.5px !important;
+
+  input {
+    font-size: 15px !important;
+  }
+}
+
+.maintenance-detail {
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 0;
+  margin-top: auto;
+  flex-shrink: 0;
+
+  label {
+    font-size: 16px;
+  }
+}
+
+.maintenance-detail .label {
+  font-size: 16px;
+}
+
+.maintenance-detail .icon {
+  margin-right: 120px;
+  margin-top: 0;
+  opacity: 0.8;
+}
+
+.sec_25_last_lbl {
+  font-size: 16px !important;
+  font-weight: 700;
+  text-align: justify !important;
+  margin-bottom: 17px;
+}
+.sec_25_fld_lst_containder {
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+  position: relative;
+  left: 35px;
+  margin-bottom: 10px;
+}
+
+// --------------------------------------------Section 2.5 --------------------------------------
+
+// --------------------------------------------Section 2.6 --------------------------------------
+
+.h_direction_26 {
+  direction: ltr !important;
+  text-align: end;
+  font-weight: 200;
+  font-weight: bold;
+}
+
+.section-26-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.section-26-table th,
+.section-26-table td {
+  padding: 10px 12px;
+  border: none;
+  vertical-align: middle;
+}
+.section-26-table th:nth-child(1),
+.section-26-table td:nth-child(1) {
+  width: 40px;
+  vertical-align: top;
+  padding-top: 16px;
+}
+
+.section-26-table th:nth-child(2),
+.section-26-table td:nth-child(2) {
+  width: 220px;
+  vertical-align: top;
+}
+
+.section-26-table th:nth-child(3),
+.section-26-table td:nth-child(3) {
+  width: 100px;
+  vertical-align: top;
+}
+
+.section-26-table th:nth-child(4),
+.section-26-table td:nth-child(4) {
+  width: 100px;
+  vertical-align: top;
+}
+
+.section-26-table th:nth-child(5),
+.section-26-table td:nth-child(5) {
+  width: 120px;
+}
+
+.section-26-table th:nth-child(6),
+.section-26-table td:nth-child(6) {
+  width: 450px;
+}
+
+.section-26-table th:nth-child(7),
+.section-26-table td:nth-child(7) {
+  width: 60px;
+}
+.section-26-table td:nth-child(6) .section-26-textarea {
+  height: 80px;
+}
+.section-26-row {
+  text-align: right;
+
+  input {
+    font-size: 15px !important;
+  }
+}
+
+.section-26-select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: left 8px center;
+  background-size: 12px;
+  padding-right: 24px;
+}
+
+.section-26-text-input,
+.section-26-select,
+.section-26-textarea {
+  width: 100%;
+  padding: 8px;
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+}
+
+.section-26-textarea {
+  resize: none;
+  height: 40px;
+}
+
+.section-26-table td:nth-child(6) .section-26-textarea {
+  height: 80px;
+}
+
+.section-26-checkbox {
+  transform: scale(1.2);
+}
+
+// --------------------------------------------Section 2.6 --------------------------------------
+
+// --------------------------------------------Section 2.7 --------------------------------------
+
+.h_direction_27 {
+  direction: ltr !important;
+  text-align: end;
+  font-weight: 200;
+  font-weight: bold;
+}
+
+.custom27-table-wrapper {
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.custom27-table-wrapper {
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.custom27-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl; /* keep RTL layout if needed */
+}
+.custom27-table-wrapper {
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.custom27-table thead tr {
+  text-align: right;
+}
+.custom27-table th {
+  font-weight: 600;
+  font-size: 14px;
+  text-align: right;
+}
+
+.custom27-table-wrapper {
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.custom27-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl; /* keep RTL layout if needed */
+}
+.custom27-table-wrapper {
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.custom27-table thead tr {
+  text-align: right;
+}
+
+.custom27-row {
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+.custom27-row-last-col {
+  text-align: right !important;
+  padding-right: 43px !important;
+}
+.custom27-select {
+  padding: 6px 8px;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 14px;
+  background-color: #fff;
+  display: block;
+  margin: 0;
+  text-align: right;
+  border: none;
+  background-color: whitesmoke;
+  height: 35px;
+}
+
+.custom27-tera {
+  padding: 10px;
+  text-align: right;
+  vertical-align: middle;
+  width: 250px !important;
+  padding-left: 42px !important;
+}
+
+.custom27-textarea {
+  padding: 6px;
+  border-radius: 4px;
+  resize: none;
+  background-color: #f5f5f5;
+  width: 100%;
+  text-align: right;
+  margin: 0 auto 0 0;
+  display: block;
+  font-size: 15px;
+  height: 90px;
+}
+.custom27-check {
+  padding: 2px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid #e0e0e0;
+  width: 0px !important;
+}
+
+.custom27-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.custom27-row > td {
+    vertical-align: top !important;
+    font-size: 15px !important;
+
+    input{
+        font-size: 15px !important;
+    }
+}
+
+// --------------------------------------------Section 2.7 --------------------------------------
+
+.maintenance-detail {
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 0;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+.maintenance-detail {
+  .label {
+    font-size: 16px;
+  }
+}
+.label {
+  font-size: 16px;
+}
+.sec2_5_lst_lbl {
+  text-align: justify !important;
+  font-weight: bold;
+  margin-bottom: 17px;
+}
+.sec_2_5_fld_lst_containder {
+  display: flex;
+  justify-content: space-between;
+  width: 48%;
+  position: relative;
+  left: 35px;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.4",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "property-survey-export-pdf",
+    "libraryId": "34c4f35c-04e8-4e51-b325-0d2e65fdccbd",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "property-survey-export-pdf",
+    "solutionShortDescription": "property-survey-export-pdf description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

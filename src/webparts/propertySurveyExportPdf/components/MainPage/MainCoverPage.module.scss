@@ -1,0 +1,111 @@
+.coverPage {
+  font-family: "Segoe UI", sans-serif;
+  direction: rtl;
+  padding: 40px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.logoLeft,
+.logoRight {
+  width: 330px;
+  height: auto;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* horizontally center the lines */
+  justify-content: center; /* vertically center the block if needed */
+  flex: 1;
+  text-align: center;
+  font-size: 35px;
+  line-height: 1.5;
+}
+
+.formSection {
+  margin-bottom: 70px;
+  line-height: 110px;
+  margin-top: 300px;
+  margin-left: 55px;
+}
+
+.fieldRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.underline {
+  border-bottom: 3px solid black;
+  // width: 850px;
+   width: 1255px;
+  margin-right: 10px;
+  // margin-top: 25px;
+}
+
+.underlineText {
+  // text-decoration: underline;
+  // text-underline-offset: 4px; // optional for nicer spacing
+  padding-right: 5px;
+}
+
+.imageSection {
+  // margin: 140px 0;
+   margin: 250px 0;
+  margin-top: 270px;
+}
+
+.houseImage {
+  width: 100%;
+  // max-width: 1050px;
+  max-width: 1500px;
+  // height: auto;
+  height: 1000px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.footer {
+  margin-top: 40px;
+  font-size: 47px;
+  // margin-left: 515px;
+  width: 76%;
+}
+
+.only-print {
+  display: none;
+}
+
+@media print {
+  .only-print {
+    display: block !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+.footercontainer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  padding-right: 393px;
+}
+
+.invalidItemlbl{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

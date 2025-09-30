@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "property-survey-export-pdf-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/propertySurveyExportPdf/PropertySurveyExportPdfWebPart.js",
+          "manifest": "./src/webparts/propertySurveyExportPdf/PropertySurveyExportPdfWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PropertySurveyExportPdfWebPartStrings": "lib/webparts/propertySurveyExportPdf/loc/{locale}.js"
+  }
+}

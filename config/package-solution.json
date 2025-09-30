@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "property-survey-export-pdf-client-side-solution",
+    "id": "34c4f35c-04e8-4e51-b325-0d2e65fdccbd",
+    "version": "1.0.0.13",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.20.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "property-survey-export-pdf description"
+      },
+      "longDescription": {
+        "default": "property-survey-export-pdf description"
+      },
+      "screenshotPaths": [],  
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "property-survey-export-pdf Feature",
+        "description": "The feature that activates elements of the property-survey-export-pdf solution.",
+        "id": "74695f0a-34a4-4721-be08-4c7ba9c689b9",
+        "version": "1.0.0.13"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/property-survey-export-pdf.sppkg"
+  }
+}

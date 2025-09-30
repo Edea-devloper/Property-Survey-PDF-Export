@@ -1,0 +1,2914 @@
+import * as React from 'react';
+import './FirstSection.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import Loder from '../loder/Loader';
+import styles from '../MainPage/MainCoverPage.module.scss';
+import { formatDateToDDMMYYYY } from '../../Utility/utils';
+import Section02 from '../Section02/Section02'
+import Section_24 from '../Section02/Section_24';
+import Section_25 from '../Section02/Section_25';
+import Section_26 from '../Section02/Section_26';
+import Section_27 from '../Section02/Section_27';
+import Section_31 from '../Section03/Section_31';
+import Section_32 from '../Section03/Section_32';
+import Section_33 from '../Section03/Section_33';
+import Section_34 from '../Section03/Section_34';
+import Section_35 from '../Section03/Section_35';
+import Section_41 from '../Section04/Section_41';
+import Section_42 from '../Section04/Section_42';
+import Section_43 from '../Section04/Section_43';
+import Section_44 from '../Section04/Section_44';
+import Section_51 from '../Section05/Section_51';
+import Section_521 from '../Section05/Section_521';
+import Section_61 from '../Section06/Section_61';
+import Section_71 from '../Section07/Section_71';
+import Section_72 from '../Section07/Section_72';
+
+
+interface ListItem {
+    SealStructure: any;
+    BusinessEntity: string | number | readonly string[] | undefined;
+    QuantitativeData: any;
+    PropertyDetails: any;
+    OData__x0037__x002e_2: string;
+    OData__x0037__x002e_1: string;
+    OData__x0036__x002e_1: string;
+    OData__x0035__x002e_2: string;
+    OData__x0035__x002e_1: string;
+    OData__x0034__x002e_4: string;
+    OData__x0034__x002e_3: string;
+    OData__x0034__x002e_2: string;
+    Environmental: string;
+    InformationOperation: string;
+    OperationalTests: string;
+    PeriodicExaminations: string;
+    CorrectnessTests: string;
+    PropertyPlans: string;
+    EngagementAgreements: string;
+    Payments8: any;
+    Payments7: any;
+    Payments6: any;
+    Payments5: any;
+    Payments4: any;
+    Payments3: any;
+    Payments2: any;
+    Payments1: any;
+    Form_ID: string | number | readonly string[] | undefined;
+    Date: any;
+    Names1: string;
+    Names2: string;
+    ResponsibleOps: string;
+    NumberofOps: string;
+    SystemProperty: string;
+}
+
+interface FirstSectionProps {
+    listitems: ListItem;
+    property_subject_Data: any
+    property_Frequency_Data: any
+}
+
+interface PropertySubjectItem {
+    Area: unknown;
+    Subject: any;
+    Chapter: string;
+    Order0: string | number;
+    frequencylpId: any;
+}
+
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
+export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_subject_Data, property_Frequency_Data }) => {
+
+
+    const chapterList = ["2,1", "2,2", "2,3", "2,4", "2,5", "2,7", "4,4", "3,1", "3,2", "3,3", "3,4", "3,5", "4,1", "4,2", "4,3", "4,4", "5,1", "5,2,1", "6,1", "7,1", "7,2"];
+    const chapterDataMap: Record<string, Array<PropertySubjectItem>> = chapterList.reduce(
+        (acc, chapter) => {
+            acc[chapter] = property_subject_Data?.filter((x: PropertySubjectItem) => x.Chapter === chapter);
+            return acc;
+        },
+        {} as Record<string, Array<PropertySubjectItem>>
+    );
+
+    if (!listitems) {
+        return null;
+    }
+    if (!property_subject_Data) {
+        return null;
+    }
+
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    function stripHtmlTags(html: string) {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    }
+
+    function parsePropertyDataField(fieldValue: string, indexOfFlag: number): { rows: string[][], flags: boolean[] } {
+        const rows = fieldValue.split('||,').map((item: string) => item.split('||'));
+        const flags = rows.map(row => row?.[indexOfFlag] === 'true');
+        return { rows, flags };
+    }
+
+    const isFirstRowEmpty = (data: string[][]): boolean =>
+        data.length > 0 && data[0].slice(2, 8).every(col => col.trim() === '');
+
+    const buildPropertyData = (
+        fieldValue: string,
+        indexOfFlag: number
+    ): { data: ReturnType<typeof parsePropertyDataField>, isFirstRowEmpty: boolean } => {
+        const data = parsePropertyDataField(fieldValue, indexOfFlag);
+        return {
+            data,
+            isFirstRowEmpty: isFirstRowEmpty(data.rows),
+        };
+    };
+
+    const propertyData = {
+        '2.4.1': buildPropertyData(listitems?.Payments1, 8),
+        '2.4.2': buildPropertyData(listitems?.Payments2, 8),
+        '2.4.3': buildPropertyData(listitems?.Payments3, 8),
+        '2.4.4': buildPropertyData(listitems?.Payments4, 8),
+        '2.4.5': buildPropertyData(listitems?.Payments5, 8),
+        '2.4.6': buildPropertyData(listitems?.Payments6, 8),
+        '2.4.7': buildPropertyData(listitems?.Payments7, 8),
+        '2.4.8': buildPropertyData(listitems?.Payments8, 8),
+        '2.5': buildPropertyData(listitems?.ResponsibleOps, 7),
+        '2.6': buildPropertyData(listitems?.PropertyPlans, 6),
+        '2.7': buildPropertyData(listitems?.SystemProperty, 5),
+        '3.1': buildPropertyData(listitems?.EngagementAgreements, 11),
+        '3.2': buildPropertyData(listitems?.CorrectnessTests, 9),
+        '3.3': buildPropertyData(listitems?.PeriodicExaminations, 10),
+        '3.4': buildPropertyData(listitems?.OperationalTests, 9),
+        '3.5': buildPropertyData(listitems?.InformationOperation, 5),
+        '4.1': buildPropertyData(listitems?.Environmental, 10),
+        '4.2': buildPropertyData(listitems?.OData__x0034__x002e_2, 10),
+        '4.3': buildPropertyData(listitems?.OData__x0034__x002e_3, 10),
+        '4.4': buildPropertyData(listitems?.OData__x0034__x002e_4, 10),
+        '5.1': buildPropertyData(listitems?.OData__x0035__x002e_1, 10),
+        '5.2.1': buildPropertyData(listitems?.OData__x0035__x002e_2, 11),
+        '6.1': buildPropertyData(listitems?.OData__x0036__x002e_1, 9),
+        '7.1': buildPropertyData(listitems?.OData__x0037__x002e_1, 9),
+        '7.2': buildPropertyData(listitems?.OData__x0037__x002e_2, 9),
+    };
+
+
+    // Step 1: define the exact keys you're using
+    const keys = [
+        '2.4.1', '2.4.2', '2.4.3', '2.4.4',
+        '2.4.5', '2.4.6', '2.4.7', '2.4.8'
+    ] as const;
+
+    // Step 2: create a type for them
+    type PropertyKey = typeof keys[number];
+
+    // Step 3: fix the propertyData typing
+    const propertyDataForSection2_4: Record<PropertyKey, {
+        data: { rows: string[][]; flags: boolean[] };
+        isFirstRowEmpty: boolean;
+    }> = {
+        '2.4.1': buildPropertyData(listitems?.Payments1, 8),
+        '2.4.2': buildPropertyData(listitems?.Payments2, 8),
+        '2.4.3': buildPropertyData(listitems?.Payments3, 8),
+        '2.4.4': buildPropertyData(listitems?.Payments4, 8),
+        '2.4.5': buildPropertyData(listitems?.Payments5, 8),
+        '2.4.6': buildPropertyData(listitems?.Payments6, 8),
+        '2.4.7': buildPropertyData(listitems?.Payments7, 8),
+        '2.4.8': buildPropertyData(listitems?.Payments8, 8)
+    };
+
+    // Step 4: check if any section is NOT empty
+    const shouldShowSection = keys.some(key => !propertyDataForSection2_4[key].isFirstRowEmpty);
+    const Name01 = listitems?.Names1.split('||,');
+    const Name02 = listitems?.Names2.split('||,');
+    const NumberofOps = listitems?.NumberofOps;
+    const Lookup_Field_Section_1 = listitems?.PropertyDetails?.split('||') || []
+    const Lookup_Field_Section_2 = listitems?.QuantitativeData.split('||')
+
+
+    const getHebrewMonthLabel = (input: string): string => {
+        if (!input) return "";
+
+        const months = [
+            "01 - ינואר", "02 - פברואר", "03 - מרץ", "04 - אפריל",
+            "05 - מאי", "06 - יוני", "07 - יולי", "08 - אוגוסט",
+            "09 - ספטמבר", "10 - אוקטובר", "11 - נובמבר", "12 - דצמבר"
+        ];
+
+        // 1. Check if already in "MM" format or "MM - <Hebrew>" format
+        const monthOnly = input.trim().slice(0, 2);
+        if (/^\d{2}$/.test(monthOnly) || /^\d{2} -/.test(input)) {
+            const index = parseInt(monthOnly, 10) - 1;
+            return months[index] || input;
+        }
+
+        // 2. Try parsing as full date
+        const date = new Date(input);
+        if (!isNaN(date.getTime())) {
+            const monthIndex = date.getMonth();
+            return months[monthIndex];
+        }
+
+        // 3. Fallback if nothing works
+        return input;
+    };
+
+    const PrintData = async () => {
+        setIsLoading(true);
+        try {
+
+            // ------------------------------
+            const hiddenElements = document.querySelectorAll('.only-print');
+            const originalDisplayStyles: string[] = [];
+
+            hiddenElements.forEach((el, i) => {
+                originalDisplayStyles[i] = (el as HTMLElement).style.display;
+                (el as HTMLElement).style.display = 'block';
+            });
+            // ----------------------------
+
+            // Split each section's table rows into chunks of 21
+            // const originalSections = Array.from(document.querySelectorAll('.page-section01'));
+            const originalSections = [].slice.call(document.querySelectorAll('.page-section01'));
+
+
+
+            originalSections.forEach((section: { querySelector: (arg0: string) => any; cloneNode: (arg0: boolean) => HTMLElement; }, sectionIndex: number) => {
+                if (sectionIndex < 4 || sectionIndex > 19) return; // only sections 4–19
+
+                const tbody = section.querySelector('tbody.chunkrow');
+                if (!tbody) return;
+
+                // const rows = Array.from(tbody.querySelectorAll('tr'));
+                const rows = [].slice.call(tbody.querySelectorAll('tr'));
+                const MAX_ROWS = 21;
+
+                if (rows.length <= MAX_ROWS) return;
+
+                // Keep first 21 rows here
+                tbody.innerHTML = '';
+                rows.slice(0, MAX_ROWS).forEach((row: any) => tbody.appendChild(row));
+
+                // Create new sections for subsequent chunks
+                // let insertionPoint = section;
+                let insertionPoint = section as unknown as HTMLElement;
+                for (let i = MAX_ROWS; i < rows.length; i += MAX_ROWS) {
+                    const chunk = rows.slice(i, i + MAX_ROWS);
+
+
+                    const clone = section.cloneNode(true) as HTMLElement;
+
+                    //Remove thead or chunkrowHeader
+                    const thead = clone.querySelector('.chunkrowHeader');
+                    if (thead && thead.parentNode) {
+                        thead.parentNode.removeChild(thead);
+                    }
+
+                    //Remove title (chunkrowTitle)
+                    const title = clone.querySelector('.chunkrowTitle');
+                    if (title && title.parentNode) {
+                        title.parentNode.removeChild(title);
+                    }
+
+
+                    const cloneTbody = clone.querySelector('tbody.chunkrow')!;
+                    cloneTbody.innerHTML = '';
+                    chunk.forEach((row: any) => cloneTbody.appendChild(row));
+
+                    insertionPoint.parentNode!.insertBefore(clone, insertionPoint.nextSibling);
+                    insertionPoint = clone;
+                }
+            });
+
+
+
+            const sections = document.querySelectorAll('.page-section01');
+
+            if (!sections.length) throw new Error('No sections to print');
+
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'pt',
+                format: 'a4',
+            });
+
+            const pageWidth = 595;
+            const pageHeight = 842;
+            const margin = 10;
+            const contentWidth = pageWidth - 2 * margin;
+            const contentHeight = pageHeight - 2 * margin;
+
+            // let pageNumber = 1;
+
+            for (let i = 0; i < sections.length; i++) {
+                const section = sections[i] as HTMLElement;
+
+                // Make sure section is relatively positioned
+                const originalPosition = section.style.position;
+                if (getComputedStyle(section).position === 'static') {
+                    section.style.position = 'relative';
+                }
+
+                // Apply RTL styles temporarily
+                const inputs = section.querySelectorAll('input');
+                const textareas = section.querySelectorAll('textarea');
+                const headers = section.querySelectorAll('.pdf_lbl');
+                const originalStyles: string[] = [];
+                const originalTextareaStyles: string[] = [];
+                const mirrors: HTMLElement[] = [];
+                const originalHeaderStyles: string[] = [];
+
+                inputs.forEach(input => {
+                    originalStyles.push(input.style.cssText);
+                    input.style.textAlign = 'right';
+                    input.style.direction = 'rtl';
+                });
+
+                textareas.forEach(textarea => {
+                    originalTextareaStyles.push(textarea.style.cssText);
+
+                    const mirror = document.createElement('div');
+                    mirror.innerText = textarea.value;
+                    const rect = textarea.getBoundingClientRect();
+                    const sectionRect = section.getBoundingClientRect();
+
+                    mirror.style.position = 'absolute';
+                    mirror.style.left = (rect.left - sectionRect.left) + 'px';
+                    mirror.style.top = (rect.top - sectionRect.top) + 'px';
+                    mirror.style.width = textarea.offsetWidth + 'px';
+                    // mirror.style.height = textarea.offsetHeight + 'px';
+                    mirror.style.height = textarea.scrollHeight + 'px';
+                    mirror.style.font = getComputedStyle(textarea).font;
+                    mirror.style.padding = getComputedStyle(textarea).padding;
+                    mirror.style.border = getComputedStyle(textarea).border;
+                    mirror.style.backgroundColor = getComputedStyle(textarea).backgroundColor;
+                    mirror.style.color = getComputedStyle(textarea).color;
+                    mirror.style.whiteSpace = 'pre-wrap';
+                    mirror.style.wordWrap = 'break-word';
+                    mirror.style.direction = 'rtl';
+                    mirror.style.textAlign = 'right';
+                    mirror.style.overflow = 'hidden';
+                    mirror.style.zIndex = '10';
+                    mirror.style.wordBreak = 'break-word'
+
+                    textarea.style.visibility = 'hidden';
+                    section.appendChild(mirror);
+                    mirrors.push(mirror);
+
+
+                });
+
+                headers.forEach(header => {
+                    const el = header as HTMLElement;
+                    originalHeaderStyles.push(el.style.cssText);
+                    // el.style.direction = 'rtl';
+                    el.style.textAlign = 'right';
+                    el.style.unicodeBidi = 'bidi-override';
+                });
+
+                const canvas = await html2canvas(section, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    width: section.scrollWidth,
+                    height: section.scrollHeight,
+                    scrollX: 0,
+                    scrollY: 0,
+                });
+
+                // Restore styles
+                inputs.forEach((input, index) => {
+                    input.style.cssText = originalStyles[index];
+                });
+                textareas.forEach((textarea, index) => {
+                    textarea.style.cssText = originalTextareaStyles[index];
+                    textarea.style.visibility = 'visible';
+                });
+                headers.forEach((header, index) => {
+                    const el = header as HTMLElement;
+                    el.style.cssText = originalHeaderStyles[index];
+                });
+                mirrors.forEach(mirror => mirror.remove());
+                section.style.position = originalPosition;
+
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const scale = contentWidth / canvasWidth;
+                const sliceHeight = contentHeight / scale;
+
+                let sliceY = 0;
+                while (sliceY < canvasHeight) {
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = canvasWidth;
+                    sliceCanvas.height = Math.min(sliceHeight, canvasHeight - sliceY);
+
+                    const sliceCtx = sliceCanvas.getContext('2d');
+                    if (sliceCtx) {
+                        sliceCtx.drawImage(
+                            canvas,
+                            0,
+                            sliceY,
+                            canvasWidth,
+                            sliceCanvas.height,
+                            0,
+                            0,
+                            canvasWidth,
+                            sliceCanvas.height
+                        );
+
+                        if (i > 0 || sliceY > 0) pdf.addPage();
+
+                        const xPosition = pageWidth - margin - contentWidth;
+                        pdf.addImage(
+                            sliceCanvas.toDataURL('image/png'),
+                            'PNG',
+                            xPosition,
+                            margin,
+                            contentWidth,
+                            sliceCanvas.height * scale,
+                            undefined,
+                            'FAST'
+                        );
+
+                        // pdf.setFontSize(6);
+                        // pdf.text(`${pageNumber}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+                        // pageNumber++;
+                    }
+
+                    sliceY += sliceHeight;
+                }
+
+            }
+
+
+
+            const totalPages = pdf.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+
+                // Optional: draw white background rectangle if image background is too dark
+                // pdf.setDrawColor(255, 255, 255);
+                // pdf.rect(pageWidth / 2 - 40, pageHeight - 25, 80, 15, 'F');
+
+                pdf.setFontSize(6);
+                pdf.setTextColor(0);
+                pdf.text(`Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+            }
+
+            // ---------------------------------------------
+            hiddenElements.forEach((el, i) => {
+                (el as HTMLElement).style.display = originalDisplayStyles[i];
+            });
+            // --------------------------------------------
+            const now = new Date();
+            const pad = (num: number) => (num < 10 ? '0' + num : num.toString());
+
+            const day = pad(now.getDate());
+            const month = pad(now.getMonth() + 1); // Months are 0-based
+            const year = now.getFullYear();
+            const hours = pad(now.getHours());
+            const minutes = pad(now.getMinutes());
+            const seconds = pad(now.getSeconds());
+            const timestamp = `${day}${month}${year}${hours}${minutes}${seconds}`;
+
+            // pdf.save('Data.pdf');
+            // pdf.save(`PropertySurveyExport_${listitems.Form_ID}.pdf`);
+            pdf.save(`PropertySurveyExport_Form_${listitems.Form_ID}_${timestamp}.pdf`);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('שגיאה ביצירת ה-PDF. אנא נסה שוב.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <>
+            <div>
+
+                <div className='page-section01'>
+                    {/* Section one */}
+                    <div className="header-main">
+                        <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                        <div className="center-info">
+                            מינהלת נכסים<br />
+                            <a href="#">משרד הבריאות</a><br />
+                            <span>אגף רכש נכסים ולוגיסטיקה</span>
+                        </div>
+                        <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                    </div>
+
+                    <div className="form-toolbar">
+                        <div className="left-arrow">←</div>
+                        {/* <div className="form-title">ערוך טופס {listitems?.Form_ID} יחידה מאכלסת:{stripHtmlTags(Lookup_Field_Section_1[9]) || ''} כתובת: {Lookup_Field_Section_1[10] || ''}</div> */}
+                        <div className="form-title">ערוך טופס
+                            {listitems?.Form_ID}
+
+                            <div style={{ display: 'inline' }}>
+                                <label style={{ background: 'none', paddingRight: '15px', width: '100%' }}>
+                                    <span className={styles.underlineText}>
+                                        <span style={{ paddingRight: "0px" }}>יחידה מאכלסת : {stripHtmlTags(Lookup_Field_Section_1[9]) || ''}</span>
+                                        <span style={{ paddingRight: "10px" }}>כתובת : {Lookup_Field_Section_1[10] || ''}</span>
+                                    </span>
+                                </label>
+                            </div>
+
+                        </div>
+                        <div className="form-actions">
+                            <button className="save-button">💾 שמור את הטופס</button>
+                            <span className="icon">📤</span>
+                            <span className="icon">✏️</span>
+                            <button className="save-button" onClick={PrintData}>Print</button>
+                        </div>
+                    </div>
+
+                    <div className="form-fields" >
+                        <div className="select-wrapper">
+                            <select >
+                                <option selected>פרק</option>
+                            </select>
+                        </div>
+                        <div className="select-wrapper">
+                            <select >
+                                <option>תחום מקצועי</option>
+                            </select>
+                        </div>
+                        <div className="select-wrapper">
+                            <select >
+                                <option>נושא</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="container-section" style={{ fontWeight: '300' }}>
+                        <div className="header-section">
+                            .פרק א - נתוני הנכס ותיאור
+                        </div>
+                        <div className="sub-header-section">
+                            כללי סוקר
+                        </div>
+
+
+                        <div className="form-row-section" style={{ marginTop: "17px", marginLeft: "15px", marginRight: "15px", display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div className="section1_Gal1_CustomeField">
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '5px' }}>
+                                    <label>תאריך ביצוע הסקר</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} value={formatDateToDDMMYYYY(listitems?.Date.split('T')[0])} />
+                                </div>
+                                <input className='section1_Gal1_CustomeField_input' type="text" value={formatDateToDDMMYYYY(listitems.Date.split('T')[0])} />
+                            </div>
+
+                            <div className='section1_Gal1_table_container'>
+                                <table>
+                                    <tr><th colSpan={2}>נציגי "אביב" ניהול הנדסה ומערכות מידע בע"מ - מינהלת נכסים משרד הבריאות</th></tr>
+                                    <tbody>
+                                        {Name01.map((row, index) => (
+                                            <tr key={index} className="table_241">
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[1]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[2]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[3]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[4]} /></td>
+                                                <td className="section1_Gal1_table1_td_Checkbox" style={{ width: 0 }}><input type="checkbox" checked={false} /></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="add-row-section" style={{ marginBottom: "41px", color: "#333b5e" }}></div>
+
+                        <div className="form-row-section" style={{ marginTop: "17px", marginLeft: "15px", marginRight: "15px", display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div className="section1_Gal2_CustomeField">
+                                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '5px' }}>
+                                    <label>מספר טופס</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} value={listitems?.Date.split('T')[0]} readOnly />
+                                </div>
+                                <input className='section1_Gal2_CustomeField_input' type="text" value={listitems?.Form_ID} readOnly />
+                            </div>
+
+                            <div className='section1_Gal1_table_container'>
+                                <table>
+                                    <tr><th colSpan={2}>נציגי התחנה משרד הבריאות</th></tr>
+                                    <tbody>
+                                        {Name02.map((row, index) => (
+                                            <tr key={index} className="table_241">
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[1]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[2]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[3]} /></td>
+                                                <td className="section1_Gal1_table1_td"><input type="text" readOnly value={row.split('||')[4]} /></td>
+                                                <td className="section1_Gal1_table1_td_Checkbox" style={{ width: 0 }}><input type="checkbox" checked={false} readOnly /></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="add-row-section" style={{ color: "#333b5e" }}></div>
+                    </div>
+
+
+
+
+                    <Section02 listitems={listitems} Lookup_Field_Section_1={Lookup_Field_Section_1} Lookup_Field_Section_2={Lookup_Field_Section_2} />
+                    {/*פרטי הנכס, נתונים כמותיים של הנכס - 2.3, 2.2, 2.1*/}
+                    <div className="container-section">
+                        <div className="header-section">
+                            נתוני הנכס ותיאור
+                        </div>
+                        <div className="sub-header-section">
+                            פרטי הנכס, נתונים כמותיים של הנכס - 2.3, 2.2, 2.1
+                        </div>
+
+                        {/* First Row  */}
+                        <div className="form-row-section" style={{ marginTop: "17px", marginLeft: "15px", marginRight: "15px" }}>
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>מספר ישות עסקית</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '10px' }} readOnly />
+                                </div>
+                                <input type="text" value={listitems?.BusinessEntity} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>כתובת (ישוב, רחוב ומספר בית)</label>
+                                    <input type="checkbox" className='field_border' style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={Lookup_Field_Section_1[10] || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>שם היחידה/יחידות מאוכלסות</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={stripHtmlTags(Lookup_Field_Section_1[9]) || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+                        </div>
+
+                        {/* Second row  */}
+                        <div className="form-row-section" style={{ marginTop: '17px', marginLeft: '15px', marginRight: '15px' }}>
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>גוש</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={Lookup_Field_Section_1[8] || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>חלקה</label>
+                                    <input type="checkbox" className='field_border' style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={Lookup_Field_Section_1[7] || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>שם המבנה </label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={Lookup_Field_Section_1[6] || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+                        </div>
+
+                        {/* Third row  */}
+                        <div className="form-row-section" style={{ marginTop: '17px', marginLeft: '15px', marginRight: '15px' }}>
+                            <div className="form-group-section" style={{ maxWidth: '29.7vw' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>תיאור המבנה</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={stripHtmlTags(Lookup_Field_Section_1[5]) || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+
+                            <div className="form-group-section" style={{ maxWidth: '29.7vw' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>מועד סיום שכירות</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={formatDateToDDMMYYYY(Lookup_Field_Section_1[3] || '')} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+                        </div>
+
+                        {/*  fourth row  */}
+                        <div className="form-row-section" style={{ marginTop: '17px', marginLeft: '15px', marginRight: '15px' }}>
+                            <div className="form-group-section" style={{ position: 'relative', bottom: '32px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>סוג הנכס</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" className='field_border' value={Lookup_Field_Section_1[2] || ''} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
+                                    <label>תיאור כללי</label>
+                                    <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                {/* <textarea rows={5} value={Lookup_Field_Section_1[1]} readOnly /> */}
+                                <textarea rows={5} value={stripHtmlTags(Lookup_Field_Section_1[1]) || ''} readOnly style={{ borderRadius: '5px', borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge', fontSize: '15px' }} />
+                            </div>
+
+                            <div className="form-group-section" style={{ position: 'relative', bottom: '32px' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <label>אזור / שכונה </label>
+                                    <input type="checkbox" className='field_border' style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                                </div>
+                                <input type="text" value={Lookup_Field_Section_1[0] || ''} readOnly style={{ borderWidth: 'thin', borderColor: 'rgb(121 122 126 / 50%)', borderStyle: 'ridge' }} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="container-section">
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+                            <div className="form-group-section" style={{ maxWidth: "33%" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>תיאור השירות (למי ניתן השירות)</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[21]} readOnly />
+                            </div>
+                        </div>
+
+
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>קהל היעד</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[20]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מספר מקבלי שירות</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[19]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>שעות פעילות </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[18]} readOnly />
+                            </div>
+
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>שטח בנוי ברוטו (מ"ר) </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[17]} readOnly />
+                            </div>
+
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מספר הקומות בנכס </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[16]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> הקומה בה נמצאת היחידה </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[15]} readOnly />
+                            </div>
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מספר חדרים / משרדים למתן שירות</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[14]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>(שטח המגרש - שטח פתוח מ"ר) </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[13]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מקומות חניה צמודים למבנה / בהסדר </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[12]} readOnly />
+                            </div>
+
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מקומות חניה - לאנשים עם מוגבלות </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[11]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מקומות חניה - לעובדים </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[10]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מקומות חניה - לאורחים / קהל </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[9]} readOnly />
+                            </div>
+
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מקומות חניה של המשרד בנכס </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[8]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> מספר עובדים בנכס</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[7]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label> שם החברה לניהול/תחזוקת הנכס </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[6]} readOnly />
+                            </div>
+
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מס עובדים מתחזקים את הנכס ובאיזה משרה? מלאה/חלקית </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[5]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>סוג מבנה</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={listitems?.SealStructure.split('||')[0]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>סוג גג ואיטום </label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={listitems?.SealStructure.split('||')[1]} readOnly />
+                            </div>
+
+                        </div>
+
+                        <div className="form-row-section" style={{
+                            marginTop: "17px", marginLeft: "15px",
+                            marginRight: "15px"
+                        }}>
+
+                            <div className="form-group-section" style={{ maxWidth: "33%" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מספר מבנה</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[2]} readOnly />
+                            </div>
+
+                            <div className="form-group-section" style={{ maxWidth: "33%" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>מספר קומה</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[1]} readOnly />
+                            </div>
+
+                            <div className="form-group-section">
+                                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <label>שטח המשרדים בארנונה</label>
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
+                                </div>
+                                <input type="text" /*style={{ height: "50px" }}*/ value={Lookup_Field_Section_2[0]} readOnly />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                {shouldShowSection &&
+                    <Section_24
+                        Table_241={propertyData['2.4.1']}
+                        Table_242={propertyData['2.4.2']}
+                        Table_243={propertyData['2.4.3']}
+                        Table_244={propertyData['2.4.4']}
+                        Table_245={propertyData['2.4.5']}
+                        Table_246={propertyData['2.4.6']}
+                        Table_247={propertyData['2.4.7']}
+                        Table_248={propertyData['2.4.8']}
+                    />
+                }
+                {/* Section - 2.4 */}
+                {shouldShowSection && (
+                    <>
+                        <div className="section-container page-section01">
+                            <div className="header h_direction_24">2.4 - תשלומים על הנכס</div>
+
+
+                            {/* !propertyData['2.4.1'].isFirstRowEmpty */}
+                            {!propertyData['2.4.1'].isFirstRowEmpty && (
+                                <>
+                                    <div style={{ display: 'flex' }}>
+                                        <div className="sub-header h_direction_24 pdf_lbl" style={{ width: '80%' }}>2.4.1 - מיסי עירייה ארנונה</div>
+                                    </div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>שנה</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות משוקללת למ"ר</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.1'].data.flags.slice(0, 1).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.1'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td"><input style={{ width: "30px" }} type="text" value={index + 1} readOnly /></td>
+                                                                <td className="table_241_td"><input type="text" readOnly value={propertyData['2.4.1'].data.rows[index][2] || ''} /></td>
+                                                                <td className="table_241_td"><input type="text" readOnly value={propertyData['2.4.1'].data.rows[index][5]} /></td>
+                                                                <td className="table_241_td"><input type="text" readOnly value={propertyData['2.4.1'].data.rows[index][6]} /></td>
+                                                                <td><div><input style={{ width: "974px", direction: 'rtl', fontSize: '15px' }} type="text" readOnly value={propertyData['2.4.1'].data.rows[index][8]} /></div></td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.2'].isFirstRowEmpty */}
+                            {!propertyData['2.4.2'].isFirstRowEmpty && (
+                                <>
+                                    {/* <div className="sub-header h_direction_24 pdf_lbl">2.4.2 - מיסי עירייה מים ( 6 חודשים אחרונים)</div> */}
+                                    {/* <div className="sub-header h_direction_24 pdf_lbl">2.4.2 - מיסי עירייה לתאגיד המים</div> */}
+                                    <div style={{ display: 'flex' }}>
+                                        <div className="sub-header h_direction_24 pdf_lbl">2.4.2 - תאגיד המים</div>
+                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}><label htmlFor="" style={{ fontSize: '15px', fontWeight: '600' }}>{propertyData['2.4.1'].data.rows[0][2]}</label></div>
+                                    </div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מתאריך</th>
+                                                    <th>עד תאריך</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות ממוצעת של מ"ר לחודש</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.2'].data.flags.slice(0, 6).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.2'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    {/* <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.2'].data.rows[index][2])} /> */}
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.2'].data.rows[index][2])} />
+
+
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    {/* <input type="text" readOnly value={propertyData['2.4.2'].data.rows[index][3]} /> */}
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.2'].data.rows[index][3])} />
+
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.2'].data.rows[index][6]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.2'].data.rows[index][7]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.2'].data.rows[index][9]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.3'].isFirstRowEmpty */}
+                            {!propertyData['2.4.3'].isFirstRowEmpty && (
+                                <>
+                                    {/* <div className="sub-header h_direction_24 pdf_lbl">2.4.3 - חברת חשמל</div> */}
+                                    <div style={{ display: 'flex' }}>
+                                        <div className="sub-header h_direction_24 pdf_lbl">2.4.3 - חברת חשמל</div>
+                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}><label htmlFor="" style={{ fontSize: '15px', fontWeight: '600' }}>{propertyData['2.4.1'].data.rows[0][2]}</label></div>
+                                    </div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מחודש</th>
+                                                    <th>עד חודש</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות ממוצעת של מ"ר לחודש</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.3'].data.flags.slice(0, 6).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.3'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.3'].data.rows[index][2])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.3'].data.rows[index][3])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.3'].data.rows[index][6]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.3'].data.rows[index][7]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.3'].data.rows[index][9]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.4'].isFirstRowEmpty */}
+                            {!propertyData['2.4.4'].isFirstRowEmpty && (
+                                <>
+                                    <div className="sub-header h_direction_24 pdf_lbl">2.4.4 - ניקיון</div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מחודש</th>
+                                                    <th>עד חודש</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות ממוצעת של מ"ר לחודש</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.4'].data.flags.slice(0, 6).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.4'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.4'].data.rows[index][2])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.4'].data.rows[index][3])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.4'].data.rows[index][6]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.4'].data.rows[index][7]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.4'].data.rows[index][9]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.5'].isFirstRowEmpty */}
+                            {!propertyData['2.4.5'].isFirstRowEmpty && (
+                                <>
+                                    <div className="sub-header h_direction_24 pdf_lbl">2.4.5 - אבטחה</div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מחודש</th>
+                                                    <th>עד חודש</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות ממוצעת של מ"ר לחודש</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.5'].data.flags.slice(0, 6).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.5'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.5'].data.rows[index][2])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.5'].data.rows[index][3])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.5'].data.rows[index][6]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.5'].data.rows[index][7]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.5'].data.rows[index][9]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.6'].isFirstRowEmpty */}
+                            {!propertyData['2.4.6'].isFirstRowEmpty && (
+                                <>
+                                    <div className="sub-header h_direction_24 pdf_lbl">2.4.6 - ועד הביניין</div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מחודש</th>
+                                                    <th>עד חודש</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות ממוצעת למ"ר</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.6'].data.flags.slice(0, 6).map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.6'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+
+                                                    if (isRowEmpty) return null;
+
+                                                    return (
+
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.6'].data.rows[index][2])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={getHebrewMonthLabel(propertyData['2.4.6'].data.rows[index][3])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.6'].data.rows[index][6]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.6'].data.rows[index][7]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.6'].data.rows[index][9]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                        </div>
+
+                        <div className="section-container page-section01">
+                            {/* !propertyData['2.4.7'].isFirstRowEmpty */}
+                            {!propertyData['2.4.7'].isFirstRowEmpty && (
+                                <>
+                                    <div className="sub-header h_direction_24 pdf_lbl">2.4.7 - חניות</div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מתאריך</th>
+                                                    <th>עד תאריך</th>
+                                                    <th>סכום התשלום</th>
+                                                    <th>עלות למקום חניה לחודש</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.7'].data.flags.map((isChecked, index) => (
+                                                    <tr key={index} className="table_241">
+                                                        <td className="table_241_td">
+                                                            <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                        </td>
+                                                        <td className="table_241_td">
+                                                            <input type="text" readOnly value={formatDateToDDMMYYYY(propertyData['2.4.7'].data.rows[index][2])} />
+                                                        </td>
+                                                        <td className="table_241_td">
+                                                            <input type="text" readOnly value={formatDateToDDMMYYYY(propertyData['2.4.7'].data.rows[index][3])} />
+                                                        </td>
+                                                        <td className="table_241_td">
+                                                            <input type="text" readOnly value={propertyData['2.4.7'].data.rows[index][4]} />
+                                                        </td>
+                                                        <td className="table_241_td">
+                                                            <input type="text" readOnly value={propertyData['2.4.7'].data.rows[index][5]} />
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <input
+                                                                    style={{ width: "744px", fontSize: '15px' }}
+                                                                    type="text"
+                                                                    readOnly
+                                                                    value={propertyData['2.4.7'].data.rows[index][7]}
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                        <td className="table_241_td">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={isChecked}
+                                                                aria-label="בחר שורה"
+                                                                value={isChecked.toString()}
+                                                                onChange={() => { }}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* !propertyData['2.4.8'].isFirstRowEmpty */}
+                            {!propertyData['2.4.8'].isFirstRowEmpty && (
+                                <>
+                                    {/* <div className='page-section01'> */}
+                                    <div className="sub-header h_direction_24 pdf_lbl">2.4.8 - ...לכתוב כאן</div>
+                                    <div className="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>מס'</th>
+                                                    <th>מתאריך</th>
+                                                    <th>עד תאריך</th>
+                                                    <th>עלות ליח'</th>
+                                                    <th>עלות ל-ר"נ</th>
+                                                    <th>הערות</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {propertyData['2.4.8'].data.flags.map((isChecked, index) => {
+
+                                                    const row = propertyData['2.4.8'].data.rows[index];
+                                                    const requiredFields = [2, 3, 4, 5, 7];
+                                                    const isRowEmpty = requiredFields.every(i => !row[i]);
+                                                    if (isRowEmpty) return null;
+                                                    return (
+                                                        <>
+                                                            <tr key={index} className="table_241">
+                                                                <td className="table_241_td">
+                                                                    <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={formatDateToDDMMYYYY(propertyData['2.4.8'].data.rows[index][2])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={formatDateToDDMMYYYY(propertyData['2.4.8'].data.rows[index][3])} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.8'].data.rows[index][4]} />
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input type="text" readOnly value={propertyData['2.4.8'].data.rows[index][5]} />
+                                                                </td>
+                                                                <td>
+                                                                    <div>
+                                                                        <input
+                                                                            style={{ width: "744px", fontSize: '15px' }}
+                                                                            type="text"
+                                                                            readOnly
+                                                                            value={propertyData['2.4.8'].data.rows[index][7]}
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <td className="table_241_td">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={isChecked}
+                                                                        aria-label="בחר שורה"
+                                                                        value={isChecked.toString()}
+                                                                        onChange={() => { }}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {/* </div> */}
+                                </>
+                            )}
+                        </div>
+                    </>
+                )
+                }
+
+
+
+                {!propertyData['2.5'].isFirstRowEmpty &&
+                    <Section_25 section_25_data={propertyData['2.5']} NumberofOps={NumberofOps} />
+                }
+
+                {!propertyData['2.5'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 2.5 */}
+                        <div className="section-container page-section01">
+                            {/* Section 2.5 Start*/}
+                            <div className="header h_direction_24">2.5 -בעלי תפקידים בניהול ותחזוקת הנכס</div>
+                            <div className="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th className='section25th'>תפקיד</th>
+                                            <th className='section25th'>שם פרטי ושם משפחה</th>
+                                            <th className='section25th'>טלפון סלולרי</th>
+                                            <th className='section25th'>מספר טלפון משרד</th>
+                                            <th className='section25th'>כתובת מייל</th>
+                                            <th className='section25th'>הערות</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {propertyData['2.5'].data.flags.map((isChecked, index) => {
+                                            const row = propertyData['2.5'].data.rows[index];
+                                            const isRowEmpty = [1, 2, 3, 4, 5, 6].every(colIndex => {
+                                                const cellValue = row[colIndex];
+                                                return cellValue === null || cellValue === undefined || cellValue?.toString()?.trim() === '';
+                                            });
+                                            if (isRowEmpty) return null;
+                                            return (
+                                                <tr>
+                                                    <td className='section25td'><input type="text" readOnly value={propertyData['2.5'].data.rows[index][6]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                                    <td className='section25td'><input type="text" readOnly value={propertyData['2.5'].data.rows[index][5]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                                    <td className='section25td' style={{ width: '145px' }}><input type="text" readOnly value={propertyData['2.5'].data.rows[index][4]} style={{ width: "145px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                                    <td className='section25td' style={{ width: '145px' }}><input type="text" readOnly value={propertyData['2.5'].data.rows[index][3]} style={{ width: "145px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                                    <td className='section25td'><input type="text" readOnly value={propertyData['2.5'].data.rows[index][2]} style={{ width: "270px", position: "relative", bottom: "25px" }} /></td>
+                                                    <td className='section25td'><textarea rows={4} readOnly value={propertyData['2.5'].data.rows[index][1]} cols={50} style={{ width: "523px", borderRadius: '4px', fontSize: '15px' }}></textarea></td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+
+                                <div className="maintenance-detail">
+                                    <div className="label sec2_5_lst_lbl">להוסיף שורה</div>
+
+                                    <div className='sec_2_5_fld_lst_containder'>
+                                        <label htmlFor="" style={{ marginRight: "30px" }}>מספר עובדי תפעול ואחזקה</label>
+                                        <input type="checkbox" readOnly aria-label="בחר שורה" />
+                                    </div>
+                                    <input style={{ width: "777px", display: 'flex' }} type="text" readOnly value={NumberofOps} />
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+
+                {!propertyData['2.6'].isFirstRowEmpty &&
+                    <Section_26 section_26_data={propertyData['2.6']} />
+                }
+                {/* Section - 2.6 */}
+                {!propertyData['2.6'].isFirstRowEmpty && (
+                    <>
+                        <div className="section-container page-section01">
+                            {/* Section 2.6 Start*/}
+                            <div className="header h_direction_24 chunkrowTitle">2.6 - תכניות של הנכס</div>
+                            <div className="table-wrapper">
+                                <table className="section-26-table">
+                                    <thead className='chunkrowHeader'>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th colSpan={2}>המצאות תכנית</th>
+                                            <th colSpan={3}>תאריך עדכון התוכנית</th>
+                                            <th colSpan={2}>הערות</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className='chunkrow'>
+                                        {propertyData['2.6'].data.flags.map((isChecked, index) => {
+                                            const row = propertyData['2.6'].data.rows[index];
+                                            const isRowEmpty = [1, 2, 3, 4, 5, 6].every(colIndex => {
+                                                const cellValue = row[colIndex];
+                                                return cellValue === null || cellValue === undefined || cellValue?.toString()?.trim() === '';
+                                            });
+                                            if (isRowEmpty) return null;
+                                            return (
+                                                <tr className="section-26-row" key={index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>
+                                                        <input className="section-26-select" value={propertyData['2.6'].data.rows[index][5]} readOnly />
+                                                    </td>
+                                                    <td colSpan={2}>
+                                                        <input
+                                                            type="text"
+                                                            className="section-26-date-input"
+                                                            value={propertyData['2.6'].data.rows[index][4]}
+                                                            readOnly
+                                                        />
+                                                    </td>
+                                                    <td colSpan={3}>
+                                                        <div className="section-26-date-picker">
+                                                            <input
+                                                                type="text"
+                                                                className="section-26-date-input"
+                                                                value={formatDateToDDMMYYYY(propertyData['2.6'].data.rows[index][2])}
+                                                                readOnly
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td colSpan={2}>
+                                                        <textarea
+                                                            className="section-26-textarea comment-area"
+                                                            value={propertyData['2.6'].data.rows[index][1]}
+                                                            readOnly
+                                                            style={{ fontSize: '15px' }}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['2.7'].isFirstRowEmpty &&
+                    <Section_27 section_27_data={propertyData['2.7']} chapter_data_27={chapterDataMap["2,7"]} />
+                }
+                {/* Section - 2.7 */}
+                {!propertyData['2.7'].isFirstRowEmpty && (
+                    <>
+                        <div className="section-container page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">2.7 - המערכות בנכס</div>
+                            <div className="custom27-table-wrapper">
+                                <table className="custom27-table">
+                                    <thead className='chunkrowHeader'>
+                                        <tr>
+                                            <th style={{ paddingRight: '43px' }}>פרק</th>
+                                            <th>נושא</th>
+                                            <th>תחום מקצועי</th>
+                                            <th>המצאות מערכת</th>
+                                            <th>הערות</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className='custom27-body chunkrow'>
+                                        {propertyData['2.7'].data.flags.map((isChecked, index) => {
+
+                                            const currentOrder = Number(propertyData['2.7'].data.rows[index][0]);
+                                            let matchedChapter = null;
+                                            for (let i = 0; i < chapterDataMap["2,7"].length; i++) {
+                                                if (chapterDataMap["2,7"][i]?.Order0 === currentOrder) {
+                                                    matchedChapter = chapterDataMap["2,7"][i];
+                                                    break;
+                                                }
+                                            }
+
+                                            const row = propertyData['2.7'].data.rows[index];
+                                            const isRowEmpty =
+                                                (!row[1] || row[1]?.toString()?.trim() === '') &&
+                                                (!row[4] || row[4]?.toString()?.trim() === '') &&
+                                                (!matchedChapter ||
+                                                    ([
+                                                        matchedChapter?.Chapter,
+                                                        matchedChapter?.Subject,
+                                                        matchedChapter?.Area
+                                                    ].every(val => !val || val?.toString()?.trim() === '')));
+
+                                            if (isRowEmpty) return null; // Skip this row
+
+
+                                            return (
+                                                <tr key={index} className="custom27-row">
+
+                                                    <td className='custom27-row-last-col'>
+                                                        {matchedChapter ? matchedChapter.Chapter : '-'}
+                                                    </td>
+                                                    <td style={{ direction: 'rtl', textAlign: 'right' }}>
+                                                        {matchedChapter ? matchedChapter.Subject : '-'}
+                                                    </td>
+                                                    <td style={{ direction: 'rtl', textAlign: 'right' }}>
+                                                        {matchedChapter ? matchedChapter.Area : '-'}
+                                                    </td>
+
+                                                    <td className="custom27">
+                                                        <input className="custom27-select" disabled
+                                                            type='text'
+                                                            value={propertyData['2.7'].data.rows[index][1]}
+                                                        />
+                                                    </td>
+
+                                                    <td className="custom27-tera">
+                                                        <textarea
+                                                            // value={listitems[0].SystemProperty.split("||,")[index].split("||")[4]}
+                                                            value={propertyData['2.7'].data.rows[index][4]}
+                                                            rows={3}
+                                                            className="custom27-textarea"
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+
+
+
+                {!propertyData['3.1'].isFirstRowEmpty &&
+                    <Section_31 section_31_data={propertyData['3.1']} chapter_data_31={chapterDataMap["3,1"]} />
+                }
+                {/* Table - 3.1 */}
+                {!propertyData['3.1'].isFirstRowEmpty && (
+                    <>
+                        <div className="container-section page-section01">
+                            <div className="header-section h_direction_24 chunkrowTitle">3.1 - תפעול מערכות המבנה</div>
+                            <div className="sub-header-section" style={{ height: '25px' }}>  </div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '30px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>שם החברה</th>
+                                        <th>סוג התקשרות</th>
+                                        <th>מועד תחילת חוזה - הסכמי התקשרות</th>
+                                        <th>משך החוזה - הסכמי התקשרות</th>
+                                        <th>מועד סיום חוזה - הסכמי התקשרות</th>
+                                        <th>טיב השירות - הסכמי התקשרות</th>
+                                        <th>הערות - הסכמי התקשרות</th>
+                                        <th>המלצות לתיקון</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['3.1'].data.flags.map((isChecked, index) => {
+                                        const currentOrder = Number(propertyData['3.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["3,1"].length; i++) {
+                                            if (chapterDataMap["3,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["3,1"][i];
+                                                break;
+                                            }
+                                        }
+                                        const row = propertyData['3.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[3], row[4], row[6], row[8], row[9], row[10]]
+                                                .every(val => !val || val?.toString()?.trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val?.toString()?.trim() === ''));
+                                        if (isRowEmpty) return null;
+                                        return (
+                                            <tr key={index} className='Section3_1'>
+                                                <td style={{ paddingRight: '30px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '185px' }}> {matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td> {matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['3.1'].data.rows[index][3]} readOnly /></td>
+                                                <td><input type="text" value={propertyData['3.1'].data.rows[index][4]} readOnly /></td>
+                                                <td style={{ width: '110px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.1'].data.rows[index][6])} readOnly /></td>
+                                                <td style={{ width: '150px' }}><input type="text" value={propertyData['3.1'].data.rows[index][1]} readOnly /></td>
+                                                <td style={{ width: '110px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.1'].data.rows[index][8])} readOnly /></td>
+                                                <td style={{ width: '190px' }}><input type="text" value={propertyData['3.1'].data.rows[index][9]} readOnly /></td>
+                                                <td><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.1'].data.rows[index][10]}</textarea></td>
+                                                <td style={{ paddingLeft: '25px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.1'].data.rows[index][2]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['3.2'].isFirstRowEmpty &&
+                    <Section_32 section_32_data={propertyData['3.2']} chapter_data_32={chapterDataMap["3,2"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 3.2 */}
+                {!propertyData['3.2'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 3.2 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">3.2 - בדיקות כשירות ותקינות מערכות בטיחות</div>
+
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '26px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>שם  ספק או האחראי - בדיקות כשירות </th>
+                                        <th>מועד בדיקה אחרונה - בדיקות כשירות </th>
+                                        <th>תדירות - בדיקות כשירות </th>
+                                        <th>מועד הבדיקה הבאה - בדיקות כשירות </th>
+                                        <th> סטטוס - בדיקות כשירות</th>
+                                        <th>הערות - בדיקות כשירות </th>
+                                        <th>המלצות לתיקון </th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['3.2'].data.flags.map((isChecked, index) => {
+                                        const currentOrder = Number(propertyData['3.2'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["3,2"].length; i++) {
+                                            if (chapterDataMap["3,2"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["3,2"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        // Additional logic: Find the Title from property_Frequency_Data using matchedChapter?.frequencylpId
+                                        let frequencyTitle = '';
+                                        if (matchedChapter?.frequencylpId) {
+                                            for (let j = 0; j < property_Frequency_Data?.length; j++) {
+                                                if (property_Frequency_Data[j]?.ID === matchedChapter?.frequencylpId) {
+                                                    frequencyTitle = property_Frequency_Data[j]?.Title;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        const row = propertyData['3.2'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[4], row[5], row[6], row[7], row[8]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+                                        if (isRowEmpty) return null;
+                                        return (
+                                            <tr key={index} className='section3_2'>
+                                                <td style={{ paddingRight: '26px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '150px' }}><input type="text" value={propertyData['3.2'].data.rows[index][2]} readOnly /></td>
+                                                <td style={{ width: '150px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.2'].data.rows[index][4])} readOnly /></td>
+                                                <td style={{ width: '125px' }}>
+                                                    <input
+                                                        type="text"
+                                                        value={
+                                                            propertyData['3.2'].data.rows[index][5] !== ''
+                                                                ? propertyData['3.2'].data.rows[index][5]
+                                                                : frequencyTitle
+                                                        }
+                                                        readOnly
+                                                    />
+                                                </td>
+                                                <td style={{ width: '150px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.2'].data.rows[index][6])} readOnly /></td>
+                                                <td style={{ width: '135px' }}><input type="text" value={propertyData['3.2'].data.rows[index][7]} readOnly /></td>
+                                                <td style={{ width: '360px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.2'].data.rows[index][8]}</textarea></td>
+                                                <td style={{ paddingLeft: '24px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.2'].data.rows[index][1]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+
+
+
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['3.3'].isFirstRowEmpty &&
+                    <Section_33 section_33_data={propertyData['3.3']} chapter_data_33={chapterDataMap["3,3"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* table - 3.3 */}
+                {!propertyData['3.3'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 3.3 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">3.3 - .בדיקות טיפולים תקופתיים למערכות</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '26px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>שם ספק או אחראי</th>
+                                        <th>מועד הבדיקה האחרונה</th>
+                                        <th>תדירות</th>
+                                        <th>מועד הבדיקה הבאה</th>
+                                        <th>סטטוס</th>
+                                        <th>טיב השירות</th>
+                                        <th>הערות </th>
+                                        <th>המלצות לתיקון</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['3.3'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['3.3'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["3,3"].length; i++) {
+                                            if (chapterDataMap["3,3"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["3,3"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        let frequencyTitle = '';
+                                        if (matchedChapter?.frequencylpId) {
+                                            for (let j = 0; j < property_Frequency_Data?.length; j++) {
+                                                if (property_Frequency_Data[j]?.ID === matchedChapter.frequencylpId) {
+                                                    frequencyTitle = property_Frequency_Data[j].Title;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        const row = propertyData['3.3'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[4], row[5], row[6], row[7], row[8], row[9]]
+                                                .every(val => !val || val?.toString()?.trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val?.toString()?.trim() === ''));
+
+                                        if (isRowEmpty) return null
+
+                                        return (
+                                            <tr key={index} className='section3_3'>
+                                                <td style={{ paddingRight: '26px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['3.3'].data.rows[index][2]} readOnly /></td>
+                                                <td><input type="text" value={formatDateToDDMMYYYY(propertyData['3.3'].data.rows[index][4])} readOnly /></td>
+                                                <td style={{ width: '110px' }}>
+                                                    <input type="text"
+                                                        value={
+                                                            propertyData['3.3'].data.rows[index][5] !== ''
+                                                                ? propertyData['3.3'].data.rows[index][5]
+                                                                : frequencyTitle
+                                                        }
+                                                        readOnly />
+                                                </td>
+                                                <td style={{ width: '110px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.3'].data.rows[index][6])} readOnly /></td>
+                                                <td style={{ width: '100px' }}><input type="text" value={propertyData['3.3'].data.rows[index][7]} readOnly /></td>
+                                                <td style={{ width: '140px' }}><input type="text" value={propertyData['3.3'].data.rows[index][8]} readOnly /></td>
+                                                <td><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.3'].data.rows[index][9]}</textarea></td>
+                                                <td style={{ paddingLeft: '23px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.3'].data.rows[index][1]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['3.4'].isFirstRowEmpty &&
+                    <Section_34 section_34_data={propertyData['3.4']} chapter_data_34={chapterDataMap["3,4"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 3.4 */}
+                {!propertyData['3.4'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 3.4 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">3.4 - .בדיקות תפעוליות של המערכות</div>
+
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>שם ספק או אחראי</th>
+                                        <th>מועד הבדיקה האחרונה</th>
+                                        <th>תדירות</th>
+                                        <th>מועד הבדיקה הבאה</th>
+                                        <th>סטטוס </th>
+                                        <th>הערות</th>
+                                        <th>המלצות לתיקון</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['3.4'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['3.4'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["3,4"].length; i++) {
+                                            if (chapterDataMap["3,4"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["3,4"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        let frequencyTitle = '';
+                                        if (matchedChapter?.frequencylpId) {
+                                            for (let j = 0; j < property_Frequency_Data?.length; j++) {
+                                                if (property_Frequency_Data[j]?.ID === matchedChapter.frequencylpId) {
+                                                    frequencyTitle = property_Frequency_Data[j].Title;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        const row = propertyData['3.4'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[4], row[5], row[6], row[7], row[8]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section3_4'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['3.4'].data.rows[index][2]} readOnly /></td>
+                                                <td><input type="text" value={formatDateToDDMMYYYY(propertyData['3.4'].data.rows[index][4])} readOnly /></td>
+                                                <td style={{ width: '110px' }}>
+                                                    <input type="text"
+                                                        value={
+                                                            propertyData['3.4'].data.rows[index][5] !== ''
+                                                                ? propertyData['3.4'].data.rows[index][5]
+                                                                : frequencyTitle
+                                                        }
+                                                        readOnly />
+                                                </td>
+                                                <td style={{ width: '125px' }}><input type="text" value={formatDateToDDMMYYYY(propertyData['3.4'].data.rows[index][6])} readOnly /></td>
+                                                <td style={{ width: '125px' }}><input type="text" value={propertyData['3.4'].data.rows[index][7]} readOnly /></td>
+                                                <td><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.4'].data.rows[index][8]}</textarea></td>
+                                                <td style={{ paddingLeft: '24px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['3.4'].data.rows[index][1]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+                {!propertyData['3.5'].isFirstRowEmpty &&
+                    <Section_35 section_35_data={propertyData['3.5']} chapter_data_35={chapterDataMap["3,5"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 3.5 */}
+                {!propertyData['3.5'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 3.5 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">3.5 - .מידע בתפעול ואחזקה יזומה /תפעולית / שבר</div>
+
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>קיים/לא קיים</th>
+                                        <th>סטטוס</th>
+                                        <th>הערות</th>
+                                        <th colSpan={2}>המלצות לתיקון</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['3.5'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['3.5'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["3,5"].length; i++) {
+                                            if (chapterDataMap["3,5"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["3,5"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['3.5'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[3], row[4]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section3_5'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '350px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '130px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+
+                                                <td style={{ width: '145px' }}><input type="text" value={propertyData['3.5'].data.rows[index][4]} readOnly /></td>
+                                                <td style={{ width: '145px' }}><input type="text" value={propertyData['3.5'].data.rows[index][2]} readOnly /></td>
+                                                <td colSpan={2} style={{ width: '176px' }}><textarea style={{ height: '90px' }} rows={3} readOnly>{propertyData['3.5'].data.rows[index][3]}</textarea></td>
+                                                <td colSpan={1} style={{ paddingLeft: '23px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={3} readOnly>{propertyData['3.5'].data.rows[index][1]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+                {!propertyData['4.1'].isFirstRowEmpty &&
+                    <Section_41 section_41_data={propertyData['4.1']} chapter_data_41={chapterDataMap["4,1"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 4.1 */}
+                {!propertyData['4.1'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 4.1 */}
+                        <div className="container-section page-section01">
+                            <div className="header-section chunkrowTitle">איכות סביבה, בטיחות, נגישות וביטחון</div>
+                            <div className="sub-header-section h_direction_24 chunkrowTitle">4.1 - איכות הסביבה – הפרדה במקור </div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th>קיים / לא קיים</th>
+                                        <th>אמצעי אצירה</th>
+                                        <th>תדירות פינוי/ אספקה</th>
+                                        <th>הערות</th>
+                                        <th colSpan={2}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['4.1'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['4.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["4,1"].length; i++) {
+                                            if (chapterDataMap["4,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["4,1"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        let frequencyTitle = '';
+                                        if (matchedChapter?.frequencylpId) {
+                                            for (let j = 0; j < property_Frequency_Data?.length; j++) {
+                                                if (property_Frequency_Data[j]?.ID === matchedChapter.frequencylpId) {
+                                                    frequencyTitle = property_Frequency_Data[j].Title;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        const row = propertyData['4.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[3], row[4], row[8], row[9]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section4_1'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '160px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '160px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '145px' }}><input type="text" value={propertyData['4.1'].data.rows[index][3]} readOnly /></td>
+                                                <td style={{ width: '145px' }}><input type="text" value={propertyData['4.1'].data.rows[index][2]} readOnly /></td>
+                                                <td style={{ width: '145px' }}>
+                                                    <input type="text"
+                                                        value={
+                                                            propertyData['4.1'].data.rows[index][4] !== ''
+                                                                ? propertyData['4.1'].data.rows[index][4]
+                                                                : frequencyTitle
+                                                        }
+                                                        readOnly />
+                                                </td>
+                                                <td><textarea rows={3} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['4.1'].data.rows[index][9]}</textarea></td>
+                                                <td colSpan={2} style={{ width: '177px' }}><textarea rows={3} readOnly style={{ height: '90px', direction: 'rtl' }}>{propertyData['4.1'].data.rows[index][1]}</textarea></td>
+                                                <td style={{ width: '150px', paddingLeft: '21px' }}><input type="text" value={propertyData['4.1'].data.rows[index][8]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['4.2'].isFirstRowEmpty &&
+                    <Section_42 section_42_data={propertyData['4.2']} chapter_data_42={chapterDataMap["4,2"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 4.2 */}
+                {!propertyData['4.2'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 4.2 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">4.2 - בטיחות</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={2}>קיים / לא קיים</th>
+                                        <th colSpan={3}>ממצאים</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['4.2'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['4.2'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["4,2"].length; i++) {
+                                            if (chapterDataMap["4,2"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["4,2"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['4.2'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[5], row[6]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section4_2'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '170px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '150px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '150px' }}><input type="text" value={propertyData['4.2'].data.rows[index][6]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea rows={4} readOnly style={{ height: '90px', direction: 'rtl' }}>{stripHtmlTags(propertyData['4.2'].data.rows[index][5])}</textarea></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea rows={4} readOnly style={{ height: '90px', direction: 'rtl' }}>{stripHtmlTags(propertyData['4.2'].data.rows[index][1])}</textarea></td>
+                                                <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={propertyData['4.2'].data.rows[index][2]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['4.3'].isFirstRowEmpty &&
+                    <Section_43 section_43_data={propertyData['4.3']} chapter_data_43={chapterDataMap["4,3"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 4.3 */}
+                {!propertyData['4.3'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 4.3 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">4.3 - נגישות (מתו"ס ושירות)</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={2}>קיים / לא קיים</th>
+                                        <th colSpan={3}>ממצאים</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['4.3'].data.flags.map((isChecked, index) => {
+                                        const currentOrder = Number(propertyData['4.3'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["4,3"].length; i++) {
+                                            if (chapterDataMap["4,3"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["4,3"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['4.3'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[5], row[6]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section4_3'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '200px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '150px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '159px' }}><input type="text" value={propertyData['4.3'].data.rows[index][6]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['4.3'].data.rows[index][5]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['4.3'].data.rows[index][1]}</textarea></td>
+                                                <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={propertyData['4.3'].data.rows[index][2]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['4.4'].isFirstRowEmpty &&
+                    <Section_44 section_44_data={propertyData['4.4']} chapter_data_44={chapterDataMap["4,4"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 4.4 */}
+                {!propertyData['4.4'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 4.4 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">4.4 - ביטחון</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={2}>קיים / לא קיים</th>
+                                        <th colSpan={3}>ממצאים</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['4.4'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['4.4'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["4,4"].length; i++) {
+                                            if (chapterDataMap["4,4"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["4,4"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['4.4'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[5], row[6]]
+                                                .every(val => !val || val?.toString()?.trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val?.toString()?.trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section4_4'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '200px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '150px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '159px' }}><input type="text" value={propertyData['4.4'].data.rows[index][6]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{stripHtmlTags(propertyData['4.4'].data.rows[index][5])}</textarea></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{stripHtmlTags(propertyData['4.4'].data.rows[index][1])}</textarea></td>
+                                                <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={propertyData['4.4'].data.rows[index][2]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    // dangerouslySetInnerHTML={}
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+
+                {!propertyData['5.1'].isFirstRowEmpty &&
+                    <Section_51 section_51_data={propertyData['5.1']} chapter_data_51={chapterDataMap["5,1"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 5.1 */}
+                {!propertyData['5.1'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 5.1 */}
+                        <div className="container-section page-section01">
+                            <div className="header-section chunkrowTitle">תחזוקת המבנה</div>
+                            <div className="sub-header-section h_direction_24 chunkrowTitle">5.1 - קירות פנים ותקרה</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={2}>רמת התחזוקה/ שירות</th>
+                                        <th colSpan={3}>ממצאים</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['5.1'].data.flags.map((isChecked, index) => {
+                                        const currentOrder = Number(propertyData['5.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["5,1"].length; i++) {
+                                            if (chapterDataMap["5,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["5,1"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['5.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[3], row[5]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section5_1'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td style={{ width: '200px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td style={{ width: '150px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '159px' }}><input type="text" value={propertyData['5.1'].data.rows[index][3]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['5.1'].data.rows[index][5]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['5.1'].data.rows[index][1]}</textarea></td>
+                                                <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={propertyData['5.1'].data.rows[index][2]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+                {!propertyData['5.2.1'].isFirstRowEmpty &&
+                    <Section_521 section_521_data={propertyData['5.2.1']} chapter_data_521={chapterDataMap["5,2,1"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 5.2.1 */}
+                {!propertyData['5.2.1'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 5.2.1 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">5.2 - קירות וגגות חיצוניים</div>
+                            <div className="header h_direction_24 chunkrowTitle">5.2.1 - גגות חיצוניים</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={1}>קיים / לא קיים</th>
+                                        <th colSpan={1}>רמת התחזוקה/ שירות</th>
+                                        <th colSpan={4}>ממצאים</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th>סטטוס</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['5.2.1'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['5.2.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["5,2,1"].length; i++) {
+                                            if (chapterDataMap["5,2,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["5,2,1"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['5.2.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[3], row[4], row[6]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section5_2_1'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td style={{ width: '150px' }}><input type="text" value={propertyData['5.2.1'].data.rows[index][4]} readOnly /></td>
+                                                <td style={{ width: '150px' }}><input type="text" value={propertyData['5.2.1'].data.rows[index][3]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['5.2.1'].data.rows[index][6]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{propertyData['5.2.1'].data.rows[index][1]}</textarea></td>
+                                                <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}><input type="text" value={propertyData['5.2.1'].data.rows[index][2]} readOnly /></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+
+                {!propertyData['6.1'].isFirstRowEmpty &&
+                    <Section_61 section_61_data={propertyData['6.1']} chapter_data_61={chapterDataMap["6,1"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 6.1 */}
+                {!propertyData['6.1'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 6.1 */}
+                        <div className="container-section page-section01">
+                            <div className="header-section chunkrowTitle">סדר וניקיון</div>
+                            <div className="sub-header-section h_direction_24 chunkrowTitle">6.1 - במבנה </div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={1}>רמת ניקיון וסדר</th>
+                                        <th colSpan={4}>ממצאים</th>
+                                        <th colSpan={2}>סטטוס</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th colSpan={4}>הערות</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['6.1'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['6.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["6,1"].length; i++) {
+                                            if (chapterDataMap["6,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["6,1"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['6.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[2], row[4], row[8], row[10]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section6_1'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['6.1'].data.rows[index][2]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '175px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['6.1'].data.rows[index][4]}</textarea></td>
+                                                <td colSpan={2}><input type="text" value={propertyData['6.1'].data.rows[index][1]} readOnly /></td>
+                                                <td colSpan={4}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['6.1'].data.rows[index][8]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '175px', paddingLeft: '21px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['6.1'].data.rows[index][10]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+                {!propertyData['7.1'].isFirstRowEmpty &&
+                    <Section_71 section_71_data={propertyData['7.1']} chapter_data_71={chapterDataMap["7,1"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 7.1 */}
+                {!propertyData['7.1'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 7.1 */}
+                        <div className="container-section page-section01">
+                            <div className="header-section chunkrowTitle">חסכון והתייעלות</div>
+                            <div className="sub-header-section h_direction_24 chunkrowTitle">7.1 - חשמל </div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={1}>קיים חיסכון</th>
+                                        <th colSpan={4}>ממצאים</th>
+                                        <th colSpan={2}>סטטוס</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th colSpan={4}>הערות</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['7.1'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['7.1'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["7,1"].length; i++) {
+                                            if (chapterDataMap["7,1"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["7,1"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['7.1'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[4], row[5], row[8], row[10]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section7_1'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['7.1'].data.rows[index][5]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '175px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.1'].data.rows[index][4]}</textarea></td>
+                                                <td colSpan={2}><input type="text" value={propertyData['7.1'].data.rows[index][1]} readOnly /></td>
+                                                <td colSpan={4}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.1'].data.rows[index][8]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '175px', paddingLeft: '21px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.1'].data.rows[index][10]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+
+
+
+
+                {!propertyData['7.2'].isFirstRowEmpty &&
+                    <Section_72 section_72_data={propertyData['7.2']} chapter_data_72={chapterDataMap["7,2"]} property_Frequency_Data={property_Frequency_Data} />
+                }
+                {/* Table - 7.2 */}
+                {!propertyData['7.2'].isFirstRowEmpty && (
+                    <>
+                        {/* Section - 7.2 */}
+                        <div className="container-section page-section01">
+                            <div className="header h_direction_24 chunkrowTitle">7.2 - מיזוג אוויר</div>
+                            <table className="custom-table">
+                                <thead className='chunkrowHeader'>
+                                    <tr>
+                                        <th style={{ paddingRight: '25px' }}>פרק</th>
+                                        <th>נושא</th>
+                                        <th>תחום מקצועי</th>
+                                        <th colSpan={1}>קיים חיסכון</th>
+                                        <th colSpan={4}>ממצאים</th>
+                                        <th colSpan={2}>סטטוס</th>
+                                        <th colSpan={4}>המלצות לתיקון</th>
+                                        <th colSpan={4}>הערות</th>
+                                    </tr>
+                                </thead>
+                                <tbody className='chunkrow'>
+                                    {propertyData['7.2'].data.flags.map((isChecked, index) => {
+
+                                        const currentOrder = Number(propertyData['7.2'].data.rows[index][0]);
+                                        let matchedChapter = null;
+                                        for (let i = 0; i < chapterDataMap["7,2"].length; i++) {
+                                            if (chapterDataMap["7,2"][i]?.Order0 === currentOrder) {
+                                                matchedChapter = chapterDataMap["7,2"][i];
+                                                break;
+                                            }
+                                        }
+
+                                        const row = propertyData['7.2'].data.rows[index];
+                                        const isRowEmpty =
+                                            [row[1], row[4], row[5], row[8], row[10]]
+                                                .every(val => !val || val.toString().trim() === '') &&
+                                            (!matchedChapter ||
+                                                [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
+                                                    .every(val => !val || val.toString().trim() === ''));
+
+                                        if (isRowEmpty) return null;
+
+                                        return (
+                                            <tr key={index} className='section7_2'>
+                                                <td style={{ paddingRight: '25px' }}>{matchedChapter ? matchedChapter.Chapter : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                                <td>{matchedChapter ? matchedChapter.Area : '-'}</td>
+                                                <td><input type="text" value={propertyData['7.2'].data.rows[index][5]} readOnly /></td>
+                                                <td colSpan={4} style={{ width: '175px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.2'].data.rows[index][4]}</textarea></td>
+                                                <td colSpan={2}><input type="text" value={propertyData['7.2'].data.rows[index][1]} readOnly /></td>
+                                                <td colSpan={4}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.2'].data.rows[index][8]}</textarea></td>
+                                                <td colSpan={4} style={{ width: '175px', paddingLeft: '21px' }}><textarea rows={4} style={{ direction: 'rtl' }} readOnly>{propertyData['7.2'].data.rows[index][10]}</textarea></td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    aria-label="בחר שורה"
+                                                    value={isChecked.toString()}
+                                                    onChange={() => { }}
+                                                    readOnly
+                                                />
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
+            </div >
+
+            {isLoading && (
+                <Loder />
+            )}
+        </>
+    );
+};
+
+export default FirstSection;
