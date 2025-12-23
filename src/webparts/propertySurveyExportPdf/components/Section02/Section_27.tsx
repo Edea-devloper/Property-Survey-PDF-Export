@@ -8,6 +8,9 @@ interface Section27Props {
     chapter_data_27: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_27: React.FC<Section27Props> = ({
     section_27_data,
     chapter_data_27
@@ -17,6 +20,15 @@ const Section_27: React.FC<Section27Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['section-container']}>
                     <div className={`${styles.header} ${styles.h_direction_27} chunkrowTitle`}>2.7 - המערכות בנכס</div>
                     <div className={styles['custom27-table-wrapper']}>

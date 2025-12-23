@@ -1,15 +1,16 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import styles from "./ImageSection.module.scss";
-import { fetchDocuments } from "../../Utility/SPService";
-import Loader from "../loder/Loader";
+// import { fetchDocuments } from "../../Utility/SPService";
+// import Loader from "../loder/Loader";
 
 interface ImageSectionProps {
   SPLibraryName: string | undefined;
   form_Id: number;
   listitems: any;
   property_subject_Data: any;
-  columnIndex: number | undefined
+  columnIndex: number | undefined;
+  filterDocForImage: any;
 }
 interface PropertySubjectItem {
   Area: unknown;
@@ -73,7 +74,7 @@ const ImageBlock = ({
 
 
   function parsePropertyDataField(fieldValue: string): { rows: string[][] } {
-    const rows = fieldValue.split('||,')?.map((item: string) => item.split('||'));
+    const rows = fieldValue ? fieldValue.split('||,')?.map((item: string) => item.split('||')) : [];
     return { rows };
   }
 
@@ -173,88 +174,89 @@ export const ImageSection: React.FC<ImageSectionProps> = ({
   SPLibraryName,
   form_Id,
   listitems,
-  property_subject_Data
+  property_subject_Data,
+  filterDocForImage
 }) => {
-  const [filteredDocuments, setFilteredDocuments] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [filteredDocuments, setFilteredDocuments] = useState<any[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
 
-  const loadDocuments = async () => {
-    if (!SPLibraryName || form_Id === undefined || form_Id === null) {
-      console.warn("Missing SPLibraryName or form_Id.");
-      setLoading(false);
-      return;
-    }
+  // const loadDocuments = async () => {
+  //   if (!SPLibraryName || form_Id === undefined || form_Id === null) {
+  //     console.warn("Missing SPLibraryName or form_Id.");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    try {
-      const items = await fetchDocuments(SPLibraryName);
+  //   try {
+  //     const items = await fetchDocuments(SPLibraryName);
 
-      const filtered = items.filter((obj: { FileLeafRef: string }) => {
-        const match = obj.FileLeafRef.match(/^\(\d+\)\d+_\d+_\d+-(\d+)-/);
-        return match && parseInt(match[1]) === form_Id;
-      });
+  //     const filtered = items.filter((obj: { FileLeafRef: string }) => {
+  //       const match = obj.FileLeafRef.match(/^\(\d+\)\d+_\d+_\d+-(\d+)-/);
+  //       return match && parseInt(match[1]) === form_Id;
+  //     });
 
-      setFilteredDocuments(filtered);
-    } catch (error) {
-      console.error("Error fetching documents:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setFilteredDocuments(filtered);
+  //   } catch (error) {
+  //     console.error("Error fetching documents:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (SPLibraryName && form_Id) {
-      loadDocuments();
-    }
-  }, [SPLibraryName, form_Id]);
+  // useEffect(() => {
+  //   if (SPLibraryName && form_Id) {
+  //     loadDocuments();
+  //   }
+  // }, [SPLibraryName, form_Id]);
 
-  if (loading) return <Loader />;
+  // if (loading) return <Loader />;
 
   const imageSections = [
     {
-      title: "2.4.1 - מיסי עירייה ארנונה ( 6 חודשים האחרונים)",
+      title: "2.4.1 -  עירייה  ארנונה",
       label: "תשלומים על הנכ_ מיסי עירייה ארנונה",
       header: "2.4 - תשלומים על הנכס",
       dataKey: "2.4.1",
       columnIndex: 7,
     },
     {
-      title: "2.4.2 - מיסי עירייה מים ( 6 חודשים אחרונים)",
+      title: "2.4.2 - תאגיד המים",
       label: "תשלומים על הנכ_ מיסי עירייה מים",
       dataKey: "2.4.2",
       columnIndex: 7,
     },
     {
-      title: "2.4.3 - חברת חשמל (6 חודשים אחרונים)",
+      title: "2.4.3 - חברת חשמל",
       label: "תשלומים על הנכ_חברת חשמל",
       dataKey: "2.4.3",
       columnIndex: 7,
     },
     {
-      title: "2.4.4 - ניקיון (6 חודשים אחרונים)",
+      title: "2.4.4 - ניקיון",
       label: "תשלומים על הנכ_ניקיון",
       dataKey: "2.4.4",
       columnIndex: 7,
     },
     {
-      title: "2.4.5 - שמירה/ סדרן (6 חודשים אחרונים)",
+      title: "2.4.5 - אבטחה",
       label: "תשלומים על הנכ_שמירה_ סדרן",
       dataKey: "2.4.5",
       columnIndex: 7,
     },
     {
-      title: "2.4.6 - ועד הבניין (6 חודשים אחרונים)",
+      title: "2.4.6 - ועד הביניין",
       label: "תשלומים על הנכ_ועד הבניין",
       dataKey: "2.4.6",
       columnIndex: 7,
     },
     {
-      title: "2.4.7 - חניות (6 חודשים אחרונים)",
+      title: "2.4.7 - חניות",
       label: "תשלומים על הנכ_חניות",
       dataKey: "2.4.7",
       columnIndex: 7,
     },
     {
-      title: "2.4.8 - ...לכתוב כאן",
+      title: "להוסיף אחר... - 2.4.8",
       label: "תשלומים על הנכ_לכתוב כאן",
       dataKey: "2.4.8",
       columnIndex: 7,
@@ -266,7 +268,7 @@ export const ImageSection: React.FC<ImageSectionProps> = ({
       columnIndex: 5,
     },
     {
-      title: "2,7 - המערכות בנכס(Plan)",
+      title: "2.7 - המערכות בנכס(Plan)",
       // label: "חשמל-לוח חשמל מתח גבוהPlan",
       label: "-2,7-||Plan",
       dataKey: "2,7",
@@ -278,7 +280,7 @@ export const ImageSection: React.FC<ImageSectionProps> = ({
       dataKey: "2,7",
     },
     {
-      title: "3.1 - תפעול מערכות המבנה",
+      title: "3.1 - הסכמי התקשרות עם נותני שירות",
       // label: "ביטחון-מערכת",
       label: "-3,1-",
       dataKey: "3,1",
@@ -309,7 +311,7 @@ export const ImageSection: React.FC<ImageSectionProps> = ({
           title={section.title}
           label={section.label}
           header={section.header}
-          docs={filteredDocuments}
+          docs={filterDocForImage}
           dataKey={section.dataKey}
           listitems={listitems}
           columnIndex={section.columnIndex}

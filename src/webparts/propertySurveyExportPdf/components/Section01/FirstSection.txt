@@ -496,7 +496,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                         <div className="center-info">
                             מינהלת נכסים<br />
                             <a href="#">משרד הבריאות</a><br />
-                            <span>אגף רכש נכסים ולוגיסטיקה</span>
+                            <span>נכסים</span>
                         </div>
                         <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                     </div>

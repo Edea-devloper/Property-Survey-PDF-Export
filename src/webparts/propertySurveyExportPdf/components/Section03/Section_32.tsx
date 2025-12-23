@@ -10,6 +10,9 @@ interface Section32Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_32: React.FC<Section32Props> = ({
     section_32_data,
     chapter_data_32,
@@ -19,6 +22,15 @@ const Section_32: React.FC<Section32Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles.header} ${styles.h_direction_32} chunkrowTitle`}>3.2 - בדיקות כשירות ותקינות מערכות בטיחות</div>
 

@@ -10,6 +10,9 @@ interface Section44Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_45: React.FC<Section44Props> = ({
     section_44_data,
     chapter_data_44,
@@ -25,6 +28,15 @@ const Section_45: React.FC<Section44Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles.header} ${styles.h_direction_41} chunkrowTitle`}>4.5 - ביטחון</div>
                     <table id='table45' className={styles['custom-table']}>
@@ -40,7 +52,7 @@ const Section_45: React.FC<Section44Props> = ({
                             </tr>
                         </thead>
                         <tbody className='chunkrow'>
-                            {section_44_data?.data?.flags?.map((isChecked : any, index : any) => {
+                            {section_44_data?.data?.flags?.map((isChecked: any, index: any) => {
 
                                 const currentOrder = Number(section_44_data?.data?.rows[index][0]);
                                 let matchedChapter = null;
@@ -52,7 +64,7 @@ const Section_45: React.FC<Section44Props> = ({
                                 }
 
                                 const row = section_44_data?.data?.rows[index];
-    
+
                                 const isRowEmpty =
                                     [row[1], row[2], row[5], row[6]]
                                         .every(val => !val || val?.toString()?.trim() === '');

@@ -21,7 +21,8 @@ interface Section43Props {
 const basetitle = '4.3 - מפגעים בטיחותיים אפשריים';
 const title = encodeURIComponent(basetitle);
 
-
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
 
 
 const Section_43: React.FC<Section43Props> = ({
@@ -33,6 +34,15 @@ const Section_43: React.FC<Section43Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles.header} ${styles.h_direction_41} chunkrowTitle pdf_lbl`}>{decodeURIComponent(title)}</div>
                     <table id='table43' className={styles['custom-table']}>
@@ -66,7 +76,7 @@ const Section_43: React.FC<Section43Props> = ({
                                 //         [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
                                 //             .every(val => !val || val.toString().trim() === ''));
 
-                                 const isRowEmpty =
+                                const isRowEmpty =
                                     [row[1], row[2], row[5], row[6]]
                                         .every(val => !val || val?.toString()?.trim() === '');
 

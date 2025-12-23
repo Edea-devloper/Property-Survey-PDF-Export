@@ -10,6 +10,9 @@ interface Section33Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_33: React.FC<Section33Props> = ({
     section_33_data,
     chapter_data_33,
@@ -19,6 +22,15 @@ const Section_33: React.FC<Section33Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles.header} ${styles.h_direction_33} chunkrowTitle`}>3.3 - .בדיקות טיפולים תקופתיים למערכות</div>
                     <table id='table33' className={styles['custom-table']}>
@@ -74,7 +86,7 @@ const Section_33: React.FC<Section33Props> = ({
 
                                 return (
                                     <tr key={index} className={styles['section3_3']}>
-                                        <td style={{ paddingRight: '26px', direction:'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 224}` : '-'}</td>
+                                        <td style={{ paddingRight: '26px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 224}` : '-'}</td>
                                         <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
                                         {/* <td>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
                                         <td style={{ width: '150px' }}><input type="text" value={section_33_data?.data?.rows[index][2]} readOnly /></td>

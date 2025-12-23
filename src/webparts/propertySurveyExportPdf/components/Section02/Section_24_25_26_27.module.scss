@@ -44,7 +44,7 @@
     flex-direction: column;
 
     label {
-      font-size: 16px;
+      font-size: 17px;
       margin-bottom: 4px;
       padding-right: 5px;
       color: black;
@@ -56,14 +56,14 @@
       border-style: ridge !important;
       border-radius: 5px;
       padding: 8px;
-      font-size: 15px !important;
+      font-size: 17px !important;
     }
 
     textarea {
       border-width: thin !important;
       border-color: rgb(121 122 126 / 50%) !important;
       border-style: ridge !important;
-      font-size: 15px !important;
+      font-size: 17px !important;
       border-radius: 5px;
     }
   }
@@ -90,7 +90,7 @@
     flex-direction: column;
 
     label {
-      font-size: 16px;
+      font-size: 17px;
       margin-bottom: 4px;
       padding-right: 5px;
       color: black;
@@ -100,7 +100,7 @@
       background-color: #f6f6f6 !important;
       border: none !important;
       border-radius: 5px !important;
-      font-size: 15px !important;
+      font-size: 17px !important;
       padding: 8px !important;
     }
   }
@@ -149,6 +149,11 @@
 .table-wrapper {
   margin: auto 34px;
 }
+
+.table-wrapper table thead tr th{
+  font-size: 17px !important;
+}
+
 .lable_direction_for_table{
   display: flex !important;
   justify-content: end !important;
@@ -161,13 +166,20 @@
   width: 250px !important;
 }
 .lastFieldWidth{
-  width: 716px !important;
-  font-size: 15px !important;
+  // width: 716px !important;
+  font-size: 17px !important;
+  width: 100%;
+}
+
+@media (max-width: 1300px) {
+ .allInputFieldWidth{
+  width: 130px !important;
+}
 }
 
 // ============================ Table 2.4.1
 tr.table_241 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_241_td {
   vertical-align: top;
@@ -191,7 +203,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.2
 
 .table_242 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_242_td {
   vertical-align: top;
@@ -200,7 +212,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.3
 
 .table_243 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_243_td {
   vertical-align: top;
@@ -209,7 +221,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.4
 
 .table_244 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_244_td {
   vertical-align: top;
@@ -218,7 +230,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.5
 
 .table_245 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_245_td {
   vertical-align: top;
@@ -227,7 +239,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.6
 
 .table_246 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_246_td {
   vertical-align: top;
@@ -236,7 +248,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.7
 
 .table_247 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_247_td {
   vertical-align: top;
@@ -245,7 +257,7 @@ tr.table_241 > td input {
 // ============================ Table 2.4.8
 
 .table_248 > td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 .table_248_td {
   vertical-align: top;
@@ -257,12 +269,17 @@ tr.table_241 > td input {
 
 .section25th {
   padding: 12px 8.5px !important;
+  font-size: 17px !important;
 }
 .section25td {
   padding: 12px 8.5px !important;
 
   input {
-    font-size: 15px !important;
+    font-size: 17px !important;
+  }
+
+  textarea{
+    font-size: 17px !important;
   }
 }
 
@@ -274,12 +291,12 @@ tr.table_241 > td input {
   flex-shrink: 0;
 
   label {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 
 .maintenance-detail .label {
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .maintenance-detail .icon {
@@ -289,7 +306,7 @@ tr.table_241 > td input {
 }
 
 .sec_25_last_lbl {
-  font-size: 16px !important;
+  font-size: 17px !important;
   font-weight: 700;
   text-align: justify !important;
   margin-bottom: 17px;
@@ -301,6 +318,15 @@ tr.table_241 > td input {
   position: relative;
   left: 35px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 1300px) {
+  .section25td input{
+    width: 134px !important;
+  }
+  .section25td textarea{
+    width: 190px !important;
+  }
 }
 
 // --------------------------------------------Section 2.5 --------------------------------------
@@ -370,7 +396,11 @@ tr.table_241 > td input {
   text-align: right;
 
   input {
-    font-size: 15px !important;
+    font-size: 17px !important;
+  }
+
+   textarea{
+    font-size: 17px !important;
   }
 }
 
@@ -391,7 +421,7 @@ tr.table_241 > td input {
   border: none;
   border-radius: 4px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 17px;
   text-align: center;
 }
 
@@ -444,7 +474,7 @@ tr.table_241 > td input {
 }
 .custom27-table th {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 17px;
   text-align: right;
 }
 
@@ -479,7 +509,7 @@ tr.table_241 > td input {
   padding: 6px 8px;
   border-radius: 4px;
   width: 100%;
-  font-size: 14px;
+  font-size: 17px;
   background-color: #fff;
   display: block;
   margin: 0;
@@ -506,7 +536,7 @@ tr.table_241 > td input {
   text-align: right;
   margin: 0 auto 0 0;
   display: block;
-  font-size: 15px;
+  font-size: 17px;
   height: 90px;
 }
 .custom27-check {
@@ -525,10 +555,10 @@ tr.table_241 > td input {
 
 .custom27-row > td {
     vertical-align: top !important;
-    font-size: 15px !important;
+    font-size: 17px !important;
 
     input{
-        font-size: 15px !important;
+        font-size: 17px !important;
     }
 }
 
@@ -543,11 +573,11 @@ tr.table_241 > td input {
 }
 .maintenance-detail {
   .label {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 .label {
-  font-size: 16px;
+  font-size: 17px;
 }
 .sec2_5_lst_lbl {
   text-align: justify !important;

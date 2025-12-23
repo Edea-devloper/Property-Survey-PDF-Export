@@ -59,11 +59,21 @@ const Section_31: React.FC<Section31Props> = ({
     }, [SPLibraryName, form_Id]);
 
     console.log(loading)
-
+    const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+    const AvivLogo = require('../Image/AvivLogo.png')
 
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles['header-section']} ${styles.h_direction_31} chunkrowTitle`}>ממצאים</div>
                     <table id='table31' className={styles['custom-table']}>

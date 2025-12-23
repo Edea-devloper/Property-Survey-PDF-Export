@@ -1,7 +1,22 @@
 export const getQueryStringValue = (key: string): string | null => {
   if (typeof window !== "undefined") {
     const params = new URLSearchParams(window.location.search);
-    return params.get(key);
+
+    // Try exact (case-sensitive) match first to preserve current behavior
+    const exact = params.get(key);
+    if (exact !== null) return exact;
+
+    // Fall back to case-insensitive key lookup
+    const lowerKey = key.toLowerCase();
+    let found: string | null = null;
+    params.forEach((paramValue, paramName) => {
+      if (found !== null) return; // already found
+      if (paramName.toLowerCase() === lowerKey) {
+        found = paramValue;
+      }
+    });
+
+    return found;
   }
   return null;
 };

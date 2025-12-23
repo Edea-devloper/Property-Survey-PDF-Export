@@ -46,9 +46,21 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
         }
     };
 
+    const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+    const AvivLogo = require('../Image/AvivLogo.png')
+
     return (
         <>
             <div id='section2'>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 {/*פרטי הנכס, נתונים כמותיים של הנכס - 2.3, 2.2, 2.1*/}
                 <div className={styles['container-section']}>
                     <div className={styles['header-section']}>
@@ -78,7 +90,8 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
 
                         <div className={styles['form-group-section']}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
-                                <label>שם היחידה/יחידות מאוכלסות</label>
+                                {/* <label>שם היחידה/יחידות מאוכלסות</label> */}
+                                <label>קבוצת שימוש</label>
                                 <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
                             </div>
                             <input type="text" value={stripHtmlTags(Lookup_Field_Section_1[9])} readOnly />
@@ -204,7 +217,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>שעות פעילות </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[18]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[17]} readOnly />
                         </div>
 
                     </div>
@@ -218,7 +231,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>שטח מ"ר בחוזה השכירות</label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[17]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[16]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -227,7 +240,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 {/* <label>שטח כולל היחידה+המגרש</label> */}
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[16]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[15]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -235,7 +248,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> הקומה בה נמצאת היחידה </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[15]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[14]} readOnly />
                         </div>
                     </div>
 
@@ -264,7 +277,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> מקומות חניה צמודים למבנה / בהסדר </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[12]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[13]} readOnly />
                         </div>
                     </div>
 
@@ -278,7 +291,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> מקומות חניה - לאנשים עם מוגבלות </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[11]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[12]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -286,7 +299,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> מקומות חניה - לעובדים </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[10]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[11]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -294,7 +307,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> מקומות חניה - לאורחים / קהל </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[9]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[10]} readOnly />
                         </div>
 
                     </div>
@@ -309,7 +322,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>מקומות חניה של המשרד בנכס </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[8]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[9]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -317,7 +330,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> מספר עובדים בנכס</label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[7]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[8]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -325,7 +338,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label> שם החברה לניהול/תחזוקת הנכס </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[6]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[7]} readOnly />
                         </div>
                     </div>
 
@@ -338,7 +351,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>מס עובדים מתחזקים את הנכס ובאיזה משרה? מלאה/חלקית </label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[5]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[6]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']}>
@@ -377,7 +390,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>מספר קומה</label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0 }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[1]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[3]} readOnly />
                         </div>
 
                         <div className={styles['form-group-section']} style={{ maxWidth: '33%' }}>
@@ -385,7 +398,7 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>שטח המשרדים בארנונה</label>
                                 <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, marginLeft: '5px' }} readOnly />
                             </div>
-                            <input type="text" value={Lookup_Field_Section_2[0]} readOnly />
+                            <input type="text" value={Lookup_Field_Section_2[2]} readOnly />
                         </div>
                     </div>
                 </div>

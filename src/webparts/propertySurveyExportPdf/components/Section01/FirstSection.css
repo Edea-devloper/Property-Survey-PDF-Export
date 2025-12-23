@@ -238,7 +238,7 @@ div[data-automation-id="CanvasZone-SectionContainer"] {
   margin: 20px auto;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); */
   padding: 15px;
 }
 
@@ -279,7 +279,7 @@ div[data-automation-id="CanvasZone-SectionContainer"] {
 }
 
 .form-group-section label {
-  font-size: 16px;
+  font-size: 17px;
   margin-bottom: 4px;
   padding-right: 5px;
   /* color: #797a7e; */
@@ -293,7 +293,7 @@ div[data-automation-id="CanvasZone-SectionContainer"] {
   border-radius: 5px;
   background-color: #f6f6f6;
   border: none;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .form-group-section input[type="checkbox"] {
@@ -469,14 +469,6 @@ th {
   font-weight: bold;
 }
 
-/* First column with numbers */
-td:first-child {
-  font-weight: bold;
-  color: #333;
-  width: 50px;
-  /* Adjust width */
-}
-
 /* Calendar and approval icons */
 .icon {
   width: 22px;
@@ -497,44 +489,61 @@ input[type="checkbox"] {
   display: none;
 }
 
+/* ------------------------------------- */
+/* td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5),
+td:nth-child(6),
+td:nth-child(7),
+td:nth-child(8) {
+   width: 25%;
+} */
+.section1_Gal1_table_container td:nth-child(1),
+.section1_Gal1_table_container td:nth-child(2),
+.section1_Gal1_table_container td:nth-child(3),
+.section1_Gal1_table_container td:nth-child(4),
+.section1_Gal1_table_container td:nth-child(5),
+.section1_Gal1_table_container td:nth-child(6),
+.section1_Gal1_table_container td:nth-child(7),
+.section1_Gal1_table_container td:nth-child(8) {
+  width: 25%;
+}
+
+/* First column with numbers */
+td:first-child {
+  font-weight: bold;
+  color: #333;
+  width: 50px;
+}
+ 
 /* Special column widths - adjust as needed based on your actual content */
 td:nth-child(2),
 td:nth-child(3) {
   width: 140px;
 }
-
+ 
 td:nth-child(4),
 td:nth-child(5) {
   width: 120px;
 }
-
-/* td:nth-child(2){
-  width: 140px; 
-}
- td:nth-child(3){
-  width: 100px !important; 
-}
- td:nth-child(4){
-  width: 100px !important; 
-}
-td:nth-child(5) {
-  width: 120px; 
-} */
-
+ 
 td:nth-child(6) {
   width: auto;
-  /* Adjust approval column width */
 }
-
+ 
 td:nth-child(7) {
   width: auto;
   text-align: right;
 }
-
+ 
 td:nth-child(8) {
   width: 50px;
-  /* Adjust checkbox column width */
 }
+
+
+/* ------------------------------------- */
 
 /* Maintenance Detail Section */
 .maintenance-detail {
@@ -581,7 +590,7 @@ input[type="date"]:valid::-webkit-datetime-edit {
 .section-container {
   /* border: 1px solid #ccc; */
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   /*padding: 20px;*/
   background-color: #fff;
   margin: 10px auto;
@@ -628,16 +637,17 @@ textarea {
 .section1_Gal1_table_container {
   position: relative;
   right: 13px;
+  width: 75%;
 }
 
 .section1_Gal1_table1_td input {
-  /* width: 328px; */
-  width: 335px;
+  /* width: 335px; */
   background-color: #f6f6f6;
   border: none;
   border-radius: 5px;
   padding: 8px;
-  font-size: 15px;
+  font-size: 17px;
+  width: 100%;
 }
 
 .ection1_Gal1_table1_td_Checkbox {
@@ -680,11 +690,13 @@ textarea {
   border-radius: 5px;
   padding: 8px;
   width: 100% !important;
+  font-size: 17px;
 }
 
 .section1_Gal2_CustomeField_input {
   width: 100% !important;
   border-radius: 5px;
+  font-size: 17px;
 }
 
 .section1_Gal2_CustomeField {
@@ -733,7 +745,7 @@ textarea {
 
 .custom27-table-wrapper {
   margin: 20px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
 .custom27-table {
@@ -1088,7 +1100,7 @@ textarea {
 
 .custom27-table-wrapper {
   margin: 20px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
 .custom27-table {
@@ -1400,5 +1412,39 @@ textarea {
 
   img {
     height: 15px;
+  }
+}
+
+
+
+/* -----------------------------Responsve ------------------------------------------ */
+
+/* Mobile */
+
+@media (max-width: 1440px) {
+  .section1_Gal1_table_container {
+    width: 80%;
+  }
+
+  .section1_Gal1_CustomeField {
+    width: 200px;
+  }
+
+  .section1_Gal2_CustomeField {
+    width: 200px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .section1_Gal1_table_container {
+    width: 75%;
+  }
+
+  .section1_Gal1_CustomeField {
+    width: 155px;
+  }
+
+  .section1_Gal2_CustomeField {
+    width: 155px;
   }
 }

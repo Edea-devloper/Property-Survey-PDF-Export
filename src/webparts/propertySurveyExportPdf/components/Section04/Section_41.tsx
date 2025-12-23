@@ -10,6 +10,9 @@ interface Section41Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_41: React.FC<Section41Props> = ({
     section_41_data,
     chapter_data_41,
@@ -19,6 +22,15 @@ const Section_41: React.FC<Section41Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles['header-section']} chunkrowTitle`}>איכות סביבה, בטיחות, נגישות וביטחון</div>
                     <div className={`${styles['sub-header-section']} ${styles.h_direction_41} chunkrowTitle`}>4.1 - איכות הסביבה – הפרדה במקור </div>
@@ -37,7 +49,7 @@ const Section_41: React.FC<Section41Props> = ({
                             </tr>
                         </thead>
                         <tbody className='chunkrow'>
-                            {section_41_data?.data?.flags?.map((isChecked : any, index : any) => {
+                            {section_41_data?.data?.flags?.map((isChecked: any, index: any) => {
 
                                 const currentOrder = Number(section_41_data?.data?.rows[index][0]);
                                 let matchedChapter = null;
@@ -88,7 +100,7 @@ const Section_41: React.FC<Section41Props> = ({
                                                 }
                                                 readOnly />
                                         </td>
-                                        <td style={{width: '347px'}}><textarea rows={3} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_41_data?.data?.rows[index][9]}</textarea></td>
+                                        <td style={{ width: '347px' }}><textarea rows={3} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_41_data?.data?.rows[index][9]}</textarea></td>
                                         {/* <td colSpan={2} style={{ width: '177px' }}><textarea rows={3} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_41_data?.data?.rows[index][1]}</textarea></td> */}
                                         <td style={{ width: '150px', paddingLeft: '21px' }}><input type="text" value={section_41_data?.data?.rows[index][8]} readOnly /></td>
                                         <input

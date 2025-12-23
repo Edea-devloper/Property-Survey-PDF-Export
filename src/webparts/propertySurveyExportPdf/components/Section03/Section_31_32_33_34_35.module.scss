@@ -106,6 +106,7 @@
 .custom-table th,
 .custom-table td {
   padding: 10px;
+  font-size: 17px !important;
 }
 
 .custom-table td {
@@ -117,7 +118,7 @@
 .custom-table textarea {
   width: 100%;
   padding: 6px;
-  font-size: 14px;
+  font-size: 17px !important;
   box-sizing: border-box;
 }
 
@@ -131,63 +132,63 @@
 }
 
 .Section3_1 td {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .Section3_1 input {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .Section3_1 textarea {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_2 td {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_2 input {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_2 textarea {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_3 td {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_3 input {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_3 textarea {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_4 td {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_4 input {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_4 textarea {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_5 td {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_5 input {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 .section3_5 textarea {
-  font-size: 15px !important;
+  font-size: 17px !important;
 }
 
 
@@ -207,5 +208,12 @@
     align-items: center;
     justify-content: center;
     // margin-bottom: 27px;
+  }
+}
+
+
+@media (max-width: 1300px) {
+  .section35textarea{
+    width: 256px !important;
   }
 }

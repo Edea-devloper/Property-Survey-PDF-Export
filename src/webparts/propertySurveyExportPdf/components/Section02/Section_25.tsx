@@ -8,6 +8,9 @@ interface Section25Props {
     NumberofOps: any;
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_25: React.FC<Section25Props> = ({
     section_25_data,
     NumberofOps,
@@ -16,10 +19,28 @@ const Section_25: React.FC<Section25Props> = ({
     return (
         <>
             <div>
+                {/* <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div> */}
                 <div className="section-container page-section01">
+                    <div className="header-main">
+                        <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                        <div className="center-info">
+                            מינהלת נכסים<br />
+                            <a href="#">משרד הבריאות</a><br />
+                            <span>נכסים</span>
+                        </div>
+                        <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                    </div>
                     <div className="header h_direction_24">2.5 -בעלי תפקידים בניהול ותחזוקת הנכס</div>
                     <div className="table-wrapper">
-                        <table  id='table25'>
+                        <table id='table25'>
                             <thead>
                                 <tr>
                                     <th className={styles.section25th}>תפקיד</th>
@@ -40,20 +61,28 @@ const Section_25: React.FC<Section25Props> = ({
                                     });
                                     if (isRowEmpty) return null;
                                     return (
+                                        // <tr>
+                                        //     <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][6]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                        //     <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][5]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                        //     <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][4]} style={{ width: "163px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                        //     <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][3]} style={{ width: "180px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                        //     <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][2]} style={{ width: "260px", position: "relative", bottom: "25px" }} /></td>
+                                        //     <td style={{float:'right'}} className={styles.section25td}><textarea rows={4} readOnly value={section_25_data?.data?.rows[index][1]} cols={50} style={{ width: "600px", borderRadius: '4px', fontSize: '15px' }}></textarea></td>
+                                        // </tr>
                                         <tr>
-                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][6]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
-                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][5]} style={{ width: "270px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
-                                            <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][4]} style={{ width: "163px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
-                                            <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][3]} style={{ width: "180px", position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
-                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][2]} style={{ width: "260px", position: "relative", bottom: "25px" }} /></td>
-                                            <td style={{float:'right'}} className={styles.section25td}><textarea rows={4} readOnly value={section_25_data?.data?.rows[index][1]} cols={50} style={{ width: "600px", borderRadius: '4px', fontSize: '15px' }}></textarea></td>
+                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][6]} style={{ position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][5]} style={{ position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                            <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][4]} style={{ position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                            <td className={styles.section25td} style={{ width: '145px' }}><input type="text" readOnly value={section_25_data?.data?.rows[index][3]} style={{ position: "relative", bottom: "25px", borderRadius: '4px' }} /></td>
+                                            <td className={styles.section25td}><input type="text" readOnly value={section_25_data?.data?.rows[index][2]} style={{ position: "relative", bottom: "25px" }} /></td>
+                                            <td style={{ float: 'right', minWidth: '100%' }} className={styles.section25td}><textarea rows={4} readOnly value={section_25_data?.data?.rows[index][1]} cols={50} style={{ borderRadius: '4px', fontSize: '15px' }}></textarea></td>
                                         </tr>
                                     )
                                 })}
                             </tbody>
                         </table>
 
-                        <div className={styles['maintenance-detail']}>
+                        <div className={styles['maintenance-detail']} style={{ display: 'none' }}>
                             <div className={styles.sec_25_last_lbl}>להוסיף שורה</div>
 
                             <div className={styles.sec_25_fld_lst_containder}>

@@ -8,6 +8,9 @@ interface Section26Props {
     section_26_data: any;
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_26: React.FC<Section26Props> = ({
     section_26_data,
 }) => {
@@ -17,6 +20,15 @@ const Section_26: React.FC<Section26Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['section-container']}>
                     <div className={`${styles.header} ${styles.h_direction_26} chunkrowTitle`}>2.6 - תכניות של הנכס</div>
                     <div className={styles['table-wrapper']}>
@@ -31,7 +43,7 @@ const Section_26: React.FC<Section26Props> = ({
                                 </tr>
                             </thead>
                             <tbody className='chunkrow'>
-                                {section_26_data?.data?.flags?.map((isChecked : any, index : any) => {
+                                {section_26_data?.data?.flags?.map((isChecked: any, index: any) => {
                                     const row = section_26_data?.data?.rows[index];
                                     // [1, 2, 3, 4, 5, 6]
                                     const isRowEmpty = [1, 2, 4].every(colIndex => {

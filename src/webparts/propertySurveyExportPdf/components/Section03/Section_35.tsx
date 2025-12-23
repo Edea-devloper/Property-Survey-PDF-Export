@@ -10,6 +10,9 @@ interface Section35Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_35: React.FC<Section35Props> = ({
     section_35_data,
     chapter_data_35,
@@ -19,6 +22,15 @@ const Section_35: React.FC<Section35Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles.header} ${styles.h_direction_35} chunkrowTitle`}>3.5 - .מידע בתפעול ואחזקה יזומה /תפעולית / שבר</div>
 
@@ -68,7 +80,7 @@ const Section_35: React.FC<Section35Props> = ({
 
                                         <td style={{ width: '265px' }}><input type="text" value={section_35_data?.data?.rows[index][4]} readOnly /></td>
                                         <td style={{ width: '273px' }}><input type="text" value={section_35_data?.data?.rows[index][2]} readOnly /></td>
-                                        <td colSpan={2} style={{width: '330px'}}><textarea style={{ height: '90px' }} rows={3} readOnly>{section_35_data?.data?.rows[index][3]}</textarea></td>
+                                        <td colSpan={2} style={{width: '330px'}}><textarea className={styles.section35textarea} style={{ height: '90px' }} rows={3} readOnly>{section_35_data?.data?.rows[index][3]}</textarea></td>
                                         {/* <td colSpan={1} style={{ paddingLeft: '23px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={3} readOnly>{section_35_data?.data?.rows[index][1]}</textarea></td> */}
                                         <input
                                             type="checkbox"

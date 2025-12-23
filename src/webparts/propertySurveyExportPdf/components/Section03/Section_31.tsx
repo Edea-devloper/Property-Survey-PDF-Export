@@ -9,6 +9,9 @@ interface Section31Props {
     chapter_data_31: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_31: React.FC<Section31Props> = ({
     section_31_data,
     chapter_data_31
@@ -17,6 +20,15 @@ const Section_31: React.FC<Section31Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles['header-section']} ${styles.h_direction_31} chunkrowTitle`}>תפעול מערכות המבנה</div>
                     <div className={styles['sub-header-section']} style={{ height: '25px', direction: 'ltr' }}>3.1 - הסכמי התקשרות עם נותני שירות</div>
@@ -71,7 +83,7 @@ const Section_31: React.FC<Section31Props> = ({
                                         {/* <td style={{ width: '150px' }}><input type="text" value={section_31_data?.data?.rows[index][1]} readOnly /></td> */}
                                         <td style={{ width: '140px' }}><input type="text" value={formatDateToDDMMYYYY(section_31_data?.data?.rows[index][8])} readOnly /></td>
                                         {/* <td style={{ width: '200px' }}><input type="text" value={section_31_data?.data?.rows[index][9]} readOnly /></td> */}
-                                        <td style={{width: '448px'}}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][10]}</textarea></td>
+                                        <td style={{ width: '448px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][10]}</textarea></td>
                                         {/* <td style={{ paddingLeft: '25px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][2]}</textarea></td> */}
                                         <input
                                             type="checkbox"

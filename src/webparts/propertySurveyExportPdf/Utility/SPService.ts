@@ -52,3 +52,29 @@ export const fetchDocuments = async (libraryName: string): Promise<any[]> => {
     return [];
   }
 };
+
+export const getListItemsByBusinessEntity = async (
+  listTitle: string,
+  businessEntityValue: number | string
+): Promise<any[] | null> => {
+
+  try {
+    // Convert numeric value to string because the SP column is text
+    const valueAsText = String(businessEntityValue).trim();
+
+    const items = await sp.web.lists
+      .getByTitle(listTitle)
+      .items
+      .select("*")
+      .filter(`OData__x05d9__x05d9__x05e9__x05d5__x05 eq '${valueAsText.replace(/'/g, "''")}'`)
+      .top(5000)();
+
+    console.log("Filtered Items:", items);
+    return items;
+
+  } catch (error) {
+    console.error("Error fetching filtered BusinessEntity items:", error);
+    return null;
+  }
+};
+

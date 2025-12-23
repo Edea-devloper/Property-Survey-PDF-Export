@@ -9,6 +9,9 @@ interface Section521Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_53: React.FC<Section521Props> = ({
     section_53_data,
     chapter_data_53,
@@ -18,6 +21,15 @@ const Section_53: React.FC<Section521Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     {/* <div className={`${styles.header} ${styles.h_direction_51} chunkrowTitle`}>5.3 - ריצוף /דק /שטיחים/קרמיקה</div> */}
                      <div className={`${styles.header} ${styles.h_direction_51} chunkrowTitle`}>5.3 - חדירות מים  - נזילות</div>

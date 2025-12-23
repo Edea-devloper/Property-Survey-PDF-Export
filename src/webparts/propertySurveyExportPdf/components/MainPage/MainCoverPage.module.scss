@@ -1,8 +1,375 @@
+// // .coverPage {
+// //   font-family: "Segoe UI", sans-serif;
+// //   direction: rtl;
+// //   padding: 40px;
+// //   text-align: center;
+// // }
+// .coverPage {
+//   font-family: "Segoe UI", sans-serif;
+//   direction: rtl;
+//   padding: 40px;
+//   text-align: center;
+//   max-width: 100%;
+//   overflow-x: hidden; // Prevents horizontal breaking
+// }
+
+// // .header {
+// //   display: flex;
+// //   justify-content: space-between;
+// //   align-items: center;
+// //   margin-bottom: 40px;
+// // }
+// .header {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 40px;
+//   flex-wrap: wrap;
+// }
+
+// // .logoLeft,
+// // .logoRight {
+// //   width: 330px;
+// //   height: auto;
+// // }
+// .logoLeft,
+// .logoRight {
+//   width: 280px;
+//   height: auto;
+// }
+
+// // .headerText {
+// //   display: flex;
+// //   flex-direction: column;
+// //   align-items: center; /* horizontally center the lines */
+// //   justify-content: center; /* vertically center the block if needed */
+// //   flex: 1;
+// //   text-align: center;
+// //   font-size: 35px;
+// //   line-height: 1.5;
+// // }
+// .headerText {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   flex: 1;
+//   text-align: center;
+//   font-size: 32px;
+//   line-height: 1.4;
+//   padding: 0 10px;
+// }
+
+// // .formSection {
+// //   margin-bottom: 70px;
+// //   line-height: 110px;
+// //   margin-top: 300px;
+// //   margin-left: 55px;
+// // }
+
+
+// // .formSection {
+// //   margin-bottom: 70px;
+// //   line-height: 90px;
+// //   margin-top: 200px;
+// //   margin-left: 30px;
+// //   width: 100%;
+// //   display: flex;
+// //   flex-direction: column;
+// //   justify-content: center;
+// //   align-items: center;
+// //   row-gap: 12px;
+// // }
+
+// .formSection {
+//   margin-bottom: 70px;
+//   margin-top: 200px;
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   row-gap: 12px;
+// }
+
+// // .fieldRow {
+// //   display: flex;
+// //   justify-content: flex-end;
+// //   align-items: center;
+// //   margin: 10px 0;
+// //   font-size: 50px;
+// //   justify-content: center;
+// //   align-items: center;
+// // }
+
+// // .fieldRow {
+// //   display: flex;
+// //   // justify-content: center;
+// //   align-items: center;
+// //   margin: 10px 0;
+// //   font-size: 42px;
+// //   width: 100%;
+// //   max-width: 50%;
+// // }
+
+// .fieldRow {
+//   display: flex;
+//   align-items: center;
+//   margin: 10px 0;
+//   font-size: 42px;
+//   width: 100%;
+//   max-width: 50%;
+// }
+
+// // .underline {
+// //   border-bottom: 3px solid black;
+// //   // width: 850px;
+// //   width: 1255px;
+// //   margin-right: 10px;
+// //   // margin-top: 25px;
+// // }
+// .underline {
+//   border-bottom: 3px solid black;
+//   width: 100%;
+//   /* RESPONSIVE width */
+//   max-width: 1255px;
+//   /* keeps your design */
+//   margin-right: 10px;
+// }
+
+// .underlineText {
+//   // text-decoration: underline;
+//   // text-underline-offset: 4px; // optional for nicer spacing
+//   padding-right: 5px;
+// }
+
+// // .imageSection {
+// //   // margin: 140px 0;
+// //   margin: 240px 0;
+// //   margin-top: 240px;
+// // }
+// .imageSection {
+//   margin: 240px 0;
+// }
+
+// // .houseImage {
+// //   width: 100%;
+// //   // max-width: 1050px;
+// //   max-width: 1500px;
+// //   // height: auto;
+// //   height: 1000px;
+// //   max-height: 950px !important;
+// //   object-fit: cover;
+// //   border: 1px solid #ccc;
+// // }
+// .houseImage {
+//   width: 100%;
+//   /* responsive */
+//   max-width: 1500px;
+//   height: auto !important;
+//   /* prevent distortion */
+//   max-height: 650px;
+//   /* reduce on laptops */
+//   object-fit: cover;
+//   border: 1px solid #ccc;
+// }
+
+// // .footer {
+// //   // margin-top: 40px;
+// //   // margin-top: 25px;
+// //   font-size: 47px;
+// //   // margin-left: 515px;
+// //   width: 76%;
+// //   margin-bottom: 15px;
+// // }
+// .footer {
+//   font-size: 38px;
+//   width: 100%;
+//   text-align: center;
+//   margin-bottom: 15px;
+// }
+
+
+
+// .only-print {
+//   display: none;
+// }
+
+// @media print {
+//   .only-print {
+//     display: block !important;
+//   }
+
+//   .no-print {
+//     display: none !important;
+//   }
+// }
+
+// // .footercontainer {
+// //   display: flex;
+// //   flex-direction: row-reverse;
+// //   justify-content: center;
+// //   padding-right: 393px;
+// // }
+// .footercontainer {
+//   display: flex;
+//   flex-direction: row-reverse;
+//   justify-content: center;
+//   padding-right: 0;
+//   width: 100%;
+// }
+
+// // .invalidItemlbl {
+// //   display: flex;
+// //   justify-content: center;
+// //   align-items: center;
+// // }
+// .invalidItemlbl {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+
+
+
+
+// /* ===========================
+//    RESPONSIVE FIXES
+//    =========================== */
+
+// /* Large Laptops (1366px, 1280px) */
+// @media (max-width: 1400px) {
+
+//   .logoLeft,
+//   .logoRight {
+//     width: 220px;
+//   }
+
+//   .headerText {
+//     font-size: 26px;
+//   }
+
+//   // .fieldRow {
+//   //   font-size: 36px;
+//   // }
+//   .fieldRow {
+//     font-size: 36px;
+//     max-width: 60%;
+//   }
+
+//   .houseImage {
+//     max-height: 550px;
+//   }
+
+//   .inputField {
+//     font-size: 34px;
+//   }
+// }
+
+// /* Tablets + small laptops (1024px) */
+// @media (max-width: 1024px) {
+//   .header {
+//     flex-direction: column;
+//     gap: 20px;
+//   }
+
+//   .logoLeft,
+//   .logoRight {
+//     width: 180px;
+//   }
+//   .inputField {
+//     font-size: 28px;
+//     padding: 10px 0;
+//   }
+
+//   .headerText {
+//     font-size: 24px;
+//   }
+
+//   .formSection {
+//     margin-top: 120px;
+//     line-height: 70px;
+//   }
+
+//    .fieldRow {
+//     font-size: 30px;
+//     max-width: 70%;
+//   }
+
+//   .houseImage {
+//     max-height: 450px;
+//   }
+// }
+// /* Small Tablets */
+// @media (max-width: 800px) {
+//   .fieldRow {
+//     font-size: 26px;
+//     max-width: 80%;
+//   }
+
+//   .inputField {
+//     font-size: 24px;
+//   }
+
+//   .label {
+//     min-width: 100px;
+//   }
+// }
+// /* Small screens (800px – 600px) */
+// @media (max-width: 800px) {
+
+//   .logoLeft,
+//   .logoRight {
+//     width: 150px;
+//   }
+
+//   .fieldRow {
+//     font-size: 26px;
+//   }
+
+//   .underline {
+//     max-width: 100%;
+//   }
+
+//   .houseImage {
+//     max-height: 350px;
+//   }
+// }
+
+// /* Mobile */
+// @media (max-width: 600px) {
+//   .headerText {
+//     font-size: 20px;
+//   }
+
+//   .fieldRow {
+//     font-size: 20px;
+//   }
+
+//   .formSection {
+//     margin-top: 60px;
+//   }
+
+//   .houseImage {
+//     max-height: 260px;
+//   }
+// }
+
+
+
+
+
+
+
+
 .coverPage {
   font-family: "Segoe UI", sans-serif;
   direction: rtl;
   padding: 40px;
   text-align: center;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .header {
@@ -10,77 +377,96 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
 .logoLeft,
 .logoRight {
-  width: 330px;
+  width: 280px;
   height: auto;
 }
 
 .headerText {
   display: flex;
   flex-direction: column;
-  align-items: center; /* horizontally center the lines */
-  justify-content: center; /* vertically center the block if needed */
+  align-items: center;
+  justify-content: center;
   flex: 1;
   text-align: center;
-  font-size: 35px;
-  line-height: 1.5;
+  font-size: 32px;
+  line-height: 1.4;
+  padding: 0 10px;
 }
 
 .formSection {
   margin-bottom: 70px;
-  line-height: 110px;
-  margin-top: 300px;
-  margin-left: 55px;
+  margin-top: 200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 12px;
 }
 
 .fieldRow {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   margin: 10px 0;
-  font-size: 50px;
-  justify-content: center;
-  align-items: center;
+  font-size: 42px;
+  width: 100%;
+  max-width: 50%;
+}
+
+.label {
+  width: 23%;
+  min-width: 120px;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 15px;
+  padding-bottom: 13px;
+  border-bottom: 3px solid transparent;
+}
+
+.inputField {
+  border: none;
+  border-bottom: 3px solid #000;
+  padding: 13px 0;
+  font-size: 39px;
+  background: none;
+  width: 100%;
+  outline: none;
 }
 
 .underline {
   border-bottom: 3px solid black;
-  // width: 850px;
-   width: 1255px;
+  width: 100%;
+  max-width: 1255px;
   margin-right: 10px;
-  // margin-top: 25px;
 }
 
 .underlineText {
-  // text-decoration: underline;
-  // text-underline-offset: 4px; // optional for nicer spacing
   padding-right: 5px;
 }
 
 .imageSection {
-  // margin: 140px 0;
-   margin: 250px 0;
-  margin-top: 270px;
+  margin: 200px 0;
 }
 
 .houseImage {
   width: 100%;
-  // max-width: 1050px;
   max-width: 1500px;
-  // height: auto;
-  height: 1000px;
+  height: auto !important;
+  max-height: 650px;
   object-fit: cover;
   border: 1px solid #ccc;
 }
 
 .footer {
-  margin-top: 40px;
-  font-size: 47px;
-  // margin-left: 515px;
-  width: 76%;
+  font-size: 38px;
+  text-align: left;
+  margin-bottom: 15px;
+  padding-left: 25px;
 }
 
 .only-print {
@@ -101,11 +487,163 @@
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
-  padding-right: 393px;
+  padding-right: 0;
+  width: 100%;
+  align-items: center;
 }
 
-.invalidItemlbl{
+.invalidItemlbl {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ===========================
+   RESPONSIVE FIXES
+   =========================== */
+
+/* Large Laptops (1366px, 1280px) */
+@media (max-width: 1400px) {
+
+  .logoLeft,
+  .logoRight {
+    width: 220px;
+  }
+
+  .headerText {
+    font-size: 26px;
+  }
+
+  .fieldRow {
+    font-size: 36px;
+    max-width: 60%;
+  }
+
+  .inputField {
+    font-size: 34px;
+  }
+
+  .houseImage {
+    max-height: 550px;
+  }
+
+  .imageSection {
+    margin: 150px 0;
+  }
+}
+
+/* Tablets + small laptops (1024px) */
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .logoLeft,
+  .logoRight {
+    width: 180px;
+  }
+
+  .headerText {
+    font-size: 24px;
+  }
+
+  .formSection {
+    margin-top: 120px;
+  }
+
+  .fieldRow {
+    font-size: 30px;
+    max-width: 70%;
+  }
+
+  .inputField {
+    font-size: 25px;
+    padding: 10px 0;
+  }
+
+  .label {
+    padding-bottom: 10px;
+  }
+
+  .houseImage {
+    max-height: 450px;
+  }
+
+  .imageSection{
+    margin: 50px 0;
+  }
+}
+
+/* Small Tablets */
+@media (max-width: 800px) {
+
+  .logoLeft,
+  .logoRight {
+    width: 150px;
+  }
+
+  .fieldRow {
+    font-size: 26px;
+    max-width: 80%;
+  }
+
+  .inputField {
+    font-size: 24px;
+  }
+
+  .label {
+    min-width: 100px;
+  }
+
+  .underline {
+    max-width: 100%;
+  }
+
+  .houseImage {
+    max-height: 350px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .headerText {
+    font-size: 20px;
+  }
+
+  .fieldRow {
+    font-size: 20px;
+    max-width: 90%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .formSection {
+    margin-top: 60px;
+    row-gap: 8px;
+  }
+
+  .inputField {
+    font-size: 20px;
+    padding: 8px 0;
+  }
+
+  .label {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 5px;
+    padding-bottom: 8px;
+    border-bottom: none;
+  }
+
+  .houseImage {
+    max-height: 260px;
+  }
+}
+
+/* Mobile */
+@media (min-width: 1441px) {
+  .houseImage {
+    max-height: 990px;
+  }
 }

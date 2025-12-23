@@ -10,6 +10,9 @@ interface Section51Props {
     property_Frequency_Data: any
 }
 
+const AvivAppLogologo = require('../Image/AvivAppLogo.jpg')
+const AvivLogo = require('../Image/AvivLogo.png')
+
 const Section_51: React.FC<Section51Props> = ({
     section_51_data,
     chapter_data_51,
@@ -19,6 +22,15 @@ const Section_51: React.FC<Section51Props> = ({
     return (
         <>
             <div>
+                <div className="header-main">
+                    <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
+                    <div className="center-info">
+                        מינהלת נכסים<br />
+                        <a href="#">משרד הבריאות</a><br />
+                        <span>נכסים</span>
+                    </div>
+                    <img src={AvivLogo} alt="Ministry Logo" className="logo" />
+                </div>
                 <div className={styles['container-section']}>
                     <div className={`${styles['header-section']} chunkrowTitle`}>תחזוקת המבנה</div>
                     {/* <div className={`${styles['sub-header-section']} ${styles.h_direction_51} chunkrowTitle`}>5.1 - קירות פנים ותקרה</div> */}

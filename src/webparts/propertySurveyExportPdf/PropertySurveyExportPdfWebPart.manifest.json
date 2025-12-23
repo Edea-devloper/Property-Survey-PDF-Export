@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "a2779ab0-6b21-4b13-8148-bbd1c620cbed",
+  "id": "40824ac5-b55e-4042-bb6e-264556b66bcb",
   "alias": "PropertySurveyExportPdfWebPart",
   "componentType": "WebPart",
 
@@ -18,11 +18,11 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
     "group": { "default": "Advanced" },
-    "title": { "default": "property survey export pdf" },
-    "description": { "default": "property survey export pdf description" },
+    "title": { "default": "property survey export pdf and excel v1" },
+    "description": { "default": "property survey export pdf excel description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "property survey export pdf"
+      "description": "property survey export pdf and excel"
     }
   }]
 }
