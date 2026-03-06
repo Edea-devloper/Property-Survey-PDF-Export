@@ -133,9 +133,9 @@ const Section_24: React.FC<Section24Props> = ({
                         <div className="header-main">
                             <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                             <div className="center-info">
-                                מינהלת נכסים<br />
+                                מינהלת הנכסים<br />
                                 <a href="#">משרד הבריאות</a><br />
-                                <span>נכסים</span>
+                                <span>אגף הנכסים</span>
                             </div>
                             <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                         </div>
@@ -169,7 +169,7 @@ const Section_24: React.FC<Section24Props> = ({
 
                                                     return (
                                                         <>
-                                                            <tr key={index} className={styles.table_242}>
+                                                            {/* <tr key={index} className={styles.table_242}>
                                                                 <td className={styles.table_242_td}>
                                                                     <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                                 </td>
@@ -184,6 +184,38 @@ const Section_24: React.FC<Section24Props> = ({
                                                                 </td>
                                                                 <td className={styles.table_242_td} style={{ width: '100%' }}>
                                                                     <input className={styles.allInputFieldWidth} style={{ maxWidth: '100%', minWidth: '100%', width: '100%' }} type="text" readOnly value={Table_241?.data?.rows[index][8]} />
+                                                                </td>
+                                                            </tr> */}
+
+                                                            <tr key={index} className={styles.table_242}>
+                                                                <td className={styles.table_242_td}>
+                                                                    <div className={styles.cellSmall}>
+                                                                        {index + 1}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_241?.data?.rows[index][2] || ''}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_241?.data?.rows[index][5]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_241?.data?.rows[index][6]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '45%' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_241?.data?.rows[index][8]}
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </>
@@ -225,7 +257,7 @@ const Section_24: React.FC<Section24Props> = ({
 
                                                     return (
                                                         <>
-                                                            <tr key={index} className={styles.table_242}>
+                                                            {/* <tr key={index} className={styles.table_242}>
                                                                 <td className={styles.table_242_td}>
                                                                     <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                                 </td>
@@ -252,7 +284,48 @@ const Section_24: React.FC<Section24Props> = ({
                                                                         />
                                                                     </div>
                                                                 </td>
+                                                            </tr> */}
+
+
+
+                                                            <tr key={index} className={styles.table_242}>
+                                                                <td className={styles.table_242_td}>
+                                                                    <div className={styles.cellSmall}>
+                                                                        {index + 1}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {getHebrewMonthLabel(Table_242?.data?.rows[index][2])}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {getHebrewMonthLabel(Table_242?.data?.rows[index][3])}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_242?.data?.rows[index][6]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_242?.data?.rows[index][7]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td}>
+                                                                    <div className={styles.notesBox}>
+                                                                        {Table_242?.data?.rows[index][9]}
+                                                                    </div>
+                                                                </td>
                                                             </tr>
+
                                                         </>
                                                     )
                                                 })}
@@ -293,22 +366,27 @@ const Section_24: React.FC<Section24Props> = ({
                                                     return (
 
                                                         <>
-                                                            <tr key={index} className={styles.table_243}>
+                                                            {/* <tr key={index} className={styles.table_243}>
                                                                 <td className={styles.table_243_td}>
                                                                     <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                                 </td>
+
                                                                 <td className={styles.table_243_td}>
                                                                     <input className={styles.allInputFieldWidth} type="text" readOnly value={getHebrewMonthLabel(Table_243?.data?.rows[index][2])} />
                                                                 </td>
+
                                                                 <td className={styles.table_243_td}>
                                                                     <input className={styles.allInputFieldWidth} type="text" readOnly value={getHebrewMonthLabel(Table_243?.data?.rows[index][3])} />
                                                                 </td>
+
                                                                 <td className={styles.table_243_td}>
                                                                     <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_243?.data?.rows[index][6]} />
                                                                 </td>
+
                                                                 <td className={styles.table_243_td}>
                                                                     <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_243?.data?.rows[index][7]} />
                                                                 </td>
+
                                                                 <td>
                                                                     <div style={{ float: 'right', width: '100%' }}>
                                                                         <input
@@ -318,6 +396,45 @@ const Section_24: React.FC<Section24Props> = ({
                                                                             readOnly
                                                                             value={Table_243?.data?.rows[index][9]}
                                                                         />
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr> */}
+
+                                                            <tr key={index} className={styles.table_242}>
+                                                                <td className={styles.table_242_td}>
+                                                                    <div className={styles.cellSmall}>
+                                                                        {index + 1}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {getHebrewMonthLabel(Table_243?.data?.rows[index][2])}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {getHebrewMonthLabel(Table_243?.data?.rows[index][3])}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_243?.data?.rows[index][6]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                    <div className={styles.cellBox}>
+                                                                        {Table_243?.data?.rows[index][7]}
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={styles.table_242_td}>
+                                                                    <div className={styles.notesBox}>
+                                                                        {Table_243?.data?.rows[index][9]}
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -337,14 +454,14 @@ const Section_24: React.FC<Section24Props> = ({
 
 
                 {showSectionSecond && (
-                    <div className={`page-section01 ${styles['section-container']}`} style={{boxShadow: 'none'}}>
+                    <div className={`page-section01 ${styles['section-container']}`} style={{ boxShadow: 'none' }}>
 
                         <div className="header-main">
                             <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                             <div className="center-info">
-                                מינהלת נכסים<br />
+                                מינהלת הנכסים<br />
                                 <a href="#">משרד הבריאות</a><br />
-                                <span>נכסים</span>
+                                <span>אגף הנכסים</span>
                             </div>
                             <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                         </div>
@@ -378,22 +495,27 @@ const Section_24: React.FC<Section24Props> = ({
                                                 return (
 
                                                     <>
-                                                        <tr key={index} className={styles.table_244}>
+                                                        {/* <tr key={index} className={styles.table_244}>
                                                             <td className={styles.table_244_td}>
                                                                 <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                             </td>
+
                                                             <td className={styles.table_244_td}>
                                                                 <input className={styles.allInputFieldWidth} type="text" readOnly value={getHebrewMonthLabel(Table_244?.data?.rows[index][2])} />
                                                             </td>
+
                                                             <td className={styles.table_244_td}>
                                                                 <input className={styles.allInputFieldWidth} type="text" readOnly value={getHebrewMonthLabel(Table_244?.data?.rows[index][3])} />
                                                             </td>
+
                                                             <td className={styles.table_244_td}>
                                                                 <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_244?.data?.rows[index][6]} />
                                                             </td>
+
                                                             <td className={styles.table_244_td}>
                                                                 <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_244?.data?.rows[index][7]} />
                                                             </td>
+
                                                             <td>
                                                                 <div style={{ float: 'right', width: '100%' }}>
                                                                     <input
@@ -403,6 +525,44 @@ const Section_24: React.FC<Section24Props> = ({
                                                                         readOnly
                                                                         value={Table_244?.data?.rows[index][9]}
                                                                     />
+                                                                </div>
+                                                            </td>
+                                                        </tr> */}
+
+                                                        <tr key={index} className={styles.table_242}>
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.cellSmall}>
+                                                                    {index + 1}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_244?.data?.rows[index][2])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_244?.data?.rows[index][3])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_244?.data?.rows[index][6]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_244?.data?.rows[index][7]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.notesBox}>
+                                                                    {Table_244?.data?.rows[index][9]}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -444,7 +604,7 @@ const Section_24: React.FC<Section24Props> = ({
                                                 return (
 
                                                     <>
-                                                        <tr key={index} className={styles.table_245}>
+                                                        {/* <tr key={index} className={styles.table_245}>
                                                             <td className={styles.table_245_td}>
                                                                 <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                             </td>
@@ -470,6 +630,45 @@ const Section_24: React.FC<Section24Props> = ({
                                                                     />
                                                                 </div>
                                                             </td>
+                                                        </tr> */}
+
+
+                                                        <tr key={index} className={styles.table_242}>
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.cellSmall}>
+                                                                    {index + 1}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_245?.data?.rows[index][2])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_245?.data?.rows[index][3])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_245?.data?.rows[index][6]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_245?.data?.rows[index][7]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.notesBox}>
+                                                                    {Table_245?.data?.rows[index][9]}
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     </>
                                                 )
@@ -485,14 +684,14 @@ const Section_24: React.FC<Section24Props> = ({
 
 
                 {showSectionThird && (
-                    <div className={`page-section01 ${styles['section-container']}`} style={{boxShadow: 'none'}}>
+                    <div className={`page-section01 ${styles['section-container']}`} style={{ boxShadow: 'none' }}>
 
                         <div className="header-main">
                             <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                             <div className="center-info">
-                                מינהלת נכסים<br />
+                                מינהלת הנכסים<br />
                                 <a href="#">משרד הבריאות</a><br />
-                                <span>נכסים</span>
+                                <span>אגף הנכסים</span>
                             </div>
                             <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                         </div>
@@ -525,7 +724,7 @@ const Section_24: React.FC<Section24Props> = ({
                                                 return (
 
                                                     <>
-                                                        <tr key={index} className={styles.table_246}>
+                                                        {/* <tr key={index} className={styles.table_246}>
                                                             <td className={styles.table_246_td}>
                                                                 <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                             </td>
@@ -550,6 +749,44 @@ const Section_24: React.FC<Section24Props> = ({
                                                                         readOnly
                                                                         value={Table_246?.data?.rows[index][9]}
                                                                     />
+                                                                </div>
+                                                            </td>
+                                                        </tr> */}
+
+                                                        <tr key={index} className={styles.table_242}>
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.cellSmall}>
+                                                                    {index + 1}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_246?.data?.rows[index][2])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {getHebrewMonthLabel(Table_246?.data?.rows[index][3])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_246?.data?.rows[index][6]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_246?.data?.rows[index][7]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.notesBox}>
+                                                                    {Table_246?.data?.rows[index][9]}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -581,34 +818,74 @@ const Section_24: React.FC<Section24Props> = ({
                                         </thead>
                                         <tbody>
                                             {Table_247?.data?.flags?.map((isChecked: any, index: any) => (
-                                                <tr key={index} className={styles.table_247}>
-                                                    <td className={styles.table_247_td}>
-                                                        <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+
+                                                // <tr key={index} className={styles.table_247}>
+                                                //     <td className={styles.table_247_td}>
+                                                //         <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
+                                                //     </td>
+                                                //     <td className={styles.table_247_td}>
+                                                //         <input className={styles.allInputFieldWidth} type="text" readOnly value={formatDateToDDMMYYYY(Table_247?.data?.rows[index][2])} />
+                                                //     </td>
+                                                //     <td className={styles.table_247_td}>
+                                                //         <input className={styles.allInputFieldWidth} type="text" readOnly value={formatDateToDDMMYYYY(Table_247?.data?.rows[index][3])} />
+                                                //     </td>
+                                                //     <td className={styles.table_247_td}>
+                                                //         <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_247?.data?.rows[index][4]} />
+                                                //     </td>
+                                                //     <td className={styles.table_247_td}>
+                                                //         <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_247?.data?.rows[index][5]} />
+                                                //     </td>
+                                                //     <td>
+                                                //         <div style={{ float: 'right', width: '100%' }}>
+                                                //             <input
+                                                //                 // style={{ width: "744px", fontSize: '15px' }}
+                                                //                 className={styles.lastFieldWidth}
+                                                //                 type="text"
+                                                //                 readOnly
+                                                //                 value={Table_247?.data?.rows[index][7]}
+                                                //             />
+                                                //         </div>
+                                                //     </td>
+                                                // </tr>
+
+                                                <tr key={index} className={styles.table_242}>
+                                                    <td className={styles.table_242_td}>
+                                                        <div className={styles.cellSmall}>
+                                                            {index + 1}
+                                                        </div>
                                                     </td>
-                                                    <td className={styles.table_247_td}>
-                                                        <input className={styles.allInputFieldWidth} type="text" readOnly value={formatDateToDDMMYYYY(Table_247?.data?.rows[index][2])} />
+
+                                                    <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                        <div className={styles.cellBox}>
+                                                            {formatDateToDDMMYYYY(Table_247?.data?.rows[index][2])}
+                                                        </div>
                                                     </td>
-                                                    <td className={styles.table_247_td}>
-                                                        <input className={styles.allInputFieldWidth} type="text" readOnly value={formatDateToDDMMYYYY(Table_247?.data?.rows[index][3])} />
+
+                                                    <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                        <div className={styles.cellBox}>
+                                                            {formatDateToDDMMYYYY(Table_247?.data?.rows[index][3])}
+                                                        </div>
                                                     </td>
-                                                    <td className={styles.table_247_td}>
-                                                        <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_247?.data?.rows[index][4]} />
+
+                                                    <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                        <div className={styles.cellBox}>
+                                                            {Table_247?.data?.rows[index][4]}
+                                                        </div>
                                                     </td>
-                                                    <td className={styles.table_247_td}>
-                                                        <input className={styles.allInputFieldWidth} type="text" readOnly value={Table_247?.data?.rows[index][5]} />
+
+                                                    <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                        <div className={styles.cellBox}>
+                                                            {Table_247?.data?.rows[index][5]}
+                                                        </div>
                                                     </td>
-                                                    <td>
-                                                        <div style={{ float: 'right', width: '100%' }}>
-                                                            <input
-                                                                // style={{ width: "744px", fontSize: '15px' }}
-                                                                className={styles.lastFieldWidth}
-                                                                type="text"
-                                                                readOnly
-                                                                value={Table_247?.data?.rows[index][7]}
-                                                            />
+
+                                                    <td className={styles.table_242_td}>
+                                                        <div className={styles.notesBox}>
+                                                            {Table_247?.data?.rows[index][7]}
                                                         </div>
                                                     </td>
                                                 </tr>
+
                                             ))}
                                         </tbody>
                                     </table>
@@ -641,7 +918,7 @@ const Section_24: React.FC<Section24Props> = ({
                                                 if (isRowEmpty) return null;
                                                 return (
                                                     <>
-                                                        <tr key={index} className={styles.table_248}>
+                                                        {/* <tr key={index} className={styles.table_248}>
                                                             <td className={styles.table_248_td}>
                                                                 <input style={{ width: "30px" }} type="text" value={index + 1} readOnly />
                                                             </td>
@@ -666,6 +943,44 @@ const Section_24: React.FC<Section24Props> = ({
                                                                         readOnly
                                                                         value={Table_248?.data?.rows[index][7]}
                                                                     />
+                                                                </div>
+                                                            </td>
+                                                        </tr> */}
+
+                                                        <tr key={index} className={styles.table_242}>
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.cellSmall}>
+                                                                    {index + 1}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {formatDateToDDMMYYYY(Table_248?.data?.rows[index][2])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {formatDateToDDMMYYYY(Table_248?.data?.rows[index][3])}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_248?.data?.rows[index][4]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td} style={{ width: '240px' }}>
+                                                                <div className={styles.cellBox}>
+                                                                    {Table_248?.data?.rows[index][5]}
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={styles.table_242_td}>
+                                                                <div className={styles.notesBox}>
+                                                                    {Table_248?.data?.rows[index][7]}
                                                                 </div>
                                                             </td>
                                                         </tr>

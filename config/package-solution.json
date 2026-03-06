@@ -3,7 +3,7 @@
   "solution": {
     "name": "property-survey-export-pdf-and-Excel-client-side-solution",
     "id": "12e87e92-6997-4e59-9393-704c5804227b",
-    "version": "1.0.0.25",
+    "version": "1.0.0.31",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -30,7 +30,7 @@
         "title": "property-survey-export-pdf-and-excel Feature",
         "description": "The feature that activates elements of the property-survey-export-pdf-and-excel solution.",
         "id": "74695f0a-34a4-4721-be08-4c7ba9c689b9",
-        "version": "1.0.0.25"
+        "version": "1.0.0.31"
       }
     ]
   },

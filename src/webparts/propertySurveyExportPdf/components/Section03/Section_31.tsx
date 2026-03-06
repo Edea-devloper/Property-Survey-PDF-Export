@@ -23,9 +23,9 @@ const Section_31: React.FC<Section31Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -60,31 +60,50 @@ const Section_31: React.FC<Section31Props> = ({
                                 }
                                 const row = section_31_data?.data?.rows[index];
 
-                                // const isRowEmpty =
-                                //     [row[1], row[2], row[3], row[4], row[6], row[8], row[9], row[10]]
-                                //         .every(val => !val || val?.toString()?.trim() === '') &&
-                                //     (!matchedChapter ||
-                                //         [matchedChapter.Chapter, matchedChapter.Subject, matchedChapter.Area]
-                                //             .every(val => !val || val?.toString()?.trim() === ''));
-
                                 const isRowEmpty = [row[1], row[2], row[3], row[4], row[6], row[8], row[9], row[10]]
                                     .every(val => !val || val?.toString()?.trim() === '');
 
 
                                 if (isRowEmpty) return null;
                                 return (
+                                    // <tr key={index} className={styles['Section3_1']}>
+                                    //     <td style={{ paddingRight: '30px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td style={{ width: '185px' }}> {matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td><input type="text" value={section_31_data?.data?.rows[index][3]} readOnly /></td>
+                                    //     <td style={{ width: '140px' }}><input type="text" value={formatDateToDDMMYYYY(section_31_data?.data?.rows[index][8])} readOnly /></td>
+                                    //     <td style={{ width: '448px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][10]}</textarea></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['Section3_1']}>
-                                        <td style={{ paddingRight: '30px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 132}` : '-'}</td>
+                                        <td style={{ paddingRight: '30px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
                                         <td style={{ width: '185px' }}> {matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td> {matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        <td><input type="text" value={section_31_data?.data?.rows[index][3]} readOnly /></td>
-                                        {/* <td><input type="text" value={section_31_data?.data?.rows[index][4]} readOnly /></td> */}
-                                        {/* <td style={{ width: '110px' }}><input type="text" value={formatDateToDDMMYYYY(section_31_data?.data?.rows[index][6])} readOnly /></td> */}
-                                        {/* <td style={{ width: '150px' }}><input type="text" value={section_31_data?.data?.rows[index][1]} readOnly /></td> */}
-                                        <td style={{ width: '140px' }}><input type="text" value={formatDateToDDMMYYYY(section_31_data?.data?.rows[index][8])} readOnly /></td>
-                                        {/* <td style={{ width: '200px' }}><input type="text" value={section_31_data?.data?.rows[index][9]} readOnly /></td> */}
-                                        <td style={{ width: '448px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][10]}</textarea></td>
-                                        {/* <td style={{ paddingLeft: '25px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_31_data?.data?.rows[index][2]}</textarea></td> */}
+                                        <td>
+                                            <div className={styles.readOnlyField}>
+                                                {section_31_data?.data?.rows[index][3]}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '140px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {formatDateToDDMMYYYY(section_31_data?.data?.rows[index][8])}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '40%' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {section_31_data?.data?.rows[index][10]}
+                                            </div>
+                                        </td>
+
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}

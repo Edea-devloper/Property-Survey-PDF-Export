@@ -23,9 +23,9 @@ const Section_26: React.FC<Section26Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -52,38 +52,63 @@ const Section_26: React.FC<Section26Props> = ({
                                     });
                                     if (isRowEmpty) return null;
                                     return (
+
+                                        // <tr className={styles['section-26-row']} key={index}>
+                                        //     <td>{index + 1}</td>
+                                        //     <td>
+                                        //         <input className={styles['section-26-select']} value={section_26_data?.data?.rows[index][5]} readOnly />
+                                        //     </td>
+                                        //     <td colSpan={2}>
+                                        //         <input
+                                        //             type="text"
+                                        //             className="section-26-date-input"
+                                        //             value={section_26_data?.data?.rows[index][4]}
+                                        //             readOnly
+                                        //         />
+                                        //     </td>
+                                        //     {/* <td colSpan={3}>
+                                        //         <div className="section-26-date-picker">
+                                        //             <input
+                                        //                 type="text"
+                                        //                 className="section-26-date-input"
+                                        //                 value={formatDateToDDMMYYYY(section_26_data?.data?.rows[index][2])}
+                                        //                 readOnly
+                                        //             />
+                                        //         </div>
+                                        //     </td> */}
+                                        //     <td colSpan={2}>
+                                        //         <textarea
+                                        //             className="section-26-textarea comment-area"
+                                        //             value={section_26_data?.data?.rows[index][1]}
+                                        //             readOnly
+                                        //             style={{ fontSize: '15px' }}
+                                        //         />
+                                        //     </td>
+                                        // </tr>
+
                                         <tr className={styles['section-26-row']} key={index}>
                                             <td>{index + 1}</td>
+
                                             <td>
-                                                <input className={styles['section-26-select']} value={section_26_data?.data?.rows[index][5]} readOnly />
-                                            </td>
-                                            <td colSpan={2}>
-                                                <input
-                                                    type="text"
-                                                    className="section-26-date-input"
-                                                    value={section_26_data?.data?.rows[index][4]}
-                                                    readOnly
-                                                />
-                                            </td>
-                                            {/* <td colSpan={3}>
-                                                <div className="section-26-date-picker">
-                                                    <input
-                                                        type="text"
-                                                        className="section-26-date-input"
-                                                        value={formatDateToDDMMYYYY(section_26_data?.data?.rows[index][2])}
-                                                        readOnly
-                                                    />
+                                                <div className={styles['section-26-box']}>
+                                                    {section_26_data?.data?.rows[index][5]}
                                                 </div>
-                                            </td> */}
+                                            </td>
+
                                             <td colSpan={2}>
-                                                <textarea
-                                                    className="section-26-textarea comment-area"
-                                                    value={section_26_data?.data?.rows[index][1]}
-                                                    readOnly
-                                                    style={{ fontSize: '15px' }}
-                                                />
+                                                <div className={styles['section-26-box']}>
+                                                    {section_26_data?.data?.rows[index][4]}
+                                                </div>
+                                            </td>
+
+                                            <td colSpan={2}>
+                                                <div className={styles['section-26-textarea-box']}>
+                                                    {section_26_data?.data?.rows[index][1]}
+                                                </div>
                                             </td>
                                         </tr>
+
+
                                     )
                                 })}
                             </tbody>

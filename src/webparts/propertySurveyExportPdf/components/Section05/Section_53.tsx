@@ -24,15 +24,15 @@ const Section_53: React.FC<Section521Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
                 <div className={styles['container-section']}>
                     {/* <div className={`${styles.header} ${styles.h_direction_51} chunkrowTitle`}>5.3 - ריצוף /דק /שטיחים/קרמיקה</div> */}
-                     <div className={`${styles.header} ${styles.h_direction_51} chunkrowTitle`}>5.3 - חדירות מים  - נזילות</div>
+                    <div className={`${styles.header} ${styles.h_direction_51} chunkrowTitle`}>5.3 - חדירות מים  - נזילות</div>
                     <table id='table53' className={styles['custom-table']}>
                         <thead className='chunkrowHeader'>
                             <tr>
@@ -59,7 +59,7 @@ const Section_53: React.FC<Section521Props> = ({
                                 }
 
                                 const row = section_53_data?.data?.rows[index];
-                                
+
                                 const isRowEmpty =
                                     [row[1], row[2], row[3], row[4], row[6]]
                                         .every(val => !val || val?.toString()?.trim() === '');
@@ -67,24 +67,66 @@ const Section_53: React.FC<Section521Props> = ({
                                 if (isRowEmpty) return null;
 
                                 return (
+                                    // <tr key={index} className={styles['section5_2_1']}>
+                                    //     <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td style={{ width: '224px' }}><input type="text" value={section_53_data?.data?.rows[index][6]} readOnly /></td>
+                                    //     <td style={{ width: '224px' }}><input type="text" value={section_53_data?.data?.rows[index][3]} readOnly /></td>
+                                    //     <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_53_data?.data?.rows[index][5]}</textarea></td>
+                                    //     <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}><input type="text" value={section_53_data?.data?.rows[index][2]} readOnly /></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['section5_2_1']}>
-                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 468}` : '-'}</td>
-                                        <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        <td style={{ width: '224px' }}><input type="text" value={section_53_data?.data?.rows[index][6]} readOnly /></td>
-                                        <td style={{ width: '224px' }}><input type="text" value={section_53_data?.data?.rows[index][3]} readOnly /></td>
-                                        <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_53_data?.data?.rows[index][5]}</textarea></td>
-                                        {/* <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_53_data?.data?.rows[index][1]}</textarea></td> */}
-                                        <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}><input type="text" value={section_53_data?.data?.rows[index][2]} readOnly /></td>
+
+                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td style={{ width: '224px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_53_data?.data?.rows[index][6]}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '224px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_53_data?.data?.rows[index][3]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={4} style={{ width: '350px' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {section_53_data?.data?.rows[index][5]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_53_data?.data?.rows[index][2]}
+                                            </div>
+                                        </td>
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
                                             aria-label="בחר שורה"
-                                            value={isChecked.toString()}
-                                            onChange={() => { }}
                                             readOnly
                                         />
+
                                     </tr>
+
                                 )
                             })}
                         </tbody>

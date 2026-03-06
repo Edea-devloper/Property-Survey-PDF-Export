@@ -23,9 +23,9 @@ const Section_27: React.FC<Section27Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -56,15 +56,6 @@ const Section_27: React.FC<Section27Props> = ({
                                     }
 
                                     const row = section_27_data?.data?.rows[index];
-                                    // const isRowEmpty =
-                                    //     (!row[1] || row[1]?.toString()?.trim() === '') &&
-                                    //     (!row[4] || row[4]?.toString()?.trim() === '') &&
-                                    //     (!matchedChapter ||
-                                    //         ([
-                                    //             matchedChapter?.Chapter,
-                                    //             matchedChapter?.Subject,
-                                    //             matchedChapter?.Area
-                                    //         ].every(val => !val || val?.toString()?.trim() === '')));
 
                                     const isRowEmpty =
                                         (!row[1] || row[1]?.toString()?.trim() === '') &&
@@ -75,33 +66,62 @@ const Section_27: React.FC<Section27Props> = ({
 
 
                                     return (
+                                        // <tr key={index} className={styles['custom27-row']}>
+
+                                        //     <td className={styles['custom27-row-last-col']}>
+                                        //         {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter?.Order0}` : '-'}
+                                        //     </td>
+                                        //     <td style={{ direction: 'rtl', textAlign: 'right' }}>
+                                        //         {matchedChapter ? matchedChapter.Subject : '-'}
+                                        //     </td>
+                                        //     <td style={{ direction: 'rtl', textAlign: 'right' }}>
+                                        //         {matchedChapter ? matchedChapter.Area : '-'}
+                                        //     </td>
+
+                                        //     <td className="custom27">
+                                        //         <input className={styles['custom27-select']} disabled
+                                        //             type='text'
+                                        //             value={section_27_data?.data?.rows[index][1]}
+                                        //         />
+                                        //     </td>
+
+                                        //     <td className={styles['custom27-tera']}>
+                                        //         <textarea
+                                        //             value={section_27_data?.data?.rows[index][4]}
+                                        //             rows={3}
+                                        //             className={styles['custom27-textarea']}
+                                        //         />
+                                        //     </td>
+                                        // </tr>
+
                                         <tr key={index} className={styles['custom27-row']}>
 
                                             <td className={styles['custom27-row-last-col']}>
                                                 {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter?.Order0}` : '-'}
                                             </td>
+
                                             <td style={{ direction: 'rtl', textAlign: 'right' }}>
                                                 {matchedChapter ? matchedChapter.Subject : '-'}
                                             </td>
+
                                             <td style={{ direction: 'rtl', textAlign: 'right' }}>
                                                 {matchedChapter ? matchedChapter.Area : '-'}
                                             </td>
 
-                                            <td className="custom27">
-                                                <input className={styles['custom27-select']} disabled
-                                                    type='text'
-                                                    value={section_27_data?.data?.rows[index][1]}
-                                                />
+                                            <td>
+                                                <div className={styles['custom27-box']}>
+                                                    {section_27_data?.data?.rows[index][1]}
+                                                </div>
                                             </td>
 
                                             <td className={styles['custom27-tera']}>
-                                                <textarea
-                                                    value={section_27_data?.data?.rows[index][4]}
-                                                    rows={3}
-                                                    className={styles['custom27-textarea']}
-                                                />
+                                                <div className={styles['custom27-textarea-box']}>
+                                                    {section_27_data?.data?.rows[index][4]}
+                                                </div>
                                             </td>
+
                                         </tr>
+
                                     );
                                 })}
                             </tbody>

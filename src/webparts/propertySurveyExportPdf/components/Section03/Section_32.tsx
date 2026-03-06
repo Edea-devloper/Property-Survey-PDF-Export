@@ -25,9 +25,9 @@ const Section_32: React.FC<Section32Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -85,27 +85,71 @@ const Section_32: React.FC<Section32Props> = ({
 
                                 if (isRowEmpty) return null;
                                 return (
+
+                                    // <tr key={index} className={styles['section3_2']}>
+                                    //     <td style={{ paddingRight: '26px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td style={{ width: '150px' }}><input type="text" value={section_32_data?.data?.rows[index][2]} readOnly /></td>
+                                    //     <td style={{ width: '150px' }}><input type="text" value={formatDateToDDMMYYYY(section_32_data?.data?.rows[index][4])} readOnly /></td>
+                                    //     <td style={{ width: '125px' }}>
+                                    //         <input
+                                    //             type="text"
+                                    // value={
+                                    //     section_32_data?.data?.rows[index][5] !== ''
+                                    //         ? section_32_data?.data?.rows[index][5]
+                                    //         : frequencyTitle
+                                    // }
+                                    //             readOnly
+                                    //         />
+                                    //     </td>
+                                    //     <td style={{ width: '360px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_32_data?.data?.rows[index][8]}</textarea></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['section3_2']}>
-                                        <td style={{ paddingRight: '26px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 177}` : '-'}</td>
-                                        <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        <td style={{ width: '150px' }}><input type="text" value={section_32_data?.data?.rows[index][2]} readOnly /></td>
-                                        <td style={{ width: '150px' }}><input type="text" value={formatDateToDDMMYYYY(section_32_data?.data?.rows[index][4])} readOnly /></td>
+                                        <td style={{ paddingRight: '26px', direction: 'ltr' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td style={{ width: '150px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_32_data?.data?.rows[index][2]}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '150px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {formatDateToDDMMYYYY(section_32_data?.data?.rows[index][4])}
+                                            </div>
+                                        </td>
+
                                         <td style={{ width: '125px' }}>
-                                            <input
-                                                type="text"
-                                                value={
+                                            <div className={styles.readOnlyField}>
+                                                {
                                                     section_32_data?.data?.rows[index][5] !== ''
                                                         ? section_32_data?.data?.rows[index][5]
                                                         : frequencyTitle
                                                 }
-                                                readOnly
-                                            />
+                                            </div>
                                         </td>
-                                        {/* <td style={{ width: '150px' }}><input type="text" value={formatDateToDDMMYYYY(section_32_data?.data?.rows[index][6])} readOnly /></td> */}
-                                        {/* <td style={{ width: '135px' }}><input type="text" value={section_32_data?.data?.rows[index][7]} readOnly /></td> */}
-                                        <td style={{ width: '360px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_32_data?.data?.rows[index][8]}</textarea></td>
-                                        {/* <td style={{ paddingLeft: '24px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_32_data?.data?.rows[index][1]}</textarea></td> */}
+
+                                        <td style={{ width: '360px' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {section_32_data?.data?.rows[index][8]}
+                                            </div>
+                                        </td>
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
@@ -115,6 +159,9 @@ const Section_32: React.FC<Section32Props> = ({
                                             readOnly
                                         />
                                     </tr>
+
+
+
                                 )
                             })}
                         </tbody>

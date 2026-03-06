@@ -70,7 +70,7 @@ const Section_31: React.FC<Section31Props> = ({
                     <div className="center-info">
                         מינהלת נכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -115,8 +115,11 @@ const Section_31: React.FC<Section31Props> = ({
                                         </div>
                                         <div>
                                             <label>ממצאים</label>
-                                            <td style={{ width: '800px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{FDSection_data?.data?.rows[index][2]}</textarea></td>
-                                            {/* <label>הועלה ב-9/16/2025</label> */}
+                                            <td style={{ width: '800px' }}>
+                                                {/* <textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{FDSection_data?.data?.rows[index][2]}</textarea> */}
+                                                <div className={styles.readOnlyTextarea}>{FDSection_data?.data?.rows[index][2]}</div>
+                                            </td>
+
                                         </div>
                                     </tr>
                                 )

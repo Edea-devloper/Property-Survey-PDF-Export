@@ -25,9 +25,9 @@ const Section_35: React.FC<Section35Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -47,7 +47,7 @@ const Section_35: React.FC<Section35Props> = ({
                             </tr>
                         </thead>
                         <tbody className='chunkrow'>
-                            {section_35_data?.data?.flags?.map((isChecked : any, index : any) => {
+                            {section_35_data?.data?.flags?.map((isChecked: any, index: any) => {
 
                                 const currentOrder = Number(section_35_data?.data?.rows[index][0]);
                                 let matchedChapter = null;
@@ -73,15 +73,49 @@ const Section_35: React.FC<Section35Props> = ({
                                 if (isRowEmpty) return null;
 
                                 return (
-                                    <tr key={index} className={styles['section3_5']}>
-                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 395}` : '-'}</td>
-                                        <td style={{ width: '350px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td style={{ width: '130px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
+                                    // <tr key={index} className={styles['section3_5']}>
+                                    //     <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td style={{ width: '350px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td style={{ width: '265px' }}><input type="text" value={section_35_data?.data?.rows[index][4]} readOnly /></td>
+                                    //     <td style={{ width: '273px' }}><input type="text" value={section_35_data?.data?.rows[index][2]} readOnly /></td>
+                                    //     <td colSpan={2} style={{width: '330px'}}><textarea className={styles.section35textarea} style={{ height: '90px' }} rows={3} readOnly>{section_35_data?.data?.rows[index][3]}</textarea></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
 
-                                        <td style={{ width: '265px' }}><input type="text" value={section_35_data?.data?.rows[index][4]} readOnly /></td>
-                                        <td style={{ width: '273px' }}><input type="text" value={section_35_data?.data?.rows[index][2]} readOnly /></td>
-                                        <td colSpan={2} style={{width: '330px'}}><textarea className={styles.section35textarea} style={{ height: '90px' }} rows={3} readOnly>{section_35_data?.data?.rows[index][3]}</textarea></td>
-                                        {/* <td colSpan={1} style={{ paddingLeft: '23px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={3} readOnly>{section_35_data?.data?.rows[index][1]}</textarea></td> */}
+                                    <tr key={index} className={styles['section3_5']}>
+                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td style={{ width: '350px' }}>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td style={{ width: '265px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_35_data?.data?.rows[index][4]}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '273px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_35_data?.data?.rows[index][2]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={2} style={{ width: '330px' }}>
+                                            <div className={`${styles.readOnlyFieldTextarea} ${styles.section35textarea}`}>
+                                                {section_35_data?.data?.rows[index][3]}
+                                            </div>
+                                        </td>
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
@@ -91,6 +125,7 @@ const Section_35: React.FC<Section35Props> = ({
                                             readOnly
                                         />
                                     </tr>
+
                                 )
                             })}
                         </tbody>

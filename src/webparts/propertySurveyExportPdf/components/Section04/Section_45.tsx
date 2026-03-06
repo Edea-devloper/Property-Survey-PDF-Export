@@ -31,9 +31,9 @@ const Section_45: React.FC<Section44Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -72,24 +72,60 @@ const Section_45: React.FC<Section44Props> = ({
                                 if (isRowEmpty) return null;
 
                                 return (
+                                    // <tr key={index} className={styles['section4_4']}>
+                                    //     <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td style={{ width: '200px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td style={{ width: '254px' }}><input type="text" value={section_44_data?.data?.rows[index][6]} readOnly /></td>
+                                    //     <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{stripHtmlTags(section_44_data?.data?.rows[index][5])}</textarea></td>
+                                    //     <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={section_44_data?.data?.rows[index][2]} readOnly /></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         // dangerouslySetInnerHTML={}
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['section4_4']}>
-                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 438}` : '-'}</td>
-                                        <td style={{ width: '200px' }}>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td style={{ width: '150px' }}>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        <td style={{ width: '254px' }}><input type="text" value={section_44_data?.data?.rows[index][6]} readOnly /></td>
-                                        <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{stripHtmlTags(section_44_data?.data?.rows[index][5])}</textarea></td>
-                                        {/* <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{stripHtmlTags(section_44_data?.data?.rows[index][1])}</textarea></td> */}
-                                        <td colSpan={2} style={{ paddingLeft: '21px' }}><input type="text" value={section_44_data?.data?.rows[index][2]} readOnly /></td>
+
+                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td style={{ width: '200px' }}>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td style={{ width: '254px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_44_data?.data?.rows[index][6]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={4} style={{ width: '350px' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {stripHtmlTags(section_44_data?.data?.rows[index][5])}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={2} style={{ paddingLeft: '21px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_44_data?.data?.rows[index][2]}
+                                            </div>
+                                        </td>
+
                                         <input
                                             type="checkbox"
-                                            // dangerouslySetInnerHTML={}
                                             checked={isChecked}
                                             aria-label="בחר שורה"
-                                            value={isChecked.toString()}
-                                            onChange={() => { }}
                                             readOnly
                                         />
+
                                     </tr>
+
                                 )
                             })}
                         </tbody>

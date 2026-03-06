@@ -25,9 +25,9 @@ const Section_34: React.FC<Section34Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -86,25 +86,42 @@ const Section_34: React.FC<Section34Props> = ({
                                 if (isRowEmpty) return null;
 
                                 return (
+                                    // <tr key={index} className={styles['section3_4']}>
+                                    //     <td style={{ paddingRight: '25px' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td><input type="text" value={formatDateToDDMMYYYY(section_34_data?.data?.rows[index][4])} readOnly /></td>
+                                    //     <td style={{ width: '330px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_34_data?.data?.rows[index][8]}</textarea></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['section3_4']}>
-                                        <td style={{ paddingRight: '25px' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 347}` : '-'}</td>
-                                        <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        {/* <td><input type="text" value={section_34_data?.data?.rows[index][2]} readOnly /></td> */}
-                                        <td><input type="text" value={formatDateToDDMMYYYY(section_34_data?.data?.rows[index][4])} readOnly /></td>
-                                        {/* <td style={{ width: '110px' }}>
-                                            <input type="text"
-                                                value={
-                                                    section_34_data?.data?.rows[index][5] !== ''
-                                                        ? section_34_data?.data?.rows[index][5]
-                                                        : frequencyTitle
-                                                }
-                                                readOnly />
-                                        </td> */}
-                                        {/* <td style={{ width: '125px' }}><input type="text" value={formatDateToDDMMYYYY(section_34_data?.data?.rows[index][6])} readOnly /></td> */}
-                                        {/* <td style={{ width: '125px' }}><input type="text" value={section_34_data?.data?.rows[index][7]} readOnly /></td> */}
-                                        <td style={{ width: '330px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_34_data?.data?.rows[index][8]}</textarea></td>
-                                        {/* <td style={{ paddingLeft: '24px' }}><textarea rows={2} readOnly style={{ height: '90px', direction: 'rtl' }}>{section_34_data?.data?.rows[index][1]}</textarea></td> */}
+                                        <td style={{ paddingRight: '25px' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td>
+                                            <div className={styles.readOnlyField}>
+                                                {formatDateToDDMMYYYY(section_34_data?.data?.rows[index][4])}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '330px' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {section_34_data?.data?.rows[index][8]}
+                                            </div>
+                                        </td>
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
@@ -114,6 +131,7 @@ const Section_34: React.FC<Section34Props> = ({
                                             readOnly
                                         />
                                     </tr>
+
                                 )
                             })}
                         </tbody>

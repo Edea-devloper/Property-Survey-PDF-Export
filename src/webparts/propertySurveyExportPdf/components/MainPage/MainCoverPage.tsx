@@ -139,10 +139,10 @@ export const MainCoverPage: React.FC<MainCoverPageProps> = ({ listitems, SPLibra
         <div className={styles.header}>
           <img src={Left_Side_Image} className={styles.logoRight} alt="Health Ministry Logo" />
           <div className={styles.headerText}>
-            <p style={{ fontWeight: '700' }}>מחלקת נכסים</p>
+            <p style={{ fontWeight: '700' }}>מינהלת הנכסים</p>
             <p style={{ color: '#0073c6', fontWeight: '700' }}>משרד הבריאות</p>
             {/* <p style={{ color: '#a6c441', fontWeight: '700' }}>אביב ניהול נכסים ולוגיסטיקה</p> */}
-            <p style={{ color: '#a6c441', fontWeight: '700' }}>נכסים</p>
+            <p style={{ color: '#a6c441', fontWeight: '700' }}>אגף הנכסים</p>
           </div>
           <img src={Right_Side_Image} className={styles.logoLeft} alt="AVIV Logo" />
         </div>
@@ -151,7 +151,7 @@ export const MainCoverPage: React.FC<MainCoverPageProps> = ({ listitems, SPLibra
 
           <div className={styles.fieldRow}>
             <div style={{ display: 'flex', textAlign: 'right', width: '100%' }}>
-              <label style={{ fontWeight: '700', width: '23%' }}>תחנה :</label>
+              <label style={{ fontWeight: '700', width: '60%' }}>יחידה מאוכלסת :</label>
               <p style={{
                     border: 'none',
                     borderBottom: '3px solid',

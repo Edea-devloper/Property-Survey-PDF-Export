@@ -55,9 +55,9 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -147,8 +147,8 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                     </div>
 
                     {/*  fourth row  */}
-                    <div className={styles['section-21-22-23-Row-Container']} style={{ width: '66%' }}>
-                        <div className={`${styles['form-group-section']} ${styles['fourthRowFirst_Last_Col']}`} >
+                    <div className={styles['section-21-22-23-Row-Container']} style={{ width: '66%', alignItems: 'baseline' }}>
+                        <div className={`${styles['form-group-section']} ${styles['fourthRowFirst_Last_Col']}`} style={{bottom: '0'}}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft: '5px' }}>
                                 <label>סוג הנכס</label>
                                 <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
@@ -161,17 +161,11 @@ const FirstSection: React.FC<FirstSectionProps> = ({ listitems, Lookup_Field_Sec
                                 <label>תיאור כללי</label>
                                 <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
                             </div>
-                            {/* <textarea rows={5} value={Lookup_Field_Section_1[1]} readOnly /> */}
-                            <textarea rows={5} value={stripHtmlTags(Lookup_Field_Section_1[1])} readOnly />
-                        </div>
-
-                        {/* <div className={`${styles['form-group-section']} ${styles['fourthRowFirst_Last_Col']}`}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <label>אזור / שכונה </label>
-                                <input type="checkbox" style={{ width: '15px', height: '25px', marginTop: '0' }} readOnly />
+                            {/* <textarea rows={5} value={stripHtmlTags(Lookup_Field_Section_1[1])} readOnly /> */}
+                            <div className={styles.cellBoxSectiontwo}>
+                                {stripHtmlTags(Lookup_Field_Section_1[1])}
                             </div>
-                            <input type="text" value={Lookup_Field_Section_1[0]} readOnly />
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

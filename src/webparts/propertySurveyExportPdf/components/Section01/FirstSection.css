@@ -122,7 +122,7 @@ div[data-automation-id="CanvasZone-SectionContainer"] {
 
 .center-info {
   text-align: center;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
   font-weight: bold;
 }
@@ -399,7 +399,7 @@ div[data-automation-id="CanvasZone-SectionContainer"] {
 
 .sub-header {
   padding: 25px 20px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: bold;
   /*margin: 20px 0 10px 0; 
   color: #444; 
@@ -646,7 +646,7 @@ textarea {
   border: none;
   border-radius: 5px;
   padding: 8px;
-  font-size: 17px;
+  font-size: 18px;
   width: 100%;
 }
 
@@ -662,7 +662,7 @@ textarea {
 .section1_Gal1_CustomeField label {
   /* color: #797a7e; */
   color: black;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 4px;
   padding-right: 5px;
 }
@@ -678,7 +678,7 @@ textarea {
   top: 10px;
   /* color: #797a7e; */
   color: black;
-  font-size: 16px;
+  font-size: 19px;
   margin-bottom: 4px;
   padding-right: 5px;
   font-weight: 400;
@@ -690,7 +690,7 @@ textarea {
   border-radius: 5px;
   padding: 8px;
   width: 100% !important;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .section1_Gal2_CustomeField_input {
@@ -713,7 +713,7 @@ textarea {
 .section1_Gal2_CustomeField label {
   /* color: #797a7e; */
   color: black;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 4px;
   padding-right: 5px;
 }
@@ -1078,7 +1078,7 @@ textarea {
 }
 
 .section-26-row td input {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 /* Section 2.7 */

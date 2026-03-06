@@ -366,7 +366,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
         return day + "/" + month + "/" + year;
     }
 
-     function parseDDMMYYYY(dateStr: string): Date | null {
+    function parseDDMMYYYY(dateStr: string): Date | null {
         if (!dateStr) return null;
 
         const parts = dateStr.split("/");
@@ -528,7 +528,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 // TD Index -> Excel Column
                 0: 0,
                 1: 1,
-                // 2: 3,
+                2: 3,
                 4: 4,
             },
             // New Groups to Add
@@ -874,14 +874,14 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
 
 
 
-    
-    const getMaxRows = () => {
-        const width = window.innerWidth;
 
-        if (width > 1440) return 21;
-        if (width <= 1440 && width >= 1300) return 15;
-        return 9; // below 1300
-    };
+    // const getMaxRows = () => {
+    //     const width = window.innerWidth;
+
+    //     if (width > 1440) return 21;
+    //     if (width <= 1440 && width >= 1300) return 15;
+    //     return 9; // below 1300
+    // };
 
     // const PrintData = async () => {
     //     setIsLoading(true);
@@ -1209,55 +1209,104 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
 
             // Split each section's table rows into chunks of 21
             const originalSections = [].slice.call(document.querySelectorAll('.page-section01'));
+            // approx A4 height in pixels at your scale
+            let PAGE_HEIGHT_PX = 2300; // default desktop
 
+            const width = window.innerWidth;
 
+            // 4K / very large monitors
+            if (width >= 2000) {
+                PAGE_HEIGHT_PX = 2600;
+            }
 
-            originalSections.forEach((section: { querySelector: (arg0: string) => any; cloneNode: (arg0: boolean) => HTMLElement; }, sectionIndex: number) => {
-                if (sectionIndex < 4 || sectionIndex > 19) return; // only sections 4–19
+            // Large desktop
+            else if (width >= 1700) {
+                PAGE_HEIGHT_PX = 2300;
+            }
+
+            // Normal desktop (your target)
+            else if (width >= 1400) {
+                PAGE_HEIGHT_PX = 1800;
+            }
+
+            // Laptop
+            else if (width >= 1200) {
+                PAGE_HEIGHT_PX = 1700;
+            }
+
+            // Small laptop / large tablet landscape
+            else if (width >= 992) {
+                PAGE_HEIGHT_PX = 1500;
+            }
+
+            // Tablet
+            else if (width >= 768) {
+                PAGE_HEIGHT_PX = 1500;
+            }
+
+            // Mobile / very small
+            else {
+                PAGE_HEIGHT_PX = 1500;
+            }
+
+            const PAGE_PADDING = Math.round(PAGE_HEIGHT_PX * 0.02); // 2%    // margins safety
+
+            originalSections.forEach((section: HTMLElement) => {
 
                 const tbody = section.querySelector('tbody.chunkrow');
                 if (!tbody) return;
 
-                // const rows = Array.from(tbody.querySelectorAll('tr'));
-                const rows = [].slice.call(tbody.querySelectorAll('tr'));
-                // const MAX_ROWS = 21;
-                const MAX_ROWS = getMaxRows();
+                const rows = Array.from(tbody.querySelectorAll('tr')) as HTMLElement[];
+                if (!rows.length) return;
 
-                if (rows.length <= MAX_ROWS) return;
+                let currentHeight = 0;
+                let currentRows: HTMLElement[] = [];
 
-                // Keep first 21 rows here
+                const pages: HTMLElement[][] = [];
+
+                rows.forEach((row) => {
+                    const rowHeight = row.offsetHeight;
+
+                    // If row does not fit → start new page
+                    if (currentHeight + rowHeight > PAGE_HEIGHT_PX - PAGE_PADDING) {
+                        pages.push(currentRows);
+                        currentRows = [];
+                        currentHeight = 0;
+                    }
+
+                    currentRows.push(row);
+                    currentHeight += rowHeight;
+                });
+
+                if (currentRows.length) pages.push(currentRows);
+
+                // If only one page → no need to split
+                if (pages.length <= 1) return;
+
+                // Put first page rows back
                 tbody.innerHTML = '';
-                rows.slice(0, MAX_ROWS).forEach((row: any) => tbody.appendChild(row));
+                pages[0].forEach(r => tbody.appendChild(r));
 
-                // Create new sections for subsequent chunks
-                // let insertionPoint = section;
-                let insertionPoint = section as unknown as HTMLElement;
-                for (let i = MAX_ROWS; i < rows.length; i += MAX_ROWS) {
-                    const chunk = rows.slice(i, i + MAX_ROWS);
+                let insertAfter = section;
 
+                // Create new sections for remaining pages
+                for (let i = 1; i < pages.length; i++) {
 
                     const clone = section.cloneNode(true) as HTMLElement;
 
-                    //Remove thead or chunkrowHeader
-                    const thead = clone.querySelector('.chunkrowHeader');
-                    if (thead && thead.parentNode) {
-                        thead.parentNode.removeChild(thead);
-                    }
+                    // Remove header/title if needed
+                    clone.querySelector('.chunkrowHeader')?.remove();
+                    clone.querySelector('.chunkrowTitle')?.remove();
 
-                    //Remove title (chunkrowTitle)
-                    const title = clone.querySelector('.chunkrowTitle');
-                    if (title && title.parentNode) {
-                        title.parentNode.removeChild(title);
-                    }
+                    const cloneBody = clone.querySelector('tbody.chunkrow')!;
+                    cloneBody.innerHTML = '';
 
+                    pages[i].forEach(r => cloneBody.appendChild(r));
 
-                    const cloneTbody = clone.querySelector('tbody.chunkrow')!;
-                    cloneTbody.innerHTML = '';
-                    chunk.forEach((row: any) => cloneTbody.appendChild(row));
-
-                    insertionPoint.parentNode!.insertBefore(clone, insertionPoint.nextSibling);
-                    insertionPoint = clone;
+                    insertAfter.parentNode!.insertBefore(clone, insertAfter.nextSibling);
+                    insertAfter = clone;
                 }
+
             });
 
 
@@ -1298,20 +1347,59 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 const mirrors: HTMLElement[] = [];
                 const originalHeaderStyles: string[] = [];
 
+
                 // ---- REMOVE ALL BOX SHADOWS FOR PDF ----
                 const shadowElements = section.querySelectorAll<HTMLElement>('*');
                 const originalShadows: string[] = [];
 
-                // inputs.forEach(input => {
+
+                const inputMirrors: HTMLElement[] = []; // add this near your other arrays
+
+                // inputs.forEach((input, index) => {
                 //     const inp = input as HTMLInputElement;
+                //     originalStyles[index] = inp.style.cssText;
+
                 //     const cs = getComputedStyle(inp);
-                //     originalStyles.push(input.style.cssText);
-                //     input.style.textAlign = 'right';
-                //     input.style.direction = 'rtl';
+                //     const rect = inp.getBoundingClientRect();
+                //     const sectionRect = section.getBoundingClientRect();
+
                 //     input.style.lineHeight = cs.lineHeight;
 
+                //     const mirror = document.createElement('div');
+                //     mirror.textContent = inp.value;
+
+                //     // Position mirror exactly where the input is
+                //     mirror.style.position = 'absolute';
+                //     mirror.style.left = (rect.left - sectionRect.left) + 'px';
+                //     mirror.style.top = (rect.top - sectionRect.top) + 'px';
+                //     mirror.style.width = inp.offsetWidth + 'px';
+                //     mirror.style.height = inp.offsetHeight + 'px';
+
+                //     // Typography
+                //     mirror.style.fontFamily = cs.fontFamily;
+                //     mirror.style.fontSize = cs.fontSize;
+                //     mirror.style.fontWeight = cs.fontWeight;
+                //     mirror.style.fontStyle = cs.fontStyle;
+
+                //     // Critical – make line-height as tall as the control so it will not cut
+                //     mirror.style.lineHeight = cs.lineHeight//rect.height + 'px'; // or cs.lineHeight if it’s not "normal"
+
+                //     // Box model
+                //     mirror.style.padding = cs.padding;
+                //     mirror.style.border = cs.border;
+                //     mirror.style.boxSizing = cs.boxSizing;
+                //     mirror.style.backgroundColor = cs.backgroundColor;
+                //     mirror.style.color = cs.color;
+
+                //     // RTL & alignment
+                //     mirror.style.direction = 'rtl';
+                //     mirror.style.textAlign = 'right';
+
+                //     section.appendChild(mirror);
+                //     inputMirrors.push(mirror);
                 // });
-                const inputMirrors: HTMLElement[] = []; // add this near your other arrays
+
+                // ===========================================
 
                 inputs.forEach((input, index) => {
                     const inp = input as HTMLInputElement;
@@ -1321,39 +1409,37 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     const rect = inp.getBoundingClientRect();
                     const sectionRect = section.getBoundingClientRect();
 
-                    input.style.lineHeight = cs.lineHeight;
-
                     const mirror = document.createElement('div');
-                    mirror.textContent = inp.value;
+                    mirror.textContent = inp.value || '';
 
-                    // Position mirror exactly where the input is
                     mirror.style.position = 'absolute';
                     mirror.style.left = (rect.left - sectionRect.left) + 'px';
                     mirror.style.top = (rect.top - sectionRect.top) + 'px';
                     mirror.style.width = inp.offsetWidth + 'px';
-                    mirror.style.height = inp.offsetHeight + 'px';
+
+                    // 🔥 IMPORTANT PART
+                    mirror.style.minHeight = inp.offsetHeight + 'px';
+                    mirror.style.height = 'auto';   // allow auto grow
+                    mirror.style.whiteSpace = 'pre-wrap';
+                    mirror.style.wordBreak = 'break-word';
+                    mirror.style.overflowWrap = 'break-word';
 
                     // Typography
-                    mirror.style.fontFamily = cs.fontFamily;
-                    mirror.style.fontSize = cs.fontSize;
-                    mirror.style.fontWeight = cs.fontWeight;
-                    mirror.style.fontStyle = cs.fontStyle;
-
-                    // Critical – make line-height as tall as the control so it will not cut
-                    mirror.style.lineHeight = cs.lineHeight//rect.height + 'px'; // or cs.lineHeight if it’s not "normal"
-
-                    // Box model
+                    mirror.style.font = cs.font;
                     mirror.style.padding = cs.padding;
                     mirror.style.border = cs.border;
-                    mirror.style.boxSizing = cs.boxSizing;
+                    mirror.style.boxSizing = 'border-box';
                     mirror.style.backgroundColor = cs.backgroundColor;
                     mirror.style.color = cs.color;
 
-                    // RTL & alignment
                     mirror.style.direction = 'rtl';
                     mirror.style.textAlign = 'right';
 
                     section.appendChild(mirror);
+
+                    // Hide original input
+                    inp.style.visibility = 'hidden';
+
                     inputMirrors.push(mirror);
                 });
 
@@ -1582,9 +1668,9 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     <div className="header-main">
                         <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                         <div className="center-info">
-                            מינהלת נכסים<br />
+                            מינהלת הנכסים<br />
                             <a href="#">משרד הבריאות</a><br />
-                            <span>נכסים</span>
+                            <span>אגף הנכסים</span>
                         </div>
                         <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                     </div>
@@ -1683,7 +1769,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                             <div className="section1_Gal1_CustomeField">
                                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: '5px' }}>
                                     <label>תאריך ביצוע הסקר</label>
-                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, fontSize: '17px' }} value={formatDateToDDMMYYYY(listitems?.Date?.split('T')[0])} />
+                                    <input type="checkbox" style={{ width: "15px", height: "25px", marginTop: 0, fontSize: '18px' }} value={formatDateToDDMMYYYY(listitems?.Date?.split('T')[0])} />
                                 </div>
                                 <input className='section1_Gal1_CustomeField_input' type="text" value={formatDateToDDMMYYYY(listitems.Date?.split('T')[0])} />
                             </div>
@@ -1765,12 +1851,8 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     </div>
                 }
 
-                {/* {!propertyData['2.5'].isFirstRowEmpty && 
-                    <Section_25 section_25_data={propertyData['2.5']} NumberofOps={NumberofOps} />
-                } */}
 
                 {propertyData['2.5'] &&
-                    !propertyData['2.5'].isFirstRowEmpty &&
                     !isSectionAllRowsEmpty(propertyData['2.5'], sectionColumnMap['2.5']) && (
                         <Section_25
                             section_25_data={propertyData['2.5']}
@@ -1781,13 +1863,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
 
 
 
-                {/* {!propertyData['2.6'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_26 section_26_data={propertyData['2.6']} />
-                    </div>
-                } */}
                 {propertyData['2.6'] &&
-                    !propertyData['2.6'].isFirstRowEmpty &&
                     !isSectionAllRowsEmpty(propertyData['2.6'], sectionColumnMap['2.6']) && (
                         <div className="page-section01">
                             <Section_26 section_26_data={propertyData['2.6']} />
@@ -1796,11 +1872,6 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
 
 
 
-                {/* {!propertyData['2.7'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_27 section_27_data={propertyData['2.7']} chapter_data_27={chapterDataMap["2,7"]} />
-                    </div>
-                } */}
                 {propertyData['2.7'] &&
                     !isSectionAllRowsEmpty(propertyData['2.7'], sectionColumnMap['2.7']) && (
                         <div className="page-section01">
@@ -1813,13 +1884,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 }
 
 
-                {/* {!propertyData['3.1'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_31 section_31_data={propertyData['3.1']} chapter_data_31={chapterDataMap["3,1"]} />
-                    </div>
-                } */}
                 {propertyData['3.1'] &&
-                    !propertyData['3.1'].isFirstRowEmpty &&
                     !isSectionAllRowsEmpty(propertyData['3.1'], sectionColumnMap['3.1']) && (
                         <div className="page-section01">
                             <Section_31
@@ -1830,13 +1895,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     )}
 
 
-                {/* {!propertyData['3.2'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_32 section_32_data={propertyData['3.2']} chapter_data_32={chapterDataMap["3,2"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
                 {propertyData['3.2'] &&
-                    !propertyData['3.2'].isFirstRowEmpty &&
                     !isSectionAllRowsEmpty(propertyData['3.2'], sectionColumnMap['3.2']) && (
                         <div className="page-section01">
                             <Section_32
@@ -1848,13 +1907,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     )}
 
 
-                {/* {!propertyData['3.3'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_33 section_33_data={propertyData['3.3']} chapter_data_33={chapterDataMap["3,3"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
                 {propertyData['3.3'] &&
-                    !propertyData['3.3'].isFirstRowEmpty &&
                     !isSectionAllRowsEmpty(propertyData['3.3'], sectionColumnMap['3.3']) && (
                         <div className="page-section01">
                             <Section_33
@@ -1866,121 +1919,79 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     )}
 
 
-                {/* {!propertyData['3.4'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['3.4'], sectionColumnMap['3.4']) && (
                     <div className="page-section01">
-                        <Section_34 section_34_data={propertyData['3.4']} chapter_data_34={chapterDataMap["3,4"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_34
+                            section_34_data={propertyData['3.4']}
+                            chapter_data_34={chapterDataMap["3,4"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['3.4'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['3.4'], sectionColumnMap['3.4']) && (
-                        <div className="page-section01">
-                            <Section_34
-                                section_34_data={propertyData['3.4']}
-                                chapter_data_34={chapterDataMap["3,4"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* {!propertyData['3.5'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['3.5'], sectionColumnMap['3.5']) && (
                     <div className="page-section01">
-                        <Section_35 section_35_data={propertyData['3.5']} chapter_data_35={chapterDataMap["3,5"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_35
+                            section_35_data={propertyData['3.5']}
+                            chapter_data_35={chapterDataMap["3,5"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['3.5'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['3.5'], sectionColumnMap['3.5']) && (
-                        <div className="page-section01">
-                            <Section_35
-                                section_35_data={propertyData['3.5']}
-                                chapter_data_35={chapterDataMap["3,5"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* {!propertyData['4.1'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['4.1'], sectionColumnMap['4.1']) && (
                     <div className="page-section01">
-                        <Section_41 section_41_data={propertyData['4.1']} chapter_data_41={chapterDataMap["4,1"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_41
+                            section_41_data={propertyData['4.1']}
+                            chapter_data_41={chapterDataMap["4,1"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['4.1'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['4.1'], sectionColumnMap['4.1']) && (
-                        <div className="page-section01">
-                            <Section_41
-                                section_41_data={propertyData['4.1']}
-                                chapter_data_41={chapterDataMap["4,1"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* {!propertyData['4.2'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['4.2'], sectionColumnMap['4.2']) && (
                     <div className="page-section01">
-                        <Section_42 section_42_data={propertyData['4.2']} chapter_data_42={chapterDataMap["4,2"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_42
+                            section_42_data={propertyData['4.2']}
+                            chapter_data_42={chapterDataMap["4,2"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['4.2'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['4.2'], sectionColumnMap['4.2']) && (
-                        <div className="page-section01">
-                            <Section_42
-                                section_42_data={propertyData['4.2']}
-                                chapter_data_42={chapterDataMap["4,2"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* {!propertyData['4.3'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['4.3'], sectionColumnMap['4.3']) && (
                     <div className="page-section01">
-                        <Section_43 section_43_data={propertyData['4.3']} chapter_data_43={chapterDataMap["4,3"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_43
+                            section_43_data={propertyData['4.3']}
+                            chapter_data_43={chapterDataMap["4,3"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['4.3'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['4.3'], sectionColumnMap['4.3']) && (
-                        <div className="page-section01">
-                            <Section_43
-                                section_43_data={propertyData['4.3']}
-                                chapter_data_43={chapterDataMap["4,3"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* {!propertyData['4.4'].isFirstRowEmpty &&
+                {!isSectionAllRowsEmpty(propertyData['4.4'], sectionColumnMap['4.4']) && (
                     <div className="page-section01">
-                        <Section_44 section_44_data={propertyData['4.4']} chapter_data_44={chapterDataMap["4,4"]} property_Frequency_Data={property_Frequency_Data} />
+                        <Section_44
+                            section_44_data={propertyData['4.4']}
+                            chapter_data_44={chapterDataMap["4,4"]}
+                            property_Frequency_Data={property_Frequency_Data}
+                        />
                     </div>
-                } */}
-                {propertyData['4.4'].isFirstRowEmpty === false &&
-                    !isSectionAllRowsEmpty(propertyData['4.4'], sectionColumnMap['4.4']) && (
-                        <div className="page-section01">
-                            <Section_44
-                                section_44_data={propertyData['4.4']}
-                                chapter_data_44={chapterDataMap["4,4"]}
-                                property_Frequency_Data={property_Frequency_Data}
-                            />
-                        </div>
-                    )
+                )
                 }
 
 
-                {/* here implement Section 4.5 */}
-                {/* {!propertyData['4.5'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_45 section_44_data={propertyData['4.5']} chapter_data_44={chapterDataMap["4,4"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['4.5'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['4.5'], sectionColumnMap['4.5']) && (
                         <div className="page-section01">
                             <Section_45 section_44_data={propertyData['4.5']} chapter_data_44={chapterDataMap["4,4"]} property_Frequency_Data={property_Frequency_Data} />
@@ -1989,12 +2000,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 }
 
 
-                {/* {!propertyData['5.1'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_51 section_51_data={propertyData['5.1']} chapter_data_51={chapterDataMap["5,1"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['5.1'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['5.1'], sectionColumnMap['5.1']) && (
                         <div className="page-section01">
                             <Section_51
@@ -2007,12 +2013,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 }
 
 
-                {/* {!propertyData['5.2.1'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_521 section_521_data={propertyData['5.2.1']} chapter_data_521={chapterDataMap["5,2"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['5.2.1'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['5.2.1'], sectionColumnMap['5.2.1']) && (
                         <div className="page-section01">
                             <Section_521
@@ -2034,13 +2035,8 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                     </div>
                 }
 
-                {/* !propertyData['5.3'].isFirstRowEmpty */}
-                {/* {!propertyData['5.3'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_53 section_53_data={propertyData['5.3']} chapter_data_53={chapterDataMap["5,3"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['5.3'].isFirstRowEmpty === false &&
+
+                {
                     !isSectionAllRowsEmpty(propertyData['5.3'], sectionColumnMap['5.3']) && (
                         <div className="page-section01">
                             <Section_53
@@ -2053,13 +2049,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 }
 
 
-                {/* !propertyData['5.4'].isFirstRowEmpty */}
-                {/* {!propertyData['5.4'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_54 section_54_data={propertyData['5.4']} chapter_data_54={chapterDataMap["5,4"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['5.4'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['5.4'], sectionColumnMap['5.4']) && (
                         <div className="page-section01">
                             <Section_54
@@ -2072,13 +2062,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 }
 
 
-                {/* !propertyData['5.5'].isFirstRowEmpty */}
-                {/* {!propertyData['5.5'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_55 section_55_data={propertyData['5.5']} chapter_data_55={chapterDataMap["5,5"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['5.5'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['5.5'], sectionColumnMap['5.5']) && (
                         <div className="page-section01">
                             <Section_55
@@ -2128,12 +2112,8 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
 
                 {/* ========================================================================================================= */}
 
-                {/* {!propertyData['6.1'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_61 section_61_data={propertyData['6.1']} chapter_data_61={chapterDataMap["6,1"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['6.1'].isFirstRowEmpty === false &&
+
+                {
                     !isSectionAllRowsEmpty(propertyData['6.1'], sectionColumnMap['6.1']) && (
                         <div className="page-section01">
                             <Section_61
@@ -2158,13 +2138,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                 {/* ========================================================================================================= */}
 
 
-
-                {/* {!propertyData['7.1'].isFirstRowEmpty &&
-                    <div className="page-section01">
-                        <Section_71 section_71_data={propertyData['7.1']} chapter_data_71={chapterDataMap["7,1"]} property_Frequency_Data={property_Frequency_Data} />
-                    </div>
-                } */}
-                {propertyData['7.1'].isFirstRowEmpty === false &&
+                {
                     !isSectionAllRowsEmpty(propertyData['7.1'], sectionColumnMap['7.1']) && (
                         <div className="page-section01">
                             <Section_71
@@ -2190,6 +2164,7 @@ export const FirstSection: React.FC<FirstSectionProps> = ({ listitems, property_
                         <FDSection chapter_data_31={chapterDataMap["3,1"]} FDSection_data={propertyData['FD']} SPLibraryName={SPLibraryName} form_Id={form_Id} />
                     </div>
                 }
+
             </div >
 
             {isLoading && (

@@ -23,7 +23,7 @@ export interface IPropertySurveyExportPdfWebPartProps {
 
 export default class PropertySurveyExportPdfWebPart extends BaseClientSideWebPart<IPropertySurveyExportPdfWebPartProps> {
   public async onInit(): Promise<void> {
-    console.log('property-survey-export-pdf-and-excel-v1')
+    console.log('property-survey-export-pdf-and-excel-v27 Jan 21, 2026')
     await super.onInit();
     await initializeSP(this.context);
   }

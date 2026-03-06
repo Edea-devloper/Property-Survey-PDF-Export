@@ -24,9 +24,9 @@ const Section_521: React.FC<Section521Props> = ({
                 <div className="header-main">
                     <img src={AvivAppLogologo} alt="AVIV Logo" className="logo" />
                     <div className="center-info">
-                        מינהלת נכסים<br />
+                        מינהלת הנכסים<br />
                         <a href="#">משרד הבריאות</a><br />
-                        <span>נכסים</span>
+                        <span>אגף הנכסים</span>
                     </div>
                     <img src={AvivLogo} alt="Ministry Logo" className="logo" />
                 </div>
@@ -76,24 +76,68 @@ const Section_521: React.FC<Section521Props> = ({
                                 if (!matchedChapter || isChapterDataEmpty) return null;
 
                                 return (
+                                    // <tr key={index} className={styles['section5_2_1']}>
+                                    //     <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}</td>
+                                    //     <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
+                                    //     <td style={{ width: '224px' }}><input type="text" value={section_521_data?.data?.rows[index][4]} readOnly /></td>
+                                    //     <td style={{ width: '224px' }}><input type="text" value={section_521_data?.data?.rows[index][3]} readOnly /></td>
+                                    //     <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_521_data?.data?.rows[index][6]}</textarea></td>
+                                    //     <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}><input type="text" value={section_521_data?.data?.rows[index][2]} readOnly /></td>
+                                    //     <input
+                                    //         type="checkbox"
+                                    //         checked={isChecked}
+                                    //         aria-label="בחר שורה"
+                                    //         value={isChecked.toString()}
+                                    //         onChange={() => { }}
+                                    //         readOnly
+                                    //     />
+                                    // </tr>
+
                                     <tr key={index} className={styles['section5_2_1']}>
-                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>{matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0 - 462}` : '-'}</td>
-                                        <td>{matchedChapter ? matchedChapter.Subject : '-'}</td>
-                                        {/* <td>{matchedChapter ? matchedChapter.Area : '-'}</td> */}
-                                        <td style={{ width: '224px' }}><input type="text" value={section_521_data?.data?.rows[index][4]} readOnly /></td>
-                                        <td style={{ width: '224px' }}><input type="text" value={section_521_data?.data?.rows[index][3]} readOnly /></td>
-                                        <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_521_data?.data?.rows[index][6]}</textarea></td>
-                                        {/* <td colSpan={4} style={{ width: '350px' }}><textarea style={{ height: '90px', direction: 'rtl' }} rows={4} readOnly>{section_521_data?.data?.rows[index][1]}</textarea></td> */}
-                                        <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}><input type="text" value={section_521_data?.data?.rows[index][2]} readOnly /></td>
+
+                                        <td style={{ paddingRight: '25px', direction: 'ltr' }}>
+                                            {matchedChapter ? `${matchedChapter.Chapter},${matchedChapter.Order0}` : '-'}
+                                        </td>
+
+                                        <td>
+                                            {matchedChapter ? matchedChapter.Subject : '-'}
+                                        </td>
+
+                                        <td style={{ width: '224px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_521_data?.data?.rows[index][4]}
+                                            </div>
+                                        </td>
+
+                                        <td style={{ width: '224px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_521_data?.data?.rows[index][3]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={4} style={{ width: '350px' }}>
+                                            <div className={styles.readOnlyFieldTextarea}>
+                                                {section_521_data?.data?.rows[index][6]}
+                                            </div>
+                                        </td>
+
+                                        <td colSpan={2} style={{ width: '140px', paddingLeft: '21px' }}>
+                                            <div className={styles.readOnlyField}>
+                                                {section_521_data?.data?.rows[index][2]}
+                                            </div>
+                                        </td>
+
+
                                         <input
                                             type="checkbox"
                                             checked={isChecked}
                                             aria-label="בחר שורה"
-                                            value={isChecked.toString()}
-                                            onChange={() => { }}
                                             readOnly
                                         />
+
+
                                     </tr>
+
                                 )
                             })}
                         </tbody>
